@@ -1,0 +1,21 @@
+# ninja log v6
+2796	2893	8038267968179645	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	f0b04f60967d54cb
+7	108	8038267940357149	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	5f7edfd8314af0ed
+2464	2565	8038267964908201	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	5bc4f5d7c5aa6edb
+2989	3103	8038267970291647	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	8bcfcdb81d3688db
+7	108	8038267940357149	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	5f7edfd8314af0ed
+109	2454	8038267963823039	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	f7b65c13f11972fa
+109	2454	8038267963823039	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	f7b65c13f11972fa
+2464	2565	8038267964908201	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	5bc4f5d7c5aa6edb
+2565	2666	8038267965916844	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	e1f230ea1cb174dc
+2565	2666	8038267965916844	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	e1f230ea1cb174dc
+3103	3237	8038267971619283	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete	2311e022d92dc9
+2666	2796	8038267967212859	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	37b045e2db5fa06b
+3103	3237	8038267971619283	CMakeFiles/googletest-populate-complete	2311e022d92dc9
+3103	3237	8038267971619283	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	2311e022d92dc9
+2666	2796	8038267967212859	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	37b045e2db5fa06b
+2796	2893	8038267968179645	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	f0b04f60967d54cb
+2893	2989	8038267969154440	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	caaf7284d48abd4f
+2893	2989	8038267969154440	C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	caaf7284d48abd4f
+2989	3103	8038267970291647	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	8bcfcdb81d3688db
+3103	3237	8038267971619283	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	2311e022d92dc9

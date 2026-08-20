@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/06d51adcb1fe3c829b831c26ca468894/googletest-populate.rule"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/700a856e62d0a2663aec9a40adc877d7/googletest-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/5fbb0852c0a52779b4336920445bc295/googletest-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/5fbb0852c0a52779b4336920445bc295/googletest-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/5fbb0852c0a52779b4336920445bc295/googletest-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/5fbb0852c0a52779b4336920445bc295/googletest-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/5fbb0852c0a52779b4336920445bc295/googletest-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/5fbb0852c0a52779b4336920445bc295/googletest-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/5fbb0852c0a52779b4336920445bc295/googletest-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/joshk/programming/risk_V1/build/_deps/googletest-subbuild/CMakeFiles/5fbb0852c0a52779b4336920445bc295/googletest-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest-populate"
+		],
+		"name" : "googletest-populate"
+	}
+}

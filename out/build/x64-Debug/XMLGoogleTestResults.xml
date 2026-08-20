@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="1" failures="0" disabled="0" errors="0" time="0.006" timestamp="2026-08-20T14:33:04.742" name="AllTests">
+  <testsuite name="GameInitializerTests" tests="1" failures="0" disabled="0" skipped="0" errors="0" time="0.006" timestamp="2026-08-20T14:33:04.743">
+    <testcase name="InitializeGameDealsAllTerritories" file="C:\Users\joshk\programming\risk_V1\tests\coreTests\sessionTests\GameInitializerTests.cpp" line="94" status="run" result="completed" time="0.006" timestamp="2026-08-20T14:33:04.743" classname="GameInitializerTests" />
+  </testsuite>
+</testsuites>
