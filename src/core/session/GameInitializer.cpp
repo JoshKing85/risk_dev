@@ -10,10 +10,6 @@ namespace risk {
     //=========================================================
 
     GameInitializer::GameInitializer()
-        : gameStateManager(
-            GIMap,
-            GIPlayers
-        )
     {
     }
 
@@ -32,34 +28,26 @@ namespace risk {
         // Create map
         //-----------------------------------------------------
 
-        GIMap = loadMap(filename);
+        Map map =
+            loadMap(filename);
 
         //-----------------------------------------------------
         // Create deck
         //-----------------------------------------------------
 
         Deck deck =
-            createDeck(GIMap);
+            createDeck(map);
 
         //-----------------------------------------------------
         // Create players
         //-----------------------------------------------------
 
-        GIPlayers.clear();
+        std::vector<Player> players;
 
         for (int i = 0; i < playerNumbers; ++i)
         {
-            GIPlayers.emplace_back(i);
+            players.emplace_back(i);
         }
-
-        //-----------------------------------------------------
-        // Deal initial territories
-        //-----------------------------------------------------
-
-        dealDeck(
-            deck,
-            GIPlayers
-        );
 
         //-----------------------------------------------------
         // AI setup added later
@@ -68,12 +56,12 @@ namespace risk {
         (void)aiNumbers;
 
         //-----------------------------------------------------
-        // Return initialized game state
+        // Return base game state
         //-----------------------------------------------------
 
         return {
-            GIMap,
-            GIPlayers,
+            map,
+            players,
             deck
         };
     }
@@ -96,12 +84,15 @@ namespace risk {
 
     void GameInitializer::dealDeck(
         Deck& deck,
-        std::vector<Player>& players
+        std::vector<Player>& players,
+        Map& map,
+        GameStateManager& gameStateManager
     )
     {
         const int territoryCount =
             static_cast<int>(
-                GIMap.getTerritories().size());
+                map.getTerritories().size()
+                );
 
         int territoriesDealt = 0;
         int playerIndex = 0;
@@ -111,7 +102,6 @@ namespace risk {
             Card& card =
                 deck.getNextCard(true);
 
-
             TerritoryID territoryID =
                 card.getTerritoryID().value();
 
@@ -119,7 +109,7 @@ namespace risk {
                 players[playerIndex];
 
             //-------------------------------------------------
-            // Assign ownership.
+            // Assign ownership
             //-------------------------------------------------
 
             gameStateManager.updateTerritoryOwner(
@@ -128,7 +118,7 @@ namespace risk {
             );
 
             //-------------------------------------------------
-            // Place initial territory troop.
+            // Place initial territory troop
             //-------------------------------------------------
 
             gameStateManager.updateTerritoryTroopCount(
@@ -142,7 +132,7 @@ namespace risk {
             );
 
             //-------------------------------------------------
-            // Next player.
+            // Next player
             //-------------------------------------------------
 
             ++territoriesDealt;
@@ -156,26 +146,6 @@ namespace risk {
                 playerIndex = 0;
             }
         }
-    }
-
-    //=========================================================
-    // Initial Troop Placement
-    //=========================================================
-
-    void GameInitializer::addTroop(
-        Player& player,
-        TerritoryID territoryID
-    )
-    {
-        gameStateManager.updateTerritoryTroopCount(
-            territoryID,
-            1
-        );
-
-        gameStateManager.updatePlayerTroopCount(
-            player.getPlayerID(),
-            1
-        );
     }
 
 } // namespace risk

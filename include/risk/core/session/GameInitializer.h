@@ -17,12 +17,6 @@ namespace risk {
 
 class GameInitializer {
 
-private:
-  Map GIMap;
-  std::vector<Player> GIPlayers;
-
-  GameStateManager gameStateManager;
-
 public:
   GameInitializer();
 
@@ -31,9 +25,8 @@ public:
 
   void updatePlayer(Player &player, const std::string &name);
 
-  void dealDeck(Deck &deck, std::vector<Player> &players);
-
-  void addTroop(Player &player, TerritoryID territoryID);
+  void dealDeck(Deck &deck, std::vector<Player> &players, Map &map,
+                GameStateManager &gameStateManager);
 };
 
 } // namespace risk
