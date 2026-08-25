@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/player_tests[1]_tests.cmake")
-  include("C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/player_tests[1]_tests.cmake")
-else()
-  add_test(player_tests_NOT_BUILT player_tests_NOT_BUILT)
-endif()
