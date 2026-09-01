@@ -28,7 +28,6 @@ namespace risk {
         public:
             GameSession();
             void createGame(std::string &filename, int playerNumbers, int aiNumbers);
-            void addTroop();
             void runGame();
             
         };

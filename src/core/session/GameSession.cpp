@@ -1,7 +1,11 @@
 #include "risk/core/session/GameSession.h"
 #include "risk/core/session/GameInitializer.h"
-#include "risk/core/managers/GameStateManager.h"
 
+// managers
+#include "risk/core/managers/GameStateManager.h"
+#include "risk/core/mangages/TurnManager.h"
+
+//entity and world
 #include "risk/entities/Player.h"
 
 #include "risk/world/Deck.h"
@@ -177,6 +181,32 @@ namespace risk {
 
             createActive = false;
         }
-    }
+    };
 
+    void GameSession::runGame()
+    {
+        bool gameActive = true;
+        int playerCount = 0;
+
+        while (gameActive)
+        {
+            // USER INPUT
+            // Need option to quit game.
+
+            TurnManager currentTurn(
+                players[playerCount],
+                players,
+                map,
+                deck
+            );
+
+            playerCount++;
+
+            if (playerCount >= players.size())
+            {
+                playerCount = 0;
+            }
+        }
+    }
+        
 } // namespace risk
