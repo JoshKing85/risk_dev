@@ -12,7 +12,7 @@ TEST(ReinforceOrderTests, StoresPlayerID)
 {
     ReinforceOrder order(
         1,
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         8
     );
 
@@ -23,7 +23,7 @@ TEST(ReinforceOrderTests, StoresOrderType)
 {
     ReinforceOrder order(
         1,
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         8
     );
 
@@ -34,7 +34,7 @@ TEST(ReinforceOrderTests, StartsIncomplete)
 {
     ReinforceOrder order(
         1,
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         8
     );
 
@@ -49,13 +49,13 @@ TEST(ReinforceOrderTests, StoresTerritoryID)
 {
     ReinforceOrder order(
         1,
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         8
     );
 
     EXPECT_EQ(
         order.getTerritoryID(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 }
 
@@ -63,7 +63,7 @@ TEST(ReinforceOrderTests, StoresReinforceTroopCount)
 {
     ReinforceOrder order(
         1,
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         8
     );
 

@@ -19,9 +19,9 @@ class MoveTroopsOrder;
 		public:
 			LogManager(int playerID);
 
-			void LogAttackOrders(const std::vector<AttackOrder>& attackOrders);
-			void LogFortifyOrders(const std::vector<FortifyOrder>& fortiyOrders);
-			void LogReinforceOrders(const std::vector<ReinforceOrder>& reinforceOrders);
-			void LogMoveTroopsOrders(const std::vector<MoveTroopsOrder>& moveTroopsOrders);
+			void logAttackOrders(const std::vector<AttackOrder>& attackOrders);
+			void logFortifyOrders(const std::vector<FortifyOrder>& fortiyOrders);
+			void logReinforceOrders(const std::vector<ReinforceOrder>& reinforceOrders);
+			void logMoveTroopsOrders(const std::vector<MoveTroopsOrder>& moveTroopsOrders);
 	};
 }

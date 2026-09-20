@@ -12,8 +12,8 @@ TEST(AttackOrderTests, StoresPlayerID)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );
@@ -25,8 +25,8 @@ TEST(AttackOrderTests, StoresOrderType)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );
@@ -38,15 +38,15 @@ TEST(AttackOrderTests, StoresAttackingTerritory)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );
 
     EXPECT_EQ(
         order.getAttackingFrom(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 }
 
@@ -54,15 +54,15 @@ TEST(AttackOrderTests, StoresDefendingTerritory)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );
 
     EXPECT_EQ(
         order.getAttackingTo(),
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 }
 
@@ -70,8 +70,8 @@ TEST(AttackOrderTests, StoresAttackingTroopCount)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );
@@ -83,8 +83,8 @@ TEST(AttackOrderTests, StoresDefendingTroopCount)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );
@@ -100,8 +100,8 @@ TEST(AttackOrderTests, StartsIncomplete)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );
@@ -113,8 +113,8 @@ TEST(AttackOrderTests, ResultStartsWithDefaultValues)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );
@@ -139,8 +139,8 @@ TEST(AttackOrderTests, SetResultStoresAttackResult)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );
@@ -170,8 +170,8 @@ TEST(AttackOrderTests, SetResultMarksOrderCompleted)
 {
     AttackOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5,
         3
     );

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "risk/core/session/GameInitializer.h"
 
 #include "risk/world/MapLoader.h"
@@ -24,6 +26,8 @@ namespace risk {
             int aiNumbers
         )
     {
+        std::cout << "[DEBUG] Initializing game\n";
+
         //-----------------------------------------------------
         // Create map
         //-----------------------------------------------------
@@ -56,8 +60,15 @@ namespace risk {
         (void)aiNumbers;
 
         //-----------------------------------------------------
-        // Return base game state
+        // Initialization summary
         //-----------------------------------------------------
+
+        std::cout
+            << "[DEBUG] Game initialized | Players: "
+            << players.size()
+            << " | Territories: "
+            << map.getTerritories().size()
+            << '\n';
 
         return {
             map,
@@ -76,6 +87,13 @@ namespace risk {
     )
     {
         player.setPlayerName(name);
+
+        std::cout
+            << "[DEBUG] Player "
+            << player.getPlayerID()
+            << " name updated to: "
+            << name
+            << '\n';
     }
 
     //=========================================================
@@ -89,6 +107,8 @@ namespace risk {
         GameStateManager& gameStateManager
     )
     {
+        std::cout << "[DEBUG] Dealing initial territories\n";
+
         const int territoryCount =
             static_cast<int>(
                 map.getTerritories().size()
@@ -146,6 +166,11 @@ namespace risk {
                 playerIndex = 0;
             }
         }
+
+        std::cout
+            << "[DEBUG] Territory deal complete | Territories dealt: "
+            << territoriesDealt
+            << '\n';
     }
 
 } // namespace risk

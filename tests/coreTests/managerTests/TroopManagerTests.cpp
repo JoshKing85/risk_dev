@@ -34,9 +34,7 @@ TEST(TroopManagerTests, StartsWithEmptyOrderHistories)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     EXPECT_TRUE(
@@ -69,13 +67,12 @@ TEST(TroopManagerTests, CreatesReinforceOrder)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alaska,
+        0,
+        TerritoryID::Bearus,
         5
     );
 
@@ -91,7 +88,7 @@ TEST(TroopManagerTests, CreatesReinforceOrder)
 
     EXPECT_EQ(
         order.getTerritoryID(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
@@ -111,7 +108,7 @@ TEST(TroopManagerTests, ExecuteReinforceOrderAddsTroopsToTerritory)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -129,13 +126,12 @@ TEST(TroopManagerTests, ExecuteReinforceOrderAddsTroopsToTerritory)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alaska,
+        0,
+        TerritoryID::Bearus,
         5
     );
 
@@ -143,7 +139,7 @@ TEST(TroopManagerTests, ExecuteReinforceOrderAddsTroopsToTerritory)
 
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getTroopCount(),
         8
     );
@@ -154,7 +150,7 @@ TEST(TroopManagerTests, ExecuteReinforceOrderMarksOrderCompleted)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -170,13 +166,12 @@ TEST(TroopManagerTests, ExecuteReinforceOrderMarksOrderCompleted)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alaska,
+        0,
+        TerritoryID::Bearus,
         5
     );
 
@@ -206,13 +201,12 @@ TEST(TroopManagerTests, UndoReinforceOrderRemovesLatestPendingOrder)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alaska,
+        0,
+        TerritoryID::Bearus,
         3
     );
 
@@ -236,18 +230,18 @@ TEST(TroopManagerTests, UndoReinforceOrderLeavesEarlierOrdersIntact)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alaska,
+        0,
+        TerritoryID::Bearus,
         3
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Rockies,
         4
     );
 
@@ -262,7 +256,7 @@ TEST(TroopManagerTests, UndoReinforceOrderLeavesEarlierOrdersIntact)
         troopManager
         .getLastReinforceOrder()
         .getTerritoryID(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 }
 
@@ -283,14 +277,13 @@ TEST(TroopManagerTests, CreatesFortifyOrder)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createFortifyOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         4
     );
 
@@ -306,12 +299,12 @@ TEST(TroopManagerTests, CreatesFortifyOrder)
 
     EXPECT_EQ(
         order.getFromTerritory(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
         order.getToTerritory(),
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 
     EXPECT_EQ(
@@ -331,13 +324,13 @@ TEST(TroopManagerTests, ExecuteFortifyOrderMovesTroopsBetweenTerritories)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {}
     );
@@ -357,14 +350,13 @@ TEST(TroopManagerTests, ExecuteFortifyOrderMovesTroopsBetweenTerritories)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createFortifyOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         4
     );
 
@@ -372,14 +364,14 @@ TEST(TroopManagerTests, ExecuteFortifyOrderMovesTroopsBetweenTerritories)
 
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getTroopCount(),
         6
     );
 
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         ).getTroopCount(),
         6
     );
@@ -390,13 +382,13 @@ TEST(TroopManagerTests, ExecuteFortifyOrderDoesNotChangeCombinedTroopCount)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {}
     );
@@ -416,23 +408,22 @@ TEST(TroopManagerTests, ExecuteFortifyOrderDoesNotChangeCombinedTroopCount)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     const int troopsBefore =
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getTroopCount()
         +
         map.getTerritory(
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         ).getTroopCount();
 
     troopManager.createFortifyOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         4
     );
 
@@ -440,11 +431,11 @@ TEST(TroopManagerTests, ExecuteFortifyOrderDoesNotChangeCombinedTroopCount)
 
     const int troopsAfter =
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getTroopCount()
         +
         map.getTerritory(
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         ).getTroopCount();
 
     EXPECT_EQ(
@@ -458,13 +449,13 @@ TEST(TroopManagerTests, ExecuteFortifyOrderMarksOrderCompleted)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {}
     );
@@ -483,14 +474,13 @@ TEST(TroopManagerTests, ExecuteFortifyOrderMarksOrderCompleted)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createFortifyOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         2
     );
 
@@ -520,14 +510,13 @@ TEST(TroopManagerTests, UndoFortifyOrderRemovesLatestPendingOrder)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createFortifyOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         3
     );
 
@@ -555,31 +544,30 @@ TEST(TroopManagerTests, CreatesCashSetOrder)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     std::vector<Card> cards
     {
         Card(
             CardType::Infantry,
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica
         ),
         Card(
             CardType::Infantry,
-            TerritoryID::Brazil,
+            TerritoryID::Amazonia,
             ContinentID::SouthAmerica
         ),
         Card(
             CardType::Infantry,
-            TerritoryID::Egypt,
+            TerritoryID::Nilelands,
             ContinentID::Africa
         )
     };
 
     troopManager.createCashSetOrder(
+        0,
         SetType::InfantrySet,
         cards
     );
@@ -617,22 +605,22 @@ TEST(TroopManagerTests, ExecuteCashSetOrderRemovesCashedCardsFromPlayer)
     {
         Card(
             CardType::Infantry,
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica
         ),
         Card(
             CardType::Infantry,
-            TerritoryID::Brazil,
+            TerritoryID::Amazonia,
             ContinentID::SouthAmerica
         ),
         Card(
             CardType::Infantry,
-            TerritoryID::Egypt,
+            TerritoryID::Nilelands,
             ContinentID::Africa
         ),
         Card(
             CardType::Cavalry,
-            TerritoryID::India,
+            TerritoryID::Induslands,
             ContinentID::Asia
         )
     };
@@ -645,9 +633,7 @@ TEST(TroopManagerTests, ExecuteCashSetOrderRemovesCashedCardsFromPlayer)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     std::vector<Card> cardsToCash
@@ -658,11 +644,12 @@ TEST(TroopManagerTests, ExecuteCashSetOrderRemovesCashedCardsFromPlayer)
     };
 
     troopManager.createCashSetOrder(
+        0,
         SetType::InfantrySet,
         cardsToCash
     );
 
-    troopManager.executeCashSetOrder();
+    troopManager.executeCashSetOrder(players[0]);
 
     const std::vector<Card>& remainingCards =
         players[0].getPlayerSet();
@@ -679,7 +666,7 @@ TEST(TroopManagerTests, ExecuteCashSetOrderRemovesCashedCardsFromPlayer)
 
     EXPECT_EQ(
         remainingCards[0].getTerritoryID(),
-        TerritoryID::India
+        TerritoryID::Induslands
     );
 }
 
@@ -695,17 +682,17 @@ TEST(TroopManagerTests, ExecuteCashSetOrderReturnsSetValue)
     {
         Card(
             CardType::Cavalry,
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica
         ),
         Card(
             CardType::Cavalry,
-            TerritoryID::Brazil,
+            TerritoryID::Amazonia,
             ContinentID::SouthAmerica
         ),
         Card(
             CardType::Cavalry,
-            TerritoryID::Egypt,
+            TerritoryID::Nilelands,
             ContinentID::Africa
         )
     };
@@ -718,12 +705,11 @@ TEST(TroopManagerTests, ExecuteCashSetOrderReturnsSetValue)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createCashSetOrder(
+        0,
         SetType::CavalrySet,
         cards
     );
@@ -734,7 +720,7 @@ TEST(TroopManagerTests, ExecuteCashSetOrderReturnsSetValue)
         .getSetValue();
 
     const int returnedValue =
-        troopManager.executeCashSetOrder();
+        troopManager.executeCashSetOrder(players[0]);
 
     EXPECT_EQ(
         returnedValue,
@@ -753,17 +739,17 @@ TEST(TroopManagerTests, ExecuteCashSetOrderMarksOrderCompleted)
     {
         Card(
             CardType::Artillery,
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica
         ),
         Card(
             CardType::Artillery,
-            TerritoryID::Brazil,
+            TerritoryID::Amazonia,
             ContinentID::SouthAmerica
         ),
         Card(
             CardType::Artillery,
-            TerritoryID::Egypt,
+            TerritoryID::Nilelands,
             ContinentID::Africa
         )
     };
@@ -776,17 +762,16 @@ TEST(TroopManagerTests, ExecuteCashSetOrderMarksOrderCompleted)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createCashSetOrder(
+        0,
         SetType::ArtillerySet,
         cards
     );
 
-    troopManager.executeCashSetOrder();
+    troopManager.executeCashSetOrder(players[0]);
 
     EXPECT_TRUE(
         troopManager
@@ -812,9 +797,7 @@ TEST(TroopManagerTests, UndoCashSetOrderRemovesLatestPendingOrder)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     std::vector<Card> cards
@@ -825,6 +808,7 @@ TEST(TroopManagerTests, UndoCashSetOrderRemovesLatestPendingOrder)
     };
 
     troopManager.createCashSetOrder(
+        0,
         SetType::MixedSet,
         cards
     );
@@ -853,24 +837,25 @@ TEST(TroopManagerTests, OrderGettersReturnCompleteHistories)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alaska,
+        0,
+        TerritoryID::Bearus,
         3
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Rockies,
         4
     );
 
     troopManager.createFortifyOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         2
     );
 
@@ -882,6 +867,7 @@ TEST(TroopManagerTests, OrderGettersReturnCompleteHistories)
     };
 
     troopManager.createCashSetOrder(
+        0,
         SetType::MixedSet,
         cards
     );
@@ -919,18 +905,18 @@ TEST(TroopManagerTests, GetReinforceOrdersReturnsCompleteHistory)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alaska,
+        0,
+        TerritoryID::Bearus,
         3
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Rockies,
         5
     );
 
@@ -944,12 +930,12 @@ TEST(TroopManagerTests, GetReinforceOrdersReturnsCompleteHistory)
 
     EXPECT_EQ(
         orders[0].getTerritoryID(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
         orders[1].getTerritoryID(),
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 }
 
@@ -966,20 +952,20 @@ TEST(TroopManagerTests, GetFortifyOrdersReturnsCompleteHistory)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createFortifyOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         2
     );
 
     troopManager.createFortifyOrder(
-        TerritoryID::Alberta,
-        TerritoryID::Ontario,
+        0,
+        TerritoryID::Rockies,
+        TerritoryID::Tairono,
         3
     );
 
@@ -993,12 +979,12 @@ TEST(TroopManagerTests, GetFortifyOrdersReturnsCompleteHistory)
 
     EXPECT_EQ(
         orders[0].getFromTerritory(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
         orders[1].getFromTerritory(),
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 }
 
@@ -1015,9 +1001,7 @@ TEST(TroopManagerTests, GetCashSetOrdersReturnsCompleteHistory)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     std::vector<Card> firstSet
@@ -1035,11 +1019,13 @@ TEST(TroopManagerTests, GetCashSetOrdersReturnsCompleteHistory)
     };
 
     troopManager.createCashSetOrder(
+        0,
         SetType::InfantrySet,
         firstSet
     );
 
     troopManager.createCashSetOrder(
+        0,
         SetType::CavalrySet,
         secondSet
     );
@@ -1076,18 +1062,18 @@ TEST(TroopManagerTests, GetLastReinforceOrderReturnsNewestOrder)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Alaska,
+        0,
+        TerritoryID::Bearus,
         3
     );
 
     troopManager.createReinforceOrder(
-        TerritoryID::Ontario,
+        0,
+        TerritoryID::Tairono,
         6
     );
 
@@ -1096,7 +1082,7 @@ TEST(TroopManagerTests, GetLastReinforceOrderReturnsNewestOrder)
 
     EXPECT_EQ(
         order.getTerritoryID(),
-        TerritoryID::Ontario
+        TerritoryID::Tairono
     );
 
     EXPECT_EQ(
@@ -1118,20 +1104,20 @@ TEST(TroopManagerTests, GetLastFortifyOrderReturnsNewestOrder)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     troopManager.createFortifyOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         2
     );
 
     troopManager.createFortifyOrder(
-        TerritoryID::Ontario,
-        TerritoryID::Quebec,
+        0,
+        TerritoryID::Tairono,
+        TerritoryID::StLawrence,
         4
     );
 
@@ -1140,12 +1126,12 @@ TEST(TroopManagerTests, GetLastFortifyOrderReturnsNewestOrder)
 
     EXPECT_EQ(
         order.getFromTerritory(),
-        TerritoryID::Ontario
+        TerritoryID::Tairono
     );
 
     EXPECT_EQ(
         order.getToTerritory(),
-        TerritoryID::Quebec
+        TerritoryID::StLawrence
     );
 
     EXPECT_EQ(
@@ -1167,9 +1153,7 @@ TEST(TroopManagerTests, GetLastCashSetOrderReturnsNewestOrder)
     );
 
     TroopManager troopManager(
-        0,
-        gameStateManager,
-        players[0]
+        gameStateManager
     );
 
     std::vector<Card> firstSet
@@ -1187,11 +1171,13 @@ TEST(TroopManagerTests, GetLastCashSetOrderReturnsNewestOrder)
     };
 
     troopManager.createCashSetOrder(
+        0,
         SetType::InfantrySet,
         firstSet
     );
 
     troopManager.createCashSetOrder(
+        0,
         SetType::ArtillerySet,
         secondSet
     );

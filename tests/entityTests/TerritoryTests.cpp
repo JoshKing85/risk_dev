@@ -12,7 +12,7 @@ using namespace risk;
 TEST(TerritoryTests, StartsWithZeroTroops)
 {
     Territory territory(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -23,21 +23,21 @@ TEST(TerritoryTests, StartsWithZeroTroops)
 TEST(TerritoryTests, StoresCorrectTerritoryID)
 {
     Territory territory(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
 
     EXPECT_EQ(
         territory.getID(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 }
 
 TEST(TerritoryTests, StoresCorrectContinentID)
 {
     Territory territory(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -56,12 +56,12 @@ TEST(TerritoryTests, StoresAdjacentTerritories)
 {
     std::vector<TerritoryID> neighbours =
     {
-        TerritoryID::Alberta,
-        TerritoryID::NorthwestTerritory
+        TerritoryID::Rockies,
+        TerritoryID::Yukon
     };
 
     Territory territory(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         neighbours
     );
@@ -79,7 +79,7 @@ TEST(TerritoryTests, StoresAdjacentTerritories)
 TEST(TerritoryTests, CanAddTroops)
 {
     Territory territory(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -95,7 +95,7 @@ TEST(TerritoryTests, CanAddTroops)
 TEST(TerritoryTests, CanRemoveTroops)
 {
     Territory territory(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -112,7 +112,7 @@ TEST(TerritoryTests, CanRemoveTroops)
 TEST(TerritoryTests, TroopsCannotGoBelowZero)
 {
     Territory territory(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -129,7 +129,7 @@ TEST(TerritoryTests, TroopsCannotGoBelowZero)
 TEST(TerritoryTests, TerritoryCanLoseFinalTroop)
 {
     Territory territory(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );

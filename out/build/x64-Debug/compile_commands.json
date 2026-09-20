@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo -DSB_CONFIG_UNITY -IC:\\Users\\joshk\\programming\\risk_V1\\out\\build\\x64-Debug\\_deps\\sheenbidi-src\\Headers -IC:\\Users\\joshk\\programming\\risk_V1\\out\\build\\x64-Debug\\_deps\\sheenbidi-src\\Source /DWIN32 /D_WINDOWS /W3 /MDd /Zi /Ob0 /Od /RTC1 /utf-8 -w /Fo_deps\\sheenbidi-build\\CMakeFiles\\SheenBidi.dir\\Source\\SheenBidi.c.obj /Fd_deps\\sheenbidi-build\\CMakeFiles\\SheenBidi.dir\\ /FS -c C:\\Users\\joshk\\programming\\risk_V1\\out\\build\\x64-Debug\\_deps\\sheenbidi-src\\Source\\SheenBidi.c",
+  "file": "C:\\Users\\joshk\\programming\\risk_V1\\out\\build\\x64-Debug\\_deps\\sheenbidi-src\\Source\\SheenBidi.c",
+  "output": "_deps\\sheenbidi-build\\CMakeFiles\\SheenBidi.dir\\Source\\SheenBidi.c.obj"
+}
+]

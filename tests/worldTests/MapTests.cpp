@@ -16,7 +16,7 @@ TEST(MapTests, TerritoryCanBeAdded)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -24,8 +24,8 @@ TEST(MapTests, TerritoryCanBeAdded)
     map.addTerritory(alaska);
 
     EXPECT_EQ(
-        map.getTerritory(TerritoryID::Alaska).getID(),
-        TerritoryID::Alaska
+        map.getTerritory(TerritoryID::Bearus).getID(),
+        TerritoryID::Bearus
     );
 }
 
@@ -35,7 +35,7 @@ TEST(MapTests, TerritoryLookupIndependentOfInsertionOrder)
 
     map.addTerritory(
         Territory(
-            TerritoryID::Ontario,
+            TerritoryID::Tairono,
             ContinentID::NorthAmerica,
             {}
         )
@@ -43,20 +43,20 @@ TEST(MapTests, TerritoryLookupIndependentOfInsertionOrder)
 
     map.addTerritory(
         Territory(
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica,
             {}
         )
     );
 
     EXPECT_EQ(
-        map.getTerritory(TerritoryID::Alaska).getID(),
-        TerritoryID::Alaska
+        map.getTerritory(TerritoryID::Bearus).getID(),
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
-        map.getTerritory(TerritoryID::Ontario).getID(),
-        TerritoryID::Ontario
+        map.getTerritory(TerritoryID::Tairono).getID(),
+        TerritoryID::Tairono
     );
 }
 
@@ -66,17 +66,17 @@ TEST(MapTests, TerritoryReferenceCanBeModified)
 
     map.addTerritory(
         Territory(
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica,
             {}
         )
     );
 
-    map.getTerritory(TerritoryID::Alaska)
+    map.getTerritory(TerritoryID::Bearus)
         .addTroops(5);
 
     EXPECT_EQ(
-        map.getTerritory(TerritoryID::Alaska)
+        map.getTerritory(TerritoryID::Bearus)
         .getTroopCount(),
         5
     );

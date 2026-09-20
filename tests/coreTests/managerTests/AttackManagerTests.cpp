@@ -38,7 +38,7 @@ namespace {
 
         AttackManagerTests()
             : gameStateManager(map, players),
-            attackManager(0, gameStateManager)
+            attackManager(gameStateManager)
         {
         }
 
@@ -48,38 +48,38 @@ namespace {
                 ContinentID::NorthAmerica,
                 5,
                 {
-                    TerritoryID::Alaska,
-                    TerritoryID::Alberta,
-                    TerritoryID::Ontario
+                    TerritoryID::Bearus,
+                    TerritoryID::Rockies,
+                    TerritoryID::Tairono
                 },
                 {
-                    TerritoryID::Alaska,
-                    TerritoryID::Ontario
+                    TerritoryID::Bearus,
+                    TerritoryID::Tairono
                 }
             );
 
             Territory alaska(
-                TerritoryID::Alaska,
+                TerritoryID::Bearus,
                 ContinentID::NorthAmerica,
                 {
-                    TerritoryID::Alberta
+                    TerritoryID::Rockies
                 }
             );
 
             Territory alberta(
-                TerritoryID::Alberta,
+                TerritoryID::Rockies,
                 ContinentID::NorthAmerica,
                 {
-                    TerritoryID::Alaska,
-                    TerritoryID::Ontario
+                    TerritoryID::Bearus,
+                    TerritoryID::Tairono
                 }
             );
 
             Territory ontario(
-                TerritoryID::Ontario,
+                TerritoryID::Tairono,
                 ContinentID::NorthAmerica,
                 {
-                    TerritoryID::Alberta
+                    TerritoryID::Rockies
                 }
             );
 
@@ -100,23 +100,24 @@ namespace {
             players.emplace_back(1);
 
             players[0].addTerritory(
-                TerritoryID::Alaska
+                TerritoryID::Bearus
             );
 
             players[1].addTerritory(
-                TerritoryID::Alberta
+                TerritoryID::Rockies
             );
 
             players[1].addTerritory(
-                TerritoryID::Ontario
+                TerritoryID::Tairono
             );
         }
 
         void createDefaultAttack()
         {
             attackManager.createAttack(
-                TerritoryID::Alaska,
-                TerritoryID::Alberta,
+                0,
+                TerritoryID::Bearus,
+                TerritoryID::Rockies,
                 10,
                 5
             );
@@ -189,12 +190,12 @@ TEST_F(AttackManagerTests, CreatedAttackContainsCorrectValues)
 
     EXPECT_EQ(
         attackOrder.getAttackingFrom(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
         attackOrder.getAttackingTo(),
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 
     EXPECT_EQ(
@@ -252,8 +253,9 @@ TEST_F(AttackManagerTests, MultipleCompletedAttacksRemainInCreationOrder)
     attackManager.executeAttackOrder();
 
     attackManager.createAttack(
-        TerritoryID::Alaska,
-        TerritoryID::Ontario,
+        0,
+                TerritoryID::Bearus,
+        TerritoryID::Tairono,
         10,
         5
     );
@@ -276,12 +278,12 @@ TEST_F(AttackManagerTests, MultipleCompletedAttacksRemainInCreationOrder)
 
     EXPECT_EQ(
         attacks[0].getAttackingTo(),
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 
     EXPECT_EQ(
         attacks[1].getAttackingTo(),
-        TerritoryID::Ontario
+        TerritoryID::Tairono
     );
 
     EXPECT_TRUE(
@@ -324,8 +326,9 @@ TEST_F(AttackManagerTests, UndoAttackLeavesEarlierOrdersIntact)
     attackManager.executeAttackOrder();
 
     attackManager.createAttack(
-        TerritoryID::Alaska,
-        TerritoryID::Ontario,
+        0,
+                TerritoryID::Bearus,
+        TerritoryID::Tairono,
         10,
         5
     );
@@ -344,7 +347,7 @@ TEST_F(AttackManagerTests, UndoAttackLeavesEarlierOrdersIntact)
 
     EXPECT_EQ(
         attacks[0].getAttackingTo(),
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 
     EXPECT_TRUE(
@@ -375,8 +378,9 @@ TEST_F(AttackManagerTests, UndoMoveTroopsOrderRemovesLatestMoveTroopsOrder)
 {
     // Arrange
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         3
     );
 
@@ -517,7 +521,7 @@ TEST_F(AttackManagerTests, AttackerLossesAreRemovedFromAttackingTerritory)
     // Assert
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getTroopCount(),
         9
     );
@@ -539,7 +543,7 @@ TEST_F(AttackManagerTests, DefenderLossesAreRemovedFromDefendingTerritory)
     // Assert
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         ).getTroopCount(),
         3
     );
@@ -553,12 +557,13 @@ TEST_F(AttackManagerTests, DefenderTerritoryIsCapturedWhenTroopsReachZero)
 {
     // Arrange
     map.getTerritory(
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     ).removeTroops(4);
 
     attackManager.createAttack(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+                TerritoryID::Bearus,
+        TerritoryID::Rockies,
         10,
         1
     );
@@ -590,12 +595,13 @@ TEST_F(AttackManagerTests, CaptureTransfersTerritoryOwnerThroughGameStateManager
 {
     // Arrange
     map.getTerritory(
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     ).removeTroops(4);
 
     attackManager.createAttack(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+                TerritoryID::Bearus,
+        TerritoryID::Rockies,
         10,
         1
     );
@@ -611,7 +617,7 @@ TEST_F(AttackManagerTests, CaptureTransfersTerritoryOwnerThroughGameStateManager
     // Assert
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         ).getOwnerID(),
         0
     );
@@ -619,14 +625,14 @@ TEST_F(AttackManagerTests, CaptureTransfersTerritoryOwnerThroughGameStateManager
     EXPECT_TRUE(
         containsTerritory(
             players[0],
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         )
     );
 
     EXPECT_FALSE(
         containsTerritory(
             players[1],
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         )
     );
 }
@@ -641,8 +647,9 @@ TEST_F(AttackManagerTests, GetLastAttackOrderReturnsNewestAttack)
     createDefaultAttack();
 
     attackManager.createAttack(
-        TerritoryID::Alaska,
-        TerritoryID::Ontario,
+        0,
+                TerritoryID::Bearus,
+        TerritoryID::Tairono,
         10,
         5
     );
@@ -654,7 +661,7 @@ TEST_F(AttackManagerTests, GetLastAttackOrderReturnsNewestAttack)
     // Assert
     EXPECT_EQ(
         latestAttack.getAttackingTo(),
-        TerritoryID::Ontario
+        TerritoryID::Tairono
     );
 }
 
@@ -671,8 +678,9 @@ TEST_F(AttackManagerTests, GetLastRollDiceOrderReturnsNewestRoll)
     attackManager.executeAttackOrder();
 
     attackManager.createAttack(
-        TerritoryID::Alaska,
-        TerritoryID::Ontario,
+        0,
+                TerritoryID::Bearus,
+        TerritoryID::Tairono,
         10,
         5
     );
@@ -704,14 +712,16 @@ TEST_F(AttackManagerTests, GetLastMoveTroopsOrderReturnsNewestMove)
 {
     // Arrange
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         2
     );
 
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Ontario,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Tairono,
         3
     );
 
@@ -722,7 +732,7 @@ TEST_F(AttackManagerTests, GetLastMoveTroopsOrderReturnsNewestMove)
     // Assert
     EXPECT_EQ(
         latestMove.getToTerritory(),
-        TerritoryID::Ontario
+        TerritoryID::Tairono
     );
 
     EXPECT_EQ(
@@ -739,8 +749,9 @@ TEST_F(AttackManagerTests, CreateMoveTroopsOrderCreatesMoveTroopsOrder)
 {
     // Arrange / Act
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         3
     );
 
@@ -765,12 +776,12 @@ TEST_F(AttackManagerTests, CreateMoveTroopsOrderCreatesMoveTroopsOrder)
 
     EXPECT_EQ(
         movements[0].getFromTerritory(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
         movements[0].getToTerritory(),
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 
     EXPECT_EQ(
@@ -783,22 +794,23 @@ TEST_F(AttackManagerTests, CreatingMoveTroopsOrderDoesNotMoveTroops)
 {
     // Arrange / Act
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         3
     );
 
     // Assert
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getTroopCount(),
         10
     );
 
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         ).getTroopCount(),
         5
     );
@@ -808,8 +820,9 @@ TEST_F(AttackManagerTests, ExecuteMoveTroopsOrderRemovesTroopsFromSource)
 {
     // Arrange
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         3
     );
 
@@ -819,7 +832,7 @@ TEST_F(AttackManagerTests, ExecuteMoveTroopsOrderRemovesTroopsFromSource)
     // Assert
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getTroopCount(),
         7
     );
@@ -829,8 +842,9 @@ TEST_F(AttackManagerTests, ExecuteMoveTroopsOrderAddsTroopsToDestination)
 {
     // Arrange
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         3
     );
 
@@ -840,7 +854,7 @@ TEST_F(AttackManagerTests, ExecuteMoveTroopsOrderAddsTroopsToDestination)
     // Assert
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         ).getTroopCount(),
         8
     );
@@ -855,8 +869,9 @@ TEST_F(AttackManagerTests, MoveTroopsDoesNotChangePlayerTotalTroopCount)
         players[0].getTroopCount();
 
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         3
     );
 
@@ -887,8 +902,9 @@ TEST_F(AttackManagerTests, VectorGettersReturnCompleteOrderHistories)
     attackManager.executeAttackOrder();
 
     attackManager.createAttack(
-        TerritoryID::Alaska,
-        TerritoryID::Ontario,
+        0,
+                TerritoryID::Bearus,
+        TerritoryID::Tairono,
         10,
         5
     );
@@ -901,16 +917,18 @@ TEST_F(AttackManagerTests, VectorGettersReturnCompleteOrderHistories)
     attackManager.executeAttackOrder();
 
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         1
     );
 
     attackManager.executeMoveTroopsOrder();
 
     attackManager.createMoveTroopsOrder(
-        TerritoryID::Alaska,
-        TerritoryID::Ontario,
+        0,
+        TerritoryID::Bearus,
+        TerritoryID::Tairono,
         1
     );
 

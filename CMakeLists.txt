@@ -6,6 +6,31 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # -----------------------------
+# FetchContent
+# -----------------------------
+
+include(FetchContent)
+
+# -----------------------------
+# SFML
+# -----------------------------
+
+FetchContent_Declare(
+    SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 3.1.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM
+)
+
+set(BUILD_SHARED_LIBS ON)
+
+FetchContent_MakeAvailable(SFML)
+
+set(BUILD_SHARED_LIBS OFF)
+
+# -----------------------------
 # Main Game Executable
 # -----------------------------
 
@@ -39,9 +64,24 @@ add_executable(risk_v1
     src/core/managers/AttackManager.cpp
     src/core/managers/LogManager.cpp
     src/core/managers/TroopManager.cpp
+    
 
     # Session classes
     src/core/session/GameInitializer.cpp
+    src/core/session/GameSession.cpp
+    src/core/session/GameState.cpp
+    src/core/session/GameSetupState.cpp
+
+    # Graphic Classes
+    src/graphics/ui/GameWindow.cpp
+    src/graphics/ui/MenuUI.cpp
+    src/graphics/ui/LUIExchange.cpp
+    src/graphics/ui/LoadingUI.cpp
+    src/graphics/ui/GameSetupUI.cpp
+    src/graphics/game_elements/BoardGraphics.cpp
+    src/graphics/game_elements/TerritoryGraphics.cpp
+    src/graphics/game_elements/PlayerGraphics.cpp
+    src/graphics/ui/ProfileUI.cpp
 
     # Validation functions
     src/core/validation/ValidateTerritorySelection.cpp
@@ -50,17 +90,33 @@ add_executable(risk_v1
     src/core/validation/ValidateReinforceInput.cpp
     src/core/validation/ValidateSetInput.cpp
     src/core/validation/ValidateFortifyInput.cpp
-)
+
+    # Utility functions
+    src/core/utils/TerritoryConverter.cpp
+    src/core/utils/ContinentConverter.cpp
+   
+  )
 
 target_include_directories(risk_v1 PRIVATE
     include
 )
 
+target_link_libraries(risk_v1 PRIVATE
+    SFML::Graphics
+)
+
+# Copy SFML DLLs beside risk_v1.exe after build
+add_custom_command(TARGET risk_v1 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:SFML::Graphics>
+        $<TARGET_FILE:SFML::Window>
+        $<TARGET_FILE:SFML::System>
+        $<TARGET_FILE_DIR:risk_v1>
+)
+
 # -----------------------------
 # Google Test
 # -----------------------------
-
-include(FetchContent)
 
 FetchContent_Declare(
     googletest
@@ -78,18 +134,18 @@ enable_testing()
 # -----------------------------
 
 add_executable(unit_tests
-
+    
     # Entity tests
     tests/entityTests/CardTests.cpp
     tests/entityTests/PlayerTests.cpp
     tests/entityTests/TerritoryTests.cpp
 
     # World tests
-    tests/worldTests/ContinentTests.cpp
-    tests/worldTests/DeckTests.cpp
-    tests/worldTests/DeckLoaderTests.cpp
-    tests/worldTests/MapTests.cpp
-    tests/worldTests/MapLoaderTests.cpp
+   tests/worldTests/ContinentTests.cpp
+   tests/worldTests/DeckTests.cpp
+   tests/worldTests/DeckLoaderTests.cpp
+   tests/worldTests/MapTests.cpp
+   tests/worldTests/MapLoaderTests.cpp
 
     # Order tests
     tests/coreTests/orderTests/AttackOrderTests.cpp
@@ -138,6 +194,7 @@ add_executable(unit_tests
 
     # Session source files
     src/core/session/GameInitializer.cpp
+   
 
     # Validation source files
     src/core/validation/ValidateTerritorySelection.cpp
@@ -146,6 +203,11 @@ add_executable(unit_tests
     src/core/validation/ValidateReinforceInput.cpp
     src/core/validation/ValidateSetInput.cpp
     src/core/validation/ValidateFortifyInput.cpp
+
+   # Utils source files
+   src/core/utils/ContinentConverter.cpp
+   src/core/utils/TerritoryConverter.cpp
+   
 )
 
 target_include_directories(unit_tests PRIVATE

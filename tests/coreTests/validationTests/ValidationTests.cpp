@@ -26,14 +26,14 @@ using namespace risk;
 TEST(ValidationTests, TerritorySelectionReturnsTrueWhenTerritoryIsOwned)
 {
     const std::vector<TerritoryID> territoriesOwned = {
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
-        TerritoryID::Ontario
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
+        TerritoryID::Tairono
     };
 
     EXPECT_TRUE(
         isValidTerritorySelection(
-            TerritoryID::Alberta,
+            TerritoryID::Rockies,
             territoriesOwned
         )
     );
@@ -42,14 +42,14 @@ TEST(ValidationTests, TerritorySelectionReturnsTrueWhenTerritoryIsOwned)
 TEST(ValidationTests, TerritorySelectionReturnsFalseWhenTerritoryIsNotOwned)
 {
     const std::vector<TerritoryID> territoriesOwned = {
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
-        TerritoryID::Ontario
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
+        TerritoryID::Tairono
     };
 
     EXPECT_FALSE(
         isValidTerritorySelection(
-            TerritoryID::Brazil,
+            TerritoryID::Amazonia,
             territoriesOwned
         )
     );
@@ -61,7 +61,7 @@ TEST(ValidationTests, TerritorySelectionReturnsFalseWhenOwnedTerritoriesIsEmpty)
 
     EXPECT_FALSE(
         isValidTerritorySelection(
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             territoriesOwned
         )
     );
@@ -70,14 +70,14 @@ TEST(ValidationTests, TerritorySelectionReturnsFalseWhenOwnedTerritoriesIsEmpty)
 TEST(ValidationTests, TerritorySelectionFindsTerritoryLaterInVector)
 {
     const std::vector<TerritoryID> territoriesOwned = {
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
-        TerritoryID::Ontario
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
+        TerritoryID::Tairono
     };
 
     EXPECT_TRUE(
         isValidTerritorySelection(
-            TerritoryID::Ontario,
+            TerritoryID::Tairono,
             territoriesOwned
         )
     );
@@ -90,13 +90,13 @@ TEST(ValidationTests, TerritorySelectionFindsTerritoryLaterInVector)
 TEST(ValidationTests, AttackInputReturnsTrueWhenTargetIsAdjacentAndEnoughTroops)
 {
     const std::vector<TerritoryID> adjacentTerritories = {
-        TerritoryID::Alberta,
-        TerritoryID::NorthwestTerritory
+        TerritoryID::Rockies,
+        TerritoryID::Yukon
     };
 
     EXPECT_TRUE(
         isValidAttackInput(
-            TerritoryID::Alberta,
+            TerritoryID::Rockies,
             adjacentTerritories,
             3
         )
@@ -106,12 +106,12 @@ TEST(ValidationTests, AttackInputReturnsTrueWhenTargetIsAdjacentAndEnoughTroops)
 TEST(ValidationTests, AttackInputReturnsTrueWithMinimumTwoTroops)
 {
     const std::vector<TerritoryID> adjacentTerritories = {
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     };
 
     EXPECT_TRUE(
         isValidAttackInput(
-            TerritoryID::Alberta,
+            TerritoryID::Rockies,
             adjacentTerritories,
             2
         )
@@ -121,12 +121,12 @@ TEST(ValidationTests, AttackInputReturnsTrueWithMinimumTwoTroops)
 TEST(ValidationTests, AttackInputReturnsFalseWhenOnlyOneTroopAvailable)
 {
     const std::vector<TerritoryID> adjacentTerritories = {
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     };
 
     EXPECT_FALSE(
         isValidAttackInput(
-            TerritoryID::Alberta,
+            TerritoryID::Rockies,
             adjacentTerritories,
             1
         )
@@ -136,13 +136,13 @@ TEST(ValidationTests, AttackInputReturnsFalseWhenOnlyOneTroopAvailable)
 TEST(ValidationTests, AttackInputReturnsFalseWhenTargetIsNotAdjacent)
 {
     const std::vector<TerritoryID> adjacentTerritories = {
-        TerritoryID::Alberta,
-        TerritoryID::NorthwestTerritory
+        TerritoryID::Rockies,
+        TerritoryID::Yukon
     };
 
     EXPECT_FALSE(
         isValidAttackInput(
-            TerritoryID::Brazil,
+            TerritoryID::Amazonia,
             adjacentTerritories,
             5
         )
@@ -155,7 +155,7 @@ TEST(ValidationTests, AttackInputReturnsFalseWhenAdjacentTerritoriesIsEmpty)
 
     EXPECT_FALSE(
         isValidAttackInput(
-            TerritoryID::Alberta,
+            TerritoryID::Rockies,
             adjacentTerritories,
             5
         )
@@ -165,14 +165,14 @@ TEST(ValidationTests, AttackInputReturnsFalseWhenAdjacentTerritoriesIsEmpty)
 TEST(ValidationTests, AttackInputFindsTargetLaterInAdjacentVector)
 {
     const std::vector<TerritoryID> adjacentTerritories = {
-        TerritoryID::Alberta,
-        TerritoryID::NorthwestTerritory,
-        TerritoryID::Kamchatka
+        TerritoryID::Rockies,
+        TerritoryID::Yukon,
+        TerritoryID::EasternPeninsula
     };
 
     EXPECT_TRUE(
         isValidAttackInput(
-            TerritoryID::Kamchatka,
+            TerritoryID::EasternPeninsula,
             adjacentTerritories,
             5
         )
@@ -422,18 +422,18 @@ TEST(ValidationTests, FortifyReturnsTrueForDirectOwnedConnection)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
@@ -446,8 +446,8 @@ TEST(ValidationTests, FortifyReturnsTrueForDirectOwnedConnection)
     EXPECT_TRUE(
         isFortifyValid(
             map,
-            TerritoryID::Alaska,
-            TerritoryID::Alberta,
+            TerritoryID::Bearus,
+            TerritoryID::Rockies,
             0
         )
     );
@@ -458,27 +458,27 @@ TEST(ValidationTests, FortifyReturnsTrueForIndirectOwnedPath)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska,
-            TerritoryID::Ontario
+            TerritoryID::Bearus,
+            TerritoryID::Tairono
         }
     );
 
     Territory ontario(
-        TerritoryID::Ontario,
+        TerritoryID::Tairono,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
@@ -493,8 +493,8 @@ TEST(ValidationTests, FortifyReturnsTrueForIndirectOwnedPath)
     EXPECT_TRUE(
         isFortifyValid(
             map,
-            TerritoryID::Alaska,
-            TerritoryID::Ontario,
+            TerritoryID::Bearus,
+            TerritoryID::Tairono,
             0
         )
     );
@@ -505,27 +505,27 @@ TEST(ValidationTests, FortifyReturnsFalseWhenEnemyTerritoryBlocksPath)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska,
-            TerritoryID::Ontario
+            TerritoryID::Bearus,
+            TerritoryID::Tairono
         }
     );
 
     Territory ontario(
-        TerritoryID::Ontario,
+        TerritoryID::Tairono,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
@@ -540,8 +540,8 @@ TEST(ValidationTests, FortifyReturnsFalseWhenEnemyTerritoryBlocksPath)
     EXPECT_FALSE(
         isFortifyValid(
             map,
-            TerritoryID::Alaska,
-            TerritoryID::Ontario,
+            TerritoryID::Bearus,
+            TerritoryID::Tairono,
             0
         )
     );
@@ -552,18 +552,18 @@ TEST(ValidationTests, FortifyReturnsFalseWhenDestinationIsEnemyOwned)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
@@ -576,8 +576,8 @@ TEST(ValidationTests, FortifyReturnsFalseWhenDestinationIsEnemyOwned)
     EXPECT_FALSE(
         isFortifyValid(
             map,
-            TerritoryID::Alaska,
-            TerritoryID::Alberta,
+            TerritoryID::Bearus,
+            TerritoryID::Rockies,
             0
         )
     );
@@ -588,23 +588,23 @@ TEST(ValidationTests, FortifyReturnsFalseWhenNoPathExists)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
     Territory ontario(
-        TerritoryID::Ontario,
+        TerritoryID::Tairono,
         ContinentID::NorthAmerica,
         {}
     );
@@ -620,8 +620,8 @@ TEST(ValidationTests, FortifyReturnsFalseWhenNoPathExists)
     EXPECT_FALSE(
         isFortifyValid(
             map,
-            TerritoryID::Alaska,
-            TerritoryID::Ontario,
+            TerritoryID::Bearus,
+            TerritoryID::Tairono,
             0
         )
     );

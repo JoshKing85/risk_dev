@@ -15,11 +15,9 @@ namespace risk {
     //=========================================================
 
     AttackManager::AttackManager(
-        int playerID,
         GameStateManager& gameStateManager
     )
-        : playerID(playerID),
-        gameStateManager(gameStateManager)
+        : gameStateManager(gameStateManager)
     {
     }
 
@@ -28,6 +26,7 @@ namespace risk {
     //=========================================================
 
     void AttackManager::createAttack(
+        int playerID,
         TerritoryID fromTerritory,
         TerritoryID toTerritory,
         int attackingTroopCount,
@@ -68,7 +67,7 @@ namespace risk {
             : 1;
 
         rollDiceOrders.emplace_back(
-            playerID,
+            currentAttack.getPlayerID(),
             attackDiceCount,
             defendDiceCount
         );
@@ -79,8 +78,11 @@ namespace risk {
         const std::vector<int>& defendingDice
     )
     {
+        AttackOrder& currentAttack =
+            attackOrders.back();
+
         rollDiceOrders.emplace_back(
-            playerID,
+            currentAttack.getPlayerID(),
             attackingDice,
             defendingDice
         );
@@ -117,6 +119,9 @@ namespace risk {
         const RollDiceOrder& currentRoll
     )
     {
+        const int playerID =
+            currentAttack.getPlayerID();
+
         const int attackingTroopCount =
             currentAttack.getAttackingTroopCount();
 
@@ -267,6 +272,7 @@ namespace risk {
     //=========================================================
 
     void AttackManager::createMoveTroopsOrder(
+        int playerID,
         TerritoryID fromTerritory,
         TerritoryID toTerritory,
         int moveTroopCount
@@ -302,6 +308,13 @@ namespace risk {
             currentMove.getToTerritory(),
             currentMove.getTroopsMoved()
         );
+    }
+
+    void AttackManager::clearOrders()
+    {
+        attackOrders.clear();
+        rollDiceOrders.clear();
+        moveTroopsOrders.clear();
     }
 
     //=========================================================

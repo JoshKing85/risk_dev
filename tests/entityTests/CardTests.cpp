@@ -8,7 +8,7 @@ namespace risk {
     {
         Card card(
             CardType::Infantry,
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica
         );
 
@@ -19,14 +19,14 @@ namespace risk {
     {
         Card card(
             CardType::Cavalry,
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica
         );
 
         ASSERT_TRUE(card.getTerritoryID().has_value());
         EXPECT_EQ(
             card.getTerritoryID().value(),
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         );
     }
 
@@ -34,7 +34,7 @@ namespace risk {
     {
         Card card(
             CardType::Artillery,
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica
         );
 
@@ -49,7 +49,7 @@ namespace risk {
     {
         Card card(
             CardType::Infantry,
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica
         );
 

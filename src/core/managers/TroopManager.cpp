@@ -18,16 +18,10 @@ namespace risk {
     // Constructor
     //=========================================================
 
-    // Stores the current player ID and references to the
-    // persistent game-state manager and player.
     TroopManager::TroopManager(
-        int playerID,
-        GameStateManager& gameStateManager,
-        Player& player
+        GameStateManager& gameStateManager
     )
-        : playerID(playerID),
-        gameStateManager(gameStateManager),
-        player(player)
+        : gameStateManager(gameStateManager)
     {
     }
 
@@ -35,9 +29,8 @@ namespace risk {
     // Order creation
     //=========================================================
 
-    // Creates a pending reinforcement order.
-    // Validation is handled by TurnManager before this point.
     void TroopManager::createReinforceOrder(
+        int playerID,
         TerritoryID territoryID,
         int reinforceTroopCount
     )
@@ -49,8 +42,8 @@ namespace risk {
         );
     }
 
-    // Creates a pending fortification order.
     void TroopManager::createFortifyOrder(
+        int playerID,
         TerritoryID fromTerritory,
         TerritoryID toTerritory,
         int fortifyTroopCount
@@ -64,8 +57,8 @@ namespace risk {
         );
     }
 
-    // Creates a pending card-set cashing order.
     void TroopManager::createCashSetOrder(
+        int playerID,
         SetType setType,
         std::vector<Card> cards
     )
@@ -82,7 +75,7 @@ namespace risk {
     //=========================================================
 
     int TroopManager::calculateReinforcements(
-        int playerID
+        const Player& player
     )
     {
         const std::vector<TerritoryID>& playerTerritories =
@@ -98,8 +91,6 @@ namespace risk {
     // Reinforcement execution
     //=========================================================
 
-    // Executes the latest reinforcement order by applying
-    // the troop delta through GameStateManager.
     void TroopManager::executeReinforceOrder()
     {
         ReinforceOrder& currentReinforceOrder =
@@ -117,10 +108,6 @@ namespace risk {
     // Fortification execution
     //=========================================================
 
-    // Executes the latest fortification order.
-    //
-    // Troops are removed from the source territory and added
-    // to the destination territory using delta updates.
     void TroopManager::executeFortifyOrder()
     {
         FortifyOrder& currentFortifyOrder =
@@ -143,10 +130,9 @@ namespace risk {
     // Cash-set execution
     //=========================================================
 
-    // Executes the latest cash-set order.
-    //
-    // The selected cards are removed from a copy of the player's current hand. 
-    int TroopManager::executeCashSetOrder()
+    int TroopManager::executeCashSetOrder(
+        const Player& player
+    )
     {
         CashSetOrder& currentCashSetOrder =
             cashSetOrders.back();
@@ -180,8 +166,6 @@ namespace risk {
                 }
             );
 
-            // TurnManager has already validated that the cards
-            // belong to the player. Erase the matching instance.
             if (it != currentPlayerSet.end())
             {
                 currentPlayerSet.erase(it);
@@ -193,7 +177,7 @@ namespace risk {
         //-----------------------------------------------------
 
         gameStateManager.updatePlayerSet(
-            playerID,
+            currentCashSetOrder.getPlayerID(),
             currentPlayerSet
         );
 
@@ -210,8 +194,6 @@ namespace risk {
     // Undo reinforcement
     //=========================================================
 
-    // Removes the latest pending reinforcement order.
-    // TurnManager ensures undo is only available before execution.
     void TroopManager::undoReinforceOrder()
     {
         if (!reinforceOrders.empty())
@@ -224,7 +206,6 @@ namespace risk {
     // Undo fortification
     //=========================================================
 
-    // Removes the latest pending fortification order.
     void TroopManager::undoFortifyOrder()
     {
         if (!fortifyOrders.empty())
@@ -237,7 +218,6 @@ namespace risk {
     // Undo cash set
     //=========================================================
 
-    // Removes the latest pending cash-set order.
     void TroopManager::undoCashSetOrder()
     {
         if (!cashSetOrders.empty())
@@ -245,9 +225,18 @@ namespace risk {
             cashSetOrders.pop_back();
         }
     }
+   //=========================================================
+   // clear orders
+   //=========================================================
+    void TroopManager::clearOrders()
+    {
+        reinforceOrders.clear();
+        fortifyOrders.clear();
+        cashSetOrders.clear();
+    }
     //=========================================================
-// Getters
-//=========================================================
+    // Getters
+    //=========================================================
 
     const std::vector<ReinforceOrder>&
         TroopManager::getReinforceOrders() const

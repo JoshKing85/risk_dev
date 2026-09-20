@@ -1,5 +1,5 @@
-libdir=C:/Users/joshk/source/repos/risk_v1/out/install/x64-Debug/lib
-includedir=C:/Users/joshk/source/repos/risk_v1/out/install/x64-Debug/include
+libdir=C:/Users/joshk/programming/risk_V1/out/install/x64-Debug/lib
+includedir=C:/Users/joshk/programming/risk_V1/out/install/x64-Debug/include
 
 Name: gtest_main
 Description: GoogleTest (with main() function)

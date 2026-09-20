@@ -1,0 +1,215 @@
+{
+  "map_name": "RiskClassic",
+  "continents": [
+    {
+      "cont_id": "Africa",
+      "bonus": 3,
+      "territories": [
+        {
+          "id": "CentralBasin",
+          "neighbors": [ "WestAfrica", "Riftlands", "CapeRegion" ]
+        },
+        {
+          "id": "Riftlands",
+          "neighbors": [ "CentralBasin", "Nilelands", "LemurIsland", "ArabianRegion", "WestAfrica", "CapeRegion" ]
+        },
+        {
+          "id": "Nilelands",
+          "neighbors": [ "Riftlands", "ArabianRegion", "WestAfrica", "Iberia" ]
+        },
+        {
+          "id": "LemurIsland",
+          "neighbors": [ "Riftlands", "CapeRegion" ]
+        },
+        {
+          "id": "WestAfrica",
+          "neighbors": [ "Amazonia", "CentralBasin", "Riftlands", "Nilelands", "Iberia", "France" ]
+        },
+        {
+          "id": "CapeRegion",
+          "neighbors": [ "CentralBasin", "Riftlands", "LemurIsland" ]
+        }
+      ],
+      "border_territories": [ "Riftlands", "Nilelands", "WestAfrica" ]
+    },
+    {
+      "cont_id": "Asia",
+      "bonus": 7,
+      "territories": [
+        {
+          "id": "Highlands",
+          "neighbors": [ "China", "Induslands", "ArabianRegion", "UralRange", "Russia" ]
+        },
+        {
+          "id": "China",
+          "neighbors": [ "Highlands", "Induslands", "GreatSteppe", "Indochina", "NorthernExpanse", "UralRange" ]
+        },
+        {
+          "id": "Induslands",
+          "neighbors": [ "Highlands", "China", "ArabianRegion", "Indochina" ]
+        },
+        {
+          "id": "BaikalRegion",
+          "neighbors": [ "EasternPeninsula", "GreatSteppe", "NorthernExpanse", "FarNortheast" ]
+        },
+        {
+          "id": "IslandEmpire",
+          "neighbors": [ "EasternPeninsula", "GreatSteppe" ]
+        },
+        {
+          "id": "EasternPeninsula",
+          "neighbors": [ "Bearus", "BaikalRegion", "IslandEmpire", "GreatSteppe", "FarNortheast" ]
+        },
+        {
+          "id": "ArabianRegion",
+          "neighbors": [ "Highlands", "Riftlands", "Nilelands", "Induslands", "Iberia", "Russia" ]
+        },
+        {
+          "id": "GreatSteppe",
+          "neighbors": [ "China", "BaikalRegion", "IslandEmpire", "EasternPeninsula", "NorthernExpanse" ]
+        },
+        {
+          "id": "Indochina",
+          "neighbors": [ "China", "Induslands", "Komodo" ]
+        },
+        {
+          "id": "NorthernExpanse",
+          "neighbors": [ "China", "BaikalRegion", "GreatSteppe", "UralRange", "FarNortheast" ]
+        },
+        {
+          "id": "UralRange",
+          "neighbors": [ "Highlands", "China", "NorthernExpanse", "Russia" ]
+        },
+        {
+          "id": "FarNortheast",
+          "neighbors": [ "BaikalRegion", "EasternPeninsula", "NorthernExpanse" ]
+        }
+      ],
+      "border_territories": [ "Highlands", "EasternPeninsula", "ArabianRegion", "Indochina", "UralRange" ]
+    },
+    {
+      "cont_id": "Australia",
+      "bonus": 2,
+      "territories": [
+        {
+          "id": "NewSouthWales",
+          "neighbors": [ "Philippines", "WesternAustralia" ]
+        },
+        {
+          "id": "Komodo",
+          "neighbors": [ "Philippines", "Indochina", "WesternAustralia" ]
+        },
+        {
+          "id": "Philippines",
+          "neighbors": [ "NewSouthWales", "Komodo", "WesternAustralia" ]
+        },
+        {
+          "id": "WesternAustralia",
+          "neighbors": [ "NewSouthWales", "Komodo", "Philippines" ]
+        }
+      ],
+      "border_territories": [ "Komodo" ]
+    },
+    {
+      "cont_id": "Europe",
+      "bonus": 5,
+      "territories": [
+        {
+          "id": "GreatBritain",
+          "neighbors": [ "Iceland", "Germany", "Scandinavia", "France" ]
+        },
+        {
+          "id": "Iceland",
+          "neighbors": [ "GreatBritain", "ArcticIsle", "Scandinavia" ]
+        },
+        {
+          "id": "Germany",
+          "neighbors": [ "GreatBritain", "Scandinavia", "Iberia", "Russia", "France" ]
+        },
+        {
+          "id": "Scandinavia",
+          "neighbors": [ "GreatBritain", "Iceland", "Germany", "Russia" ]
+        },
+        {
+          "id": "Iberia",
+          "neighbors": [ "Nilelands", "GreatBritain", "ArabianRegion", "WestAfrica", "Germany", "Russia", "France" ]
+        },
+        {
+          "id": "Russia",
+          "neighbors": [ "Highlands", "ArabianRegion", "Germany", "Scandinavia", "Iberia", "UralRange" ]
+        },
+        {
+          "id": "France",
+          "neighbors": [ "GreatBritain", "WestAfrica", "Germany", "Iberia" ]
+        }
+      ],
+      "border_territories": [ "Iceland", "Iberia", "Russia", "France" ]
+    },
+    {
+      "cont_id": "NorthAmerica",
+      "bonus": 5,
+      "territories": [
+        {
+          "id": "Bearus",
+          "neighbors": [ "Rockies", "EasternPeninsula", "Yukon" ]
+        },
+        {
+          "id": "Rockies",
+          "neighbors": [ "Bearus", "Yukon", "Tairono", "California" ]
+        },
+        {
+          "id": "Mexico",
+          "neighbors": [ "GreatLakes", "Orinoco", "California" ]
+        },
+        {
+          "id": "GreatLakes",
+          "neighbors": [ "Mexico", "Tairono", "StLawrence", "California" ]
+        },
+        {
+          "id": "ArcticIsle",
+          "neighbors": [ "Iceland", "Yukon", "Tairono", "StLawrence" ]
+        },
+        {
+          "id": "Yukon",
+          "neighbors": [ "Bearus", "Rockies", "ArcticIsle", "Tairono" ]
+        },
+        {
+          "id": "Tairono",
+          "neighbors": [ "Rockies", "GreatLakes", "ArcticIsle", "Yukon", "StLawrence", "California" ]
+        },
+        {
+          "id": "StLawrence",
+          "neighbors": [ "GreatLakes", "ArcticIsle", "Tairono" ]
+        },
+        {
+          "id": "California",
+          "neighbors": [ "Rockies", "Mexico", "GreatLakes", "Tairono" ]
+        }
+      ],
+      "border_territories": [ "Bearus", "Mexico", "ArcticIsle" ]
+    },
+    {
+      "cont_id": "SouthAmerica",
+      "bonus": 2,
+      "territories": [
+        {
+          "id": "Patagonia",
+          "neighbors": [ "Amazonia", "Andes" ]
+        },
+        {
+          "id": "Amazonia",
+          "neighbors": [ "Patagonia", "WestAfrica", "Andes", "Orinoco" ]
+        },
+        {
+          "id": "Andes",
+          "neighbors": [ "Patagonia", "Amazonia", "Orinoco" ]
+        },
+        {
+          "id": "Orinoco",
+          "neighbors": [ "Amazonia", "Mexico", "Andes" ]
+        }
+      ],
+      "border_territories": [ "Amazonia", "Orinoco" ]
+    }
+  ]
+}

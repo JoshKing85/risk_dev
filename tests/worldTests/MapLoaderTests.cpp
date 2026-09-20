@@ -2,6 +2,9 @@
 
 #include "risk/world/MapLoader.h"
 
+#include "risk/utils/ContinentConverter.h"
+#include "risk/utils/TerritoryConverter.h"
+
 using namespace risk;
 
 // --------------------------------------------------
@@ -36,19 +39,19 @@ TEST(MapLoaderTests, UnknownContinentThrows)
 // Territory Conversion Tests
 // --------------------------------------------------
 
-TEST(MapLoaderTests, ConvertsAlaska)
+TEST(MapLoaderTests, ConvertsBearus)
 {
     EXPECT_EQ(
-        stringToTerritoryID("Alaska"),
-        TerritoryID::Alaska
+        stringToTerritoryID("Bearus"),
+        TerritoryID::Bearus
     );
 }
 
-TEST(MapLoaderTests, ConvertsBrazil)
+TEST(MapLoaderTests, ConvertsAmazonia)
 {
     EXPECT_EQ(
-        stringToTerritoryID("Brazil"),
-        TerritoryID::Brazil
+        stringToTerritoryID("Amazonia"),
+        TerritoryID::Amazonia
     );
 }
 

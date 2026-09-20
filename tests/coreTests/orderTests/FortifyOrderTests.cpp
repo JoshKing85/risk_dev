@@ -12,8 +12,8 @@ TEST(FortifyOrderTests, StoresPlayerID)
 {
     FortifyOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5
     );
 
@@ -24,8 +24,8 @@ TEST(FortifyOrderTests, StoresOrderType)
 {
     FortifyOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5
     );
 
@@ -36,8 +36,8 @@ TEST(FortifyOrderTests, StartsIncomplete)
 {
     FortifyOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5
     );
 
@@ -52,14 +52,14 @@ TEST(FortifyOrderTests, StoresFromTerritory)
 {
     FortifyOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5
     );
 
     EXPECT_EQ(
         order.getFromTerritory(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 }
 
@@ -67,14 +67,14 @@ TEST(FortifyOrderTests, StoresToTerritory)
 {
     FortifyOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5
     );
 
     EXPECT_EQ(
         order.getToTerritory(),
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 }
 
@@ -82,8 +82,8 @@ TEST(FortifyOrderTests, StoresFortifyTroopCount)
 {
     FortifyOrder order(
         1,
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
         5
     );
 

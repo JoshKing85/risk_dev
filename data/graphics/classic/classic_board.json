@@ -1,0 +1,710 @@
+{
+  "board": {
+    "background_texture": "C:/Users/joshk/programming/risk_V1/data/graphics/classic/basic_map_texture.jpg",
+
+    "continent_values": [
+      {
+        "continent": "NorthAmerica",
+        "value": 5,
+        "position": [ 20, 20 ],
+        "size": [ 100, 28 ],
+        "character_size": 15
+      },
+      {
+        "continent": "SouthAmerica",
+        "value": 2,
+        "position": [ 20, 52 ],
+        "size": [ 100, 28 ],
+        "character_size": 15
+      },
+      {
+        "continent": "Europe",
+        "value": 5,
+        "position": [ 20, 84 ],
+        "size": [ 100, 28 ],
+        "character_size": 15
+      },
+      {
+        "continent": "Africa",
+        "value": 3,
+        "position": [ 20, 116 ],
+        "size": [ 100, 28 ],
+        "character_size": 15
+      },
+      {
+        "continent": "Asia",
+        "value": 7,
+        "position": [ 20, 148 ],
+        "size": [ 100, 28 ],
+        "character_size": 15
+      },
+      {
+        "continent": "Australia",
+        "value": 2,
+        "position": [ 20, 180 ],
+        "size": [ 100, 28 ],
+        "character_size": 15
+      }
+    ],
+
+    "territories": [
+      {
+        "territory": "Bearus",
+        "points": [
+          [ 220, 100 ],
+          [ 360, 100 ],
+          [ 360, 155 ],
+          [ 300, 155 ],
+          [ 300, 205 ],
+          [ 220, 205 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 245, 112 ],
+        "troop_count_position": [ 260, 140 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Yukon",
+        "points": [
+          [ 360, 100 ],
+          [ 500, 100 ],
+          [ 500, 155 ],
+          [ 360, 155 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 405, 112 ],
+        "troop_count_position": [ 425, 136 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "ArcticIsle",
+        "points": [
+          [ 500, 100 ],
+          [ 640, 100 ],
+          [ 640, 205 ],
+          [ 560, 205 ],
+          [ 560, 155 ],
+          [ 500, 155 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 520, 112 ],
+        "troop_count_position": [ 550, 136 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Rockies",
+        "points": [
+          [ 220, 205 ],
+          [ 300, 205 ],
+          [ 300, 155 ],
+          [ 360, 155 ],
+          [ 360, 255 ],
+          [ 220, 255 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 240, 215 ],
+        "troop_count_position": [ 260, 236 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Tairono",
+        "points": [
+          [ 360, 155 ],
+          [ 500, 155 ],
+          [ 500, 255 ],
+          [ 360, 255 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 400, 185 ],
+        "troop_count_position": [ 425, 215 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "StLawrence",
+        "points": [
+          [ 500, 155 ],
+          [ 560, 155 ],
+          [ 560, 205 ],
+          [ 640, 205 ],
+          [ 640, 255 ],
+          [ 500, 255 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 515, 215 ],
+        "troop_count_position": [ 550, 236 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "California",
+        "points": [
+          [ 220, 255 ],
+          [ 360, 255 ],
+          [ 360, 305 ],
+          [ 280, 305 ],
+          [ 280, 355 ],
+          [ 220, 355 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 235, 265 ],
+        "troop_count_position": [ 255, 288 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "GreatLakes",
+        "points": [
+          [ 360, 255 ],
+          [ 500, 255 ],
+          [ 500, 305 ],
+          [ 420, 305 ],
+          [ 420, 355 ],
+          [ 360, 355 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 375, 265 ],
+        "troop_count_position": [ 400, 288 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Mexico",
+        "points": [
+          [ 280, 305 ],
+          [ 420, 305 ],
+          [ 420, 355 ],
+          [ 390, 355 ],
+          [ 390, 405 ],
+          [ 310, 405 ],
+          [ 310, 355 ],
+          [ 280, 355 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 325, 325 ],
+        "troop_count_position": [ 345, 350 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+
+      {
+        "territory": "Orinoco",
+        "points": [
+          [ 270, 370 ],
+          [ 410, 370 ],
+          [ 410, 420 ],
+          [ 350, 420 ],
+          [ 350, 465 ],
+          [ 270, 465 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 290, 382 ],
+        "troop_count_position": [ 315, 405 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Amazonia",
+        "points": [
+          [ 390, 475 ],
+          [ 470, 475 ],
+          [ 470, 575 ],
+          [ 390, 575 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 397, 505 ],
+        "troop_count_position": [ 420, 535 ],
+        "title_character_size": 14,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Andes",
+        "points": [
+          [ 240, 525 ],
+          [ 300, 525 ],
+          [ 300, 475 ],
+          [ 390, 475 ],
+          [ 390, 575 ],
+          [ 300, 575 ],
+          [ 300, 625 ],
+          [ 240, 625 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 260, 545 ],
+        "troop_count_position": [ 275, 570 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Patagonia",
+        "points": [
+          [ 300, 575 ],
+          [ 470, 575 ],
+          [ 470, 625 ],
+          [ 410, 625 ],
+          [ 410, 680 ],
+          [ 330, 680 ],
+          [ 330, 625 ],
+          [ 300, 625 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 345, 590 ],
+        "troop_count_position": [ 375, 614 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+
+      {
+        "territory": "Iceland",
+        "points": [
+          [ 760, 100 ],
+          [ 900, 100 ],
+          [ 900, 150 ],
+          [ 760, 150 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 795, 110 ],
+        "troop_count_position": [ 825, 132 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Scandinavia",
+        "points": [
+          [ 900, 100 ],
+          [ 1040, 100 ],
+          [ 1040, 200 ],
+          [ 980, 200 ],
+          [ 980, 150 ],
+          [ 900, 150 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 910, 112 ],
+        "troop_count_position": [ 950, 136 ],
+        "title_character_size": 14,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Russia",
+        "points": [
+          [ 1040, 100 ],
+          [ 1180, 100 ],
+          [ 1180, 250 ],
+          [ 1100, 250 ],
+          [ 1100, 200 ],
+          [ 1040, 200 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1080, 140 ],
+        "troop_count_position": [ 1105, 165 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "GreatBritain",
+        "points": [
+          [ 760, 150 ],
+          [ 900, 150 ],
+          [ 900, 200 ],
+          [ 840, 200 ],
+          [ 840, 250 ],
+          [ 760, 250 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 770, 165 ],
+        "troop_count_position": [ 800, 190 ],
+        "title_character_size": 14,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Germany",
+        "points": [
+          [ 900, 150 ],
+          [ 980, 150 ],
+          [ 980, 200 ],
+          [ 1040, 200 ],
+          [ 1040, 250 ],
+          [ 900, 250 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 920, 210 ],
+        "troop_count_position": [ 945, 232 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "France",
+        "points": [
+          [ 760, 250 ],
+          [ 900, 250 ],
+          [ 900, 300 ],
+          [ 760, 300 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 800, 260 ],
+        "troop_count_position": [ 825, 282 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Iberia",
+        "points": [
+          [ 900, 250 ],
+          [ 1100, 250 ],
+          [ 1100, 300 ],
+          [ 1040, 300 ],
+          [ 1040, 350 ],
+          [ 900, 350 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 930, 275 ],
+        "troop_count_position": [ 955, 300 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+
+      {
+        "territory": "WestAfrica",
+        "points": [
+          [ 760, 430 ],
+          [ 900, 430 ],
+          [ 900, 480 ],
+          [ 820, 480 ],
+          [ 820, 530 ],
+          [ 760, 530 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 775, 442 ],
+        "troop_count_position": [ 800, 465 ],
+        "title_character_size": 14,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Nilelands",
+        "points": [
+          [ 900, 430 ],
+          [ 1040, 430 ],
+          [ 1040, 530 ],
+          [ 900, 530 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 925, 460 ],
+        "troop_count_position": [ 965, 488 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "CentralBasin",
+        "points": [
+          [ 820, 480 ],
+          [ 900, 480 ],
+          [ 900, 530 ],
+          [ 960, 530 ],
+          [ 960, 580 ],
+          [ 820, 580 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 830, 535 ],
+        "troop_count_position": [ 860, 558 ],
+        "title_character_size": 13,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Riftlands",
+        "points": [
+          [ 960, 530 ],
+          [ 1040, 530 ],
+          [ 1040, 630 ],
+          [ 960, 630 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 970, 555 ],
+        "troop_count_position": [ 995, 585 ],
+        "title_character_size": 14,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "CapeRegion",
+        "points": [
+          [ 820, 580 ],
+          [ 960, 580 ],
+          [ 960, 630 ],
+          [ 930, 630 ],
+          [ 930, 680 ],
+          [ 850, 680 ],
+          [ 850, 630 ],
+          [ 820, 630 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 845, 592 ],
+        "troop_count_position": [ 875, 615 ],
+        "title_character_size": 14,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "LemurIsland",
+        "points": [
+          [ 1040, 580 ],
+          [ 1100, 580 ],
+          [ 1100, 650 ],
+          [ 1040, 650 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1044, 595 ],
+        "troop_count_position": [ 1065, 620 ],
+        "title_character_size": 11,
+        "troop_character_size": 17
+      },
+
+      {
+        "territory": "Russia",
+        "points": [
+          [ 1180, 100 ],
+          [ 1320, 100 ],
+          [ 1320, 200 ],
+          [ 1180, 200 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1220, 130 ],
+        "troop_count_position": [ 1245, 158 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "UralRange",
+        "points": [
+          [ 1320, 100 ],
+          [ 1460, 100 ],
+          [ 1460, 200 ],
+          [ 1320, 200 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1345, 130 ],
+        "troop_count_position": [ 1385, 158 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "NorthernExpanse",
+        "points": [
+          [ 1460, 100 ],
+          [ 1600, 100 ],
+          [ 1600, 200 ],
+          [ 1460, 200 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1470, 130 ],
+        "troop_count_position": [ 1525, 158 ],
+        "title_character_size": 13,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "FarNortheast",
+        "points": [
+          [ 1600, 100 ],
+          [ 1740, 100 ],
+          [ 1740, 250 ],
+          [ 1660, 250 ],
+          [ 1660, 200 ],
+          [ 1600, 200 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1615, 130 ],
+        "troop_count_position": [ 1660, 158 ],
+        "title_character_size": 13,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Highlands",
+        "points": [
+          [ 1180, 200 ],
+          [ 1320, 200 ],
+          [ 1320, 300 ],
+          [ 1180, 300 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1210, 230 ],
+        "troop_count_position": [ 1245, 258 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "China",
+        "points": [
+          [ 1320, 200 ],
+          [ 1460, 200 ],
+          [ 1460, 300 ],
+          [ 1320, 300 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1360, 230 ],
+        "troop_count_position": [ 1385, 258 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "BaikalRegion",
+        "points": [
+          [ 1460, 200 ],
+          [ 1600, 200 ],
+          [ 1600, 300 ],
+          [ 1460, 300 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1480, 230 ],
+        "troop_count_position": [ 1525, 258 ],
+        "title_character_size": 14,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "EasternPeninsula",
+        "points": [
+          [ 1600, 200 ],
+          [ 1660, 200 ],
+          [ 1660, 250 ],
+          [ 1740, 250 ],
+          [ 1740, 350 ],
+          [ 1600, 350 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1610, 275 ],
+        "troop_count_position": [ 1655, 305 ],
+        "title_character_size": 12,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "ArabianRegion",
+        "points": [
+          [ 1180, 300 ],
+          [ 1320, 300 ],
+          [ 1320, 400 ],
+          [ 1180, 400 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1195, 330 ],
+        "troop_count_position": [ 1245, 358 ],
+        "title_character_size": 14,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Induslands",
+        "points": [
+          [ 1320, 300 ],
+          [ 1460, 300 ],
+          [ 1460, 400 ],
+          [ 1320, 400 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1345, 330 ],
+        "troop_count_position": [ 1385, 358 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "GreatSteppe",
+        "points": [
+          [ 1460, 300 ],
+          [ 1600, 300 ],
+          [ 1600, 400 ],
+          [ 1460, 400 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1480, 330 ],
+        "troop_count_position": [ 1525, 358 ],
+        "title_character_size": 14,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "IslandEmpire",
+        "points": [
+          [ 1600, 350 ],
+          [ 1740, 350 ],
+          [ 1740, 400 ],
+          [ 1600, 400 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1620, 360 ],
+        "troop_count_position": [ 1665, 382 ],
+        "title_character_size": 13,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Indochina",
+        "points": [
+          [ 1320, 400 ],
+          [ 1460, 400 ],
+          [ 1460, 450 ],
+          [ 1400, 450 ],
+          [ 1400, 500 ],
+          [ 1320, 500 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1340, 415 ],
+        "troop_count_position": [ 1365, 440 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+
+      {
+        "territory": "Komodo",
+        "points": [
+          [ 1450, 590 ],
+          [ 1590, 590 ],
+          [ 1590, 640 ],
+          [ 1450, 640 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1490, 600 ],
+        "troop_count_position": [ 1515, 622 ],
+        "title_character_size": 17,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "Philippines",
+        "points": [
+          [ 1590, 590 ],
+          [ 1730, 590 ],
+          [ 1730, 640 ],
+          [ 1590, 640 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1615, 600 ],
+        "troop_count_position": [ 1655, 622 ],
+        "title_character_size": 15,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "WesternAustralia",
+        "points": [
+          [ 1450, 640 ],
+          [ 1590, 640 ],
+          [ 1590, 740 ],
+          [ 1450, 740 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1460, 670 ],
+        "troop_count_position": [ 1515, 700 ],
+        "title_character_size": 13,
+        "troop_character_size": 17
+      },
+      {
+        "territory": "NewSouthWales",
+        "points": [
+          [ 1590, 640 ],
+          [ 1730, 640 ],
+          [ 1730, 740 ],
+          [ 1590, 740 ]
+        ],
+        "outline_thickness": 3,
+        "title_position": [ 1600, 670 ],
+        "troop_count_position": [ 1655, 700 ],
+        "title_character_size": 13,
+        "troop_character_size": 17
+      }
+    ]
+  }
+}

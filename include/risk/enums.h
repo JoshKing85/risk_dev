@@ -1,7 +1,31 @@
 #pragma once
 
 namespace risk
-{   
+{   // Enums for Map Types
+    enum class MapType
+    {
+        Classic,
+        Europe,
+        None };
+
+    // Enums for phase types
+    enum class PhaseType 
+    {
+        Loading,
+        Reinforce,
+        Attack,
+        Fortify,
+        GameWon,
+        GameQuit,
+        GameSetup
+    };
+    // Enums for auxiliary phases
+    enum class AuxiliaryPhase 
+    { 
+        None, 
+        CashSet, 
+        MoveTroops };
+
     // Enums for Continent and Territory IDs
     enum class ContinentID
     {
@@ -14,61 +38,65 @@ namespace risk
         None
     };
 
-    enum class TerritoryID
-    {
+    // Enums for Territory IDs
+    enum class TerritoryID {
+     
+        
         // North America
-        Alaska,
-        Alberta,
-        CentralAmerica,
-        EasternUnitedStates,
-        Greenland,
-        NorthwestTerritory,
-        Ontario,
-        Quebec,
-        WesternUnitedStates,
+      Bearus,
+      Rockies,
+      Mexico,
+      GreatLakes,
+      ArcticIsle,
+      Yukon,
+      Tairono,
+      StLawrence,
+      California,
 
-        // South America
-        Argentina,
-        Brazil,
-        Peru,
-        Venezuela,
+      // South America
+      Patagonia,
+      Amazonia,
+      Andes,
+      Orinoco,
 
-        // Europe
-        GreatBritain,
-        Iceland,
-        NorthernEurope,
-        Scandinavia,
-        SouthernEurope,
-        Ukraine,
-        WesternEurope,
+      // Europe
+      GreatBritain,
+      Iceland,
+      Germany,
+      Scandinavia,
+      Iberia,
+      Russia,
+      France,
 
-        // Africa
-        Congo,
-        EastAfrica,
-        Egypt,
-        Madagascar,
-        NorthAfrica,
-        SouthAfrica,
+      // Africa
+      CentralBasin,
+      Riftlands,
+      Nilelands,
+      LemurIsland,
+      WestAfrica,
+      CapeRegion,
 
-        // Asia
-        Afghanistan,
-        China,
-        India,
-        Irkutsk,
-        Japan,
-        Kamchatka,
-        MiddleEast,
-        Mongolia,
-        Siam,
-        Siberia,
-        Ural,
-        Yakutsk,
+      // Asia
+      Highlands,
+      China,
+      Induslands,
+      BaikalRegion,
+      IslandEmpire,
+      EasternPeninsula,
+      ArabianRegion,
+      GreatSteppe,
+      Indochina,
+      NorthernExpanse,
+      UralRange,
+      FarNortheast,
 
-        // Australia
-        EasternAustralia,
-        Indonesia,
-        NewGuinea,
-        WesternAustralia
+      // Australia
+      NewSouthWales,
+      Komodo,
+      Philippines,
+      WesternAustralia,
+
+      None
     };
     // Enums for Card Types and Set Types
     enum class CardType

@@ -109,7 +109,7 @@ TEST(PlayerTests, CanAddTerritory)
     Player player(1);
 
     player.addTerritory(
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
@@ -123,11 +123,11 @@ TEST(PlayerTests, DuplicateTerritoryNotAdded)
     Player player(1);
 
     player.addTerritory(
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     player.addTerritory(
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
@@ -141,11 +141,11 @@ TEST(PlayerTests, CanRemoveTerritory)
     Player player(1);
 
     player.addTerritory(
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     player.removeTerritory(
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_TRUE(

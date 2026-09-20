@@ -1,7 +1,14 @@
 #include <iostream>
-#include "risk/entities/Player.h"
+#include "risk/graphics/ui/GameWindow.h"
 
-int main() {
-    
+int main()
+{
+    risk::GameWindow window(
+        sf::VideoMode({ 1920, 1080 }),
+        "Risk"
+    );
+
+    window.run();
+
     return 0;
 }

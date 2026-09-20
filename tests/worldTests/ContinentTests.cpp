@@ -62,9 +62,9 @@ TEST(ContinentTests, StoresTerritories)
 {
     std::vector<TerritoryID> territories =
     {
-        TerritoryID::Alaska,
-        TerritoryID::Alberta,
-        TerritoryID::Ontario
+        TerritoryID::Bearus,
+        TerritoryID::Rockies,
+        TerritoryID::Tairono
     };
 
     Continent continent(
@@ -84,9 +84,9 @@ TEST(ContinentTests, StoresBorderTerritories)
 {
     std::vector<TerritoryID> borders =
     {
-        TerritoryID::Alaska,
-        TerritoryID::CentralAmerica,
-        TerritoryID::Greenland
+        TerritoryID::Bearus,
+        TerritoryID::Mexico,
+        TerritoryID::ArcticIsle
     };
 
     Continent continent(

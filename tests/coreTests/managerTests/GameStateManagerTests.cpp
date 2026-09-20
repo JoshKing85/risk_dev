@@ -55,7 +55,7 @@ TEST(GameStateManagerTests, UpdatesTerritoryTroopCountWhenIncreasing)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -70,13 +70,13 @@ TEST(GameStateManagerTests, UpdatesTerritoryTroopCountWhenIncreasing)
     );
 
     gameStateManager.updateTerritoryTroopCount(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         5
     );
 
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getTroopCount(),
         5
     );
@@ -87,7 +87,7 @@ TEST(GameStateManagerTests, UpdatesTerritoryTroopCountWhenDecreasing)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -104,13 +104,13 @@ TEST(GameStateManagerTests, UpdatesTerritoryTroopCountWhenDecreasing)
     );
 
     gameStateManager.updateTerritoryTroopCount(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         -3
     );
 
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getTroopCount(),
         2
     );
@@ -125,7 +125,7 @@ TEST(GameStateManagerTests, AddsTerritoryToPlayer)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -147,7 +147,7 @@ TEST(GameStateManagerTests, AddsTerritoryToPlayer)
     EXPECT_TRUE(
         containsTerritory(
             players[0],
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         )
     );
 }
@@ -157,7 +157,7 @@ TEST(GameStateManagerTests, RemovesTerritoryFromPlayer)
     Map map;
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {}
     );
@@ -166,7 +166,7 @@ TEST(GameStateManagerTests, RemovesTerritoryFromPlayer)
     players.emplace_back(0);
 
     players[0].addTerritory(
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     GameStateManager gameStateManager(
@@ -183,7 +183,7 @@ TEST(GameStateManagerTests, RemovesTerritoryFromPlayer)
     EXPECT_FALSE(
         containsTerritory(
             players[0],
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         )
     );
 }
@@ -200,37 +200,37 @@ TEST(GameStateManagerTests, TransfersTerritoryBetweenPlayers)
         ContinentID::NorthAmerica,
         5,
         {
-            TerritoryID::Alaska,
-            TerritoryID::Alberta,
-            TerritoryID::Ontario
+            TerritoryID::Bearus,
+            TerritoryID::Rockies,
+            TerritoryID::Tairono
         },
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska,
-            TerritoryID::Ontario
+            TerritoryID::Bearus,
+            TerritoryID::Tairono
         }
     );
 
     Territory ontario(
-        TerritoryID::Ontario,
+        TerritoryID::Tairono,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
@@ -248,15 +248,15 @@ TEST(GameStateManagerTests, TransfersTerritoryBetweenPlayers)
     players.emplace_back(1);
 
     players[0].addTerritory(
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     players[0].addTerritory(
-        TerritoryID::Ontario
+        TerritoryID::Tairono
     );
 
     players[1].addTerritory(
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 
     GameStateManager gameStateManager(
@@ -265,13 +265,13 @@ TEST(GameStateManagerTests, TransfersTerritoryBetweenPlayers)
     );
 
     gameStateManager.updateTerritoryOwner(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         1
     );
 
     EXPECT_EQ(
         map.getTerritory(
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         ).getOwnerID(),
         1
     );
@@ -279,14 +279,14 @@ TEST(GameStateManagerTests, TransfersTerritoryBetweenPlayers)
     EXPECT_FALSE(
         containsTerritory(
             players[0],
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         )
     );
 
     EXPECT_TRUE(
         containsTerritory(
             players[1],
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         )
     );
 }
@@ -299,27 +299,27 @@ TEST(GameStateManagerTests, TerritoryTransferGrantsContinentOwnership)
         ContinentID::NorthAmerica,
         5,
         {
-            TerritoryID::Alaska,
-            TerritoryID::Alberta
+            TerritoryID::Bearus,
+            TerritoryID::Rockies
         },
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
@@ -335,11 +335,11 @@ TEST(GameStateManagerTests, TerritoryTransferGrantsContinentOwnership)
     players.emplace_back(1);
 
     players[0].addTerritory(
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     players[1].addTerritory(
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 
     GameStateManager gameStateManager(
@@ -348,7 +348,7 @@ TEST(GameStateManagerTests, TerritoryTransferGrantsContinentOwnership)
     );
 
     gameStateManager.updateTerritoryOwner(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         1
     );
 
@@ -375,29 +375,29 @@ TEST(GameStateManagerTests, TerritoryTransferRemovesContinentOwnership)
         ContinentID::NorthAmerica,
         5,
         {
-            TerritoryID::Alaska,
-            TerritoryID::Alberta
+            TerritoryID::Bearus,
+            TerritoryID::Rockies
         },
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
     northAmerica.setOwner(0);
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
@@ -413,11 +413,11 @@ TEST(GameStateManagerTests, TerritoryTransferRemovesContinentOwnership)
     players.emplace_back(1);
 
     players[0].addTerritory(
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     players[0].addTerritory(
-        TerritoryID::Alberta
+        TerritoryID::Rockies
     );
 
     players[0].addContinent(
@@ -430,7 +430,7 @@ TEST(GameStateManagerTests, TerritoryTransferRemovesContinentOwnership)
     );
 
     gameStateManager.updateTerritoryOwner(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         1
     );
 
@@ -461,27 +461,27 @@ TEST(GameStateManagerTests, ReturnsContinentWhenPlayerOwnsAllTerritories)
         ContinentID::NorthAmerica,
         5,
         {
-            TerritoryID::Alaska,
-            TerritoryID::Alberta
+            TerritoryID::Bearus,
+            TerritoryID::Rockies
         },
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
@@ -517,27 +517,27 @@ TEST(GameStateManagerTests, ReturnsNoneWhenPlayerDoesNotOwnAllTerritories)
         ContinentID::NorthAmerica,
         5,
         {
-            TerritoryID::Alaska,
-            TerritoryID::Alberta
+            TerritoryID::Bearus,
+            TerritoryID::Rockies
         },
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
     Territory alaska(
-        TerritoryID::Alaska,
+        TerritoryID::Bearus,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alberta
+            TerritoryID::Rockies
         }
     );
 
     Territory alberta(
-        TerritoryID::Alberta,
+        TerritoryID::Rockies,
         ContinentID::NorthAmerica,
         {
-            TerritoryID::Alaska
+            TerritoryID::Bearus
         }
     );
 
@@ -751,17 +751,17 @@ TEST(GameStateManagerTests, UpdatesPlayerSet)
     std::vector<Card> newSet{
         Card(
             CardType::Infantry,
-            TerritoryID::Alaska,
+            TerritoryID::Bearus,
             ContinentID::NorthAmerica
         ),
         Card(
             CardType::Cavalry,
-            TerritoryID::Brazil,
+            TerritoryID::Amazonia,
             ContinentID::SouthAmerica
         ),
         Card(
             CardType::Artillery,
-            TerritoryID::Egypt,
+            TerritoryID::Nilelands,
             ContinentID::Africa
         )
     };
@@ -791,7 +791,7 @@ TEST(GameStateManagerTests, UpdatesPlayerSet)
 
     EXPECT_EQ(
         playerSet[0].getTerritoryID(),
-        TerritoryID::Alaska
+        TerritoryID::Bearus
     );
 
     EXPECT_EQ(
@@ -801,7 +801,7 @@ TEST(GameStateManagerTests, UpdatesPlayerSet)
 
     EXPECT_EQ(
         playerSet[1].getTerritoryID(),
-        TerritoryID::Brazil
+        TerritoryID::Amazonia
     );
 
     EXPECT_EQ(
@@ -811,6 +811,6 @@ TEST(GameStateManagerTests, UpdatesPlayerSet)
 
     EXPECT_EQ(
         playerSet[2].getTerritoryID(),
-        TerritoryID::Egypt
+        TerritoryID::Nilelands
     );
 }

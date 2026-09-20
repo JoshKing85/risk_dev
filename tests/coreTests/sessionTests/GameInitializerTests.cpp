@@ -1,27 +1,21 @@
 #include <gtest/gtest.h>
 
+#include "risk/core/managers/GameStateManager.h"
 #include "risk/core/session/GameInitializer.h"
 
 #include "risk/entities/Player.h"
-#include "risk/world/Map.h"
-#include "risk/world/Deck.h"
 #include "risk/entities/Territory.h"
+
+#include "risk/world/Deck.h"
+#include "risk/world/Map.h"
+
+#include "risk/utils/FilePathConverter.h"
 
 #include <string>
 #include <tuple>
 #include <vector>
 
 using namespace risk;
-
-//=========================================================
-// Helper
-//=========================================================
-
-static std::string getClassicMapPath()
-{
-    return
-        "C:\\Users\\joshk\\programming\\risk_V1\\data\\maps\\classic.json";
-}
 
 //=========================================================
 // Player Setup
@@ -56,7 +50,7 @@ TEST(GameInitializerTests, InitializeGameCreatesCorrectPlayerCount)
     GameInitializer initializer;
 
     std::string filename =
-        getClassicMapPath();
+        mapTypeToFilename(MapType::Classic);
 
     auto [map, players, deck] =
         initializer.initializeGame(
@@ -76,7 +70,7 @@ TEST(GameInitializerTests, InitializeGameLoadsAllTerritories)
     GameInitializer initializer;
 
     std::string filename =
-        getClassicMapPath();
+        mapTypeToFilename(MapType::Classic);
 
     auto [map, players, deck] =
         initializer.initializeGame(
@@ -91,12 +85,16 @@ TEST(GameInitializerTests, InitializeGameLoadsAllTerritories)
     );
 }
 
-TEST(GameInitializerTests, InitializeGameDealsAllTerritories)
+//=========================================================
+// Deal Deck
+//=========================================================
+
+TEST(GameInitializerTests, DealDeckDealsAllTerritories)
 {
     GameInitializer initializer;
 
     std::string filename =
-        getClassicMapPath();
+        mapTypeToFilename(MapType::Classic);
 
     auto [map, players, deck] =
         initializer.initializeGame(
@@ -104,6 +102,18 @@ TEST(GameInitializerTests, InitializeGameDealsAllTerritories)
             2,
             0
         );
+
+    GameStateManager gameStateManager(
+        map,
+        players
+    );
+
+    initializer.dealDeck(
+        deck,
+        players,
+        map,
+        gameStateManager
+    );
 
     std::size_t totalTerritoriesHeld = 0;
 
@@ -119,12 +129,12 @@ TEST(GameInitializerTests, InitializeGameDealsAllTerritories)
     );
 }
 
-TEST(GameInitializerTests, InitializeGameDealsTerritoriesEvenlyBetweenTwoPlayers)
+TEST(GameInitializerTests, DealDeckDealsTerritoriesEvenlyBetweenTwoPlayers)
 {
     GameInitializer initializer;
 
     std::string filename =
-        getClassicMapPath();
+        mapTypeToFilename(MapType::Classic);
 
     auto [map, players, deck] =
         initializer.initializeGame(
@@ -132,6 +142,18 @@ TEST(GameInitializerTests, InitializeGameDealsTerritoriesEvenlyBetweenTwoPlayers
             2,
             0
         );
+
+    GameStateManager gameStateManager(
+        map,
+        players
+    );
+
+    initializer.dealDeck(
+        deck,
+        players,
+        map,
+        gameStateManager
+    );
 
     ASSERT_EQ(
         players.size(),
@@ -149,12 +171,12 @@ TEST(GameInitializerTests, InitializeGameDealsTerritoriesEvenlyBetweenTwoPlayers
     );
 }
 
-TEST(GameInitializerTests, InitializeGamePlacesOneTroopOnEachTerritory)
+TEST(GameInitializerTests, DealDeckPlacesOneTroopOnEachTerritory)
 {
     GameInitializer initializer;
 
     std::string filename =
-        getClassicMapPath();
+        mapTypeToFilename(MapType::Classic);
 
     auto [map, players, deck] =
         initializer.initializeGame(
@@ -162,6 +184,18 @@ TEST(GameInitializerTests, InitializeGamePlacesOneTroopOnEachTerritory)
             2,
             0
         );
+
+    GameStateManager gameStateManager(
+        map,
+        players
+    );
+
+    initializer.dealDeck(
+        deck,
+        players,
+        map,
+        gameStateManager
+    );
 
     for (const auto& territoryPair :
         map.getTerritories())
@@ -176,12 +210,12 @@ TEST(GameInitializerTests, InitializeGamePlacesOneTroopOnEachTerritory)
     }
 }
 
-TEST(GameInitializerTests, InitializeGameUpdatesPlayerTroopCounts)
+TEST(GameInitializerTests, DealDeckUpdatesPlayerTroopCounts)
 {
     GameInitializer initializer;
 
     std::string filename =
-        getClassicMapPath();
+        mapTypeToFilename(MapType::Classic);
 
     auto [map, players, deck] =
         initializer.initializeGame(
@@ -189,6 +223,18 @@ TEST(GameInitializerTests, InitializeGameUpdatesPlayerTroopCounts)
             2,
             0
         );
+
+    GameStateManager gameStateManager(
+        map,
+        players
+    );
+
+    initializer.dealDeck(
+        deck,
+        players,
+        map,
+        gameStateManager
+    );
 
     ASSERT_EQ(
         players.size(),
@@ -206,12 +252,12 @@ TEST(GameInitializerTests, InitializeGameUpdatesPlayerTroopCounts)
     );
 }
 
-TEST(GameInitializerTests, InitializeGameSynchronizesTerritoryOwnership)
+TEST(GameInitializerTests, DealDeckSynchronizesTerritoryOwnership)
 {
     GameInitializer initializer;
 
     std::string filename =
-        getClassicMapPath();
+        mapTypeToFilename(MapType::Classic);
 
     auto [map, players, deck] =
         initializer.initializeGame(
@@ -219,6 +265,18 @@ TEST(GameInitializerTests, InitializeGameSynchronizesTerritoryOwnership)
             2,
             0
         );
+
+    GameStateManager gameStateManager(
+        map,
+        players
+    );
+
+    initializer.dealDeck(
+        deck,
+        players,
+        map,
+        gameStateManager
+    );
 
     for (const Player& player : players)
     {
@@ -235,12 +293,12 @@ TEST(GameInitializerTests, InitializeGameSynchronizesTerritoryOwnership)
     }
 }
 
-TEST(GameInitializerTests, InitializeGameEveryTerritoryHasValidOwner)
+TEST(GameInitializerTests, DealDeckEveryTerritoryHasValidOwner)
 {
     GameInitializer initializer;
 
     std::string filename =
-        getClassicMapPath();
+        mapTypeToFilename(MapType::Classic);
 
     auto [map, players, deck] =
         initializer.initializeGame(
@@ -248,6 +306,18 @@ TEST(GameInitializerTests, InitializeGameEveryTerritoryHasValidOwner)
             2,
             0
         );
+
+    GameStateManager gameStateManager(
+        map,
+        players
+    );
+
+    initializer.dealDeck(
+        deck,
+        players,
+        map,
+        gameStateManager
+    );
 
     for (const auto& territoryPair :
         map.getTerritories())
@@ -261,8 +331,3 @@ TEST(GameInitializerTests, InitializeGameEveryTerritoryHasValidOwner)
         );
     }
 }
-
-//=========================================================
-// Initial Troop Placement
-//=========================================================
-

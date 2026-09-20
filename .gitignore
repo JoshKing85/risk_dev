@@ -1,1 +1,36 @@
+# Visual Studio
 .vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# CMake / build output
+out/
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+
+# Compiled files
+*.obj
+*.o
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+
+# Test/build generated files
+Testing/
+LastTest.log
+
+# Ninja
+.ninja_deps
+.ninja_log
+
+# OS files
+.DS_Store
+Thumbs.db
