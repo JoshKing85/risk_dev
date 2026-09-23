@@ -14,14 +14,12 @@ class Player;
 class TroopManager {
 
 private:
-  GameStateManager &gameStateManager;
-
   std::vector<ReinforceOrder> reinforceOrders;
   std::vector<FortifyOrder> fortifyOrders;
   std::vector<CashSetOrder> cashSetOrders;
 
 public:
-  TroopManager(GameStateManager &gameStateManager);
+  TroopManager();
 
   //=========================================================
   // Reinforcement calculation
@@ -46,9 +44,12 @@ public:
   // Execute orders
   //=========================================================
 
-  void executeReinforceOrder();
-  void executeFortifyOrder();
-  int executeCashSetOrder(const Player &player);
+  void executeReinforceOrder(GameStateManager &gameStateManager);
+
+  void executeFortifyOrder(GameStateManager &gameStateManager);
+
+  int executeCashSetOrder(const Player &player,
+                          GameStateManager &gameStateManager);
 
   //=========================================================
   // Undo orders
@@ -58,8 +59,14 @@ public:
   void undoFortifyOrder();
   void undoCashSetOrder();
 
-
   void clearOrders();
+
+  //=========================================================
+  // Update during reinforce
+  //=========================================================
+
+  void updateReinforceOrder(bool add);
+
   //=========================================================
   // Getters
   //=========================================================

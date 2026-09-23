@@ -13,17 +13,16 @@ class GameStateManager;
 
 class AttackManager {
 private:
-  GameStateManager &gameStateManager;
-
   std::vector<AttackOrder> attackOrders;
   std::vector<RollDiceOrder> rollDiceOrders;
   std::vector<MoveTroopsOrder> moveTroopsOrders;
 
   void resolveAttack(AttackOrder &currentAttack,
-                     const RollDiceOrder &currentRoll);
+                     const RollDiceOrder &currentRoll,
+                     GameStateManager &gameStateManager);
 
 public:
-  AttackManager(GameStateManager &gameStateManager);
+  AttackManager();
 
   //=========================================================
   // Attack order
@@ -49,7 +48,7 @@ public:
   void undoRollDiceOrder();
 
   // Resolves latest AttackOrder using latest RollDiceOrder
-  void executeAttackOrder();
+  void executeAttackOrder(GameStateManager &gameStateManager);
 
   //=========================================================
   // Post-capture troop movement
@@ -57,12 +56,12 @@ public:
 
   void createMoveTroopsOrder(int playerID, TerritoryID fromTerritory,
                              TerritoryID toTerritory, int moveTroopCount);
+
   void undoMoveTroopsOrder();
-  void executeMoveTroopsOrder();
+
+  void executeMoveTroopsOrder(GameStateManager &gameStateManager);
 
   void clearOrders();
-
-
 
   //=========================================================
   // Getters

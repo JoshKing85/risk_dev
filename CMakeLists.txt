@@ -72,16 +72,29 @@ add_executable(risk_v1
     src/core/session/GameState.cpp
     src/core/session/GameSetupState.cpp
 
-    # Graphic Classes
+    # Graphic element classes
+    src/graphics/game_elements/BoardGraphics.cpp
+    src/graphics/game_elements/TerritoryGraphics.cpp
+    src/graphics/game_elements/PlayerGraphics.cpp
+    src/graphics/game_elements/CardGraphics.cpp
+    
+
+    # Graphic UI classes
     src/graphics/ui/GameWindow.cpp
     src/graphics/ui/MenuUI.cpp
     src/graphics/ui/LUIExchange.cpp
     src/graphics/ui/LoadingUI.cpp
-    src/graphics/ui/GameSetupUI.cpp
-    src/graphics/game_elements/BoardGraphics.cpp
-    src/graphics/game_elements/TerritoryGraphics.cpp
-    src/graphics/game_elements/PlayerGraphics.cpp
     src/graphics/ui/ProfileUI.cpp
+    src/graphics/ui/GameSessionUI.cpp
+    src/graphics/ui/GameSetupUI.cpp
+    src/graphics/ui/ReinforceUI.cpp
+
+    # Graphic component classes
+    src/graphics/components/PlayerIndicator.cpp
+    src/graphics/components/SetupControls.cpp 
+    src/graphics/components/ContinentValueBoard.cpp
+    src/graphics/components/ReinforceControls.cpp
+    src/graphics/components/CardContainer.cpp
 
     # Validation functions
     src/core/validation/ValidateTerritorySelection.cpp
@@ -95,7 +108,7 @@ add_executable(risk_v1
     src/core/utils/TerritoryConverter.cpp
     src/core/utils/ContinentConverter.cpp
    
-  )
+   )
 
 target_include_directories(risk_v1 PRIVATE
     include
@@ -208,7 +221,7 @@ add_executable(unit_tests
    src/core/utils/ContinentConverter.cpp
    src/core/utils/TerritoryConverter.cpp
    
-)
+ "include/risk/graphics/components/PlayerIndicator.h")
 
 target_include_directories(unit_tests PRIVATE
     include

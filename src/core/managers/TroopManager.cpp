@@ -18,10 +18,7 @@ namespace risk {
     // Constructor
     //=========================================================
 
-    TroopManager::TroopManager(
-        GameStateManager& gameStateManager
-    )
-        : gameStateManager(gameStateManager)
+    TroopManager::TroopManager()
     {
     }
 
@@ -91,13 +88,20 @@ namespace risk {
     // Reinforcement execution
     //=========================================================
 
-    void TroopManager::executeReinforceOrder()
+    void TroopManager::executeReinforceOrder(
+        GameStateManager& gameStateManager
+    )
     {
         ReinforceOrder& currentReinforceOrder =
             reinforceOrders.back();
 
         gameStateManager.updateTerritoryTroopCount(
             currentReinforceOrder.getTerritoryID(),
+            currentReinforceOrder.getReinforceTroopCount()
+        );
+
+        gameStateManager.updatePlayerTroopCount(
+            currentReinforceOrder.getPlayerID(),
             currentReinforceOrder.getReinforceTroopCount()
         );
 
@@ -108,7 +112,9 @@ namespace risk {
     // Fortification execution
     //=========================================================
 
-    void TroopManager::executeFortifyOrder()
+    void TroopManager::executeFortifyOrder(
+        GameStateManager& gameStateManager
+    )
     {
         FortifyOrder& currentFortifyOrder =
             fortifyOrders.back();
@@ -131,7 +137,8 @@ namespace risk {
     //=========================================================
 
     int TroopManager::executeCashSetOrder(
-        const Player& player
+        const Player& player,
+        GameStateManager& gameStateManager
     )
     {
         CashSetOrder& currentCashSetOrder =
@@ -183,7 +190,7 @@ namespace risk {
 
         //-----------------------------------------------------
         // Complete order
-        //-----------------------------------------------------
+        //---------------------------------------------------------
 
         currentCashSetOrder.complete();
 
@@ -225,15 +232,49 @@ namespace risk {
             cashSetOrders.pop_back();
         }
     }
-   //=========================================================
-   // clear orders
-   //=========================================================
+
+    //=========================================================
+    // Clear orders
+    //=========================================================
+
     void TroopManager::clearOrders()
     {
         reinforceOrders.clear();
         fortifyOrders.clear();
         cashSetOrders.clear();
     }
+
+    //=========================================================
+    // Update reinforcement
+    //=========================================================
+
+    void TroopManager::updateReinforceOrder(
+        bool add
+    )
+    {
+        ReinforceOrder& currentReinforceOrder =
+            reinforceOrders.back();
+
+        if (!currentReinforceOrder.isCompleted())
+        {
+            int troopCount =
+                currentReinforceOrder.getReinforceTroopCount();
+
+            if (add)
+            {
+                troopCount++;
+            }
+            else
+            {
+                troopCount--;
+            }
+
+            currentReinforceOrder.setReinforceTroopCount(
+                troopCount
+            );
+        }
+    }
+
     //=========================================================
     // Getters
     //=========================================================

@@ -16,6 +16,7 @@
 // validation
 #include "risk/core/validation/ValidateTerritorySelection.h"
 #include "risk/core/validation/ValidateAttackInput.h"
+#include "risk/core/validation/ValidateAttackSelection.h"
 #include "risk/core/validation/ValidateDiceInput.h"
 #include "risk/core/validation/ValidateFortifyInput.h"
 #include "risk/core/validation/ValidateReinforceInput.h"
@@ -33,9 +34,7 @@ namespace risk {
     //=========================================================
 
     GameSession::GameSession()
-        : gameStateManager(map, players),
-        attackManager(gameStateManager),
-        troopManager(gameStateManager)
+        : gameStateManager(map, players)
     {
     }
 
@@ -106,10 +105,11 @@ namespace risk {
         // GameState and UI events.
         //-----------------------------------------------------
     }
-  //=========================================================
-  // END TURN
-  //=========================================================
 
+
+    //=========================================================
+    // END TURN
+    //=========================================================
 
     void GameSession::endTurn(GameState& gameState)
     {
@@ -142,54 +142,42 @@ namespace risk {
         );
     }
 
-
     bool GameSession::validateAttackSelection(
-        GameState& gameState,
+        int playerID,
+        TerritoryID& territorySelection
+    )
+    {
+        return isValidAttackSelection(
+            playerID,
+            territorySelection,
+            map
+        );
+    }
+
+    bool GameSession::validateAttackInput(
         TerritoryID toSelection,
         TerritoryID fromSelection
     )
     {
-        bool validSelection =
-            isValidAttackInput(
-                toSelection,
-                map.getTerritory(
-                    fromSelection
-                ).getAdjacentTerritories(),
-                map.getTerritory(
-                    fromSelection
-                ).getTroopCount()
-            );
-
-        if (validSelection)
-        {
-            gameState.setTempToSelection(
-                toSelection
-            );
-        }
-
-        return validSelection;
+        return isValidAttackInput(
+            toSelection,
+            map.getTerritory(
+                fromSelection
+            ).getAdjacentTerritories(),
+            map.getTerritory(
+                fromSelection
+            ).getTroopCount()
+        );
     }
 
 
     bool GameSession::validateReinforceInput(
         int troopCount,
-        GameState& gameState
-    )
+        GameState& gameState)
     {
-        bool validInput =
-            isReinforceValid(
-                troopCount,
-                gameState.getReinforcePool()
-            );
-
-        if (validInput)
-        {
-            gameState.setTempReinforceCount(
-                troopCount
-            );
-        }
-
-        return validInput;
+        return isReinforceValid(
+            troopCount,
+            gameState.getReinforcePool());
     }
 
 
@@ -201,7 +189,7 @@ namespace risk {
         return isValidDiceInput(
             diceCount,
             map.getTerritory(
-                gameState.getTempFromTerritorySelection()
+                gameState.getFromTerritorySelection()
             ).getTroopCount()
         );
     }
@@ -217,7 +205,7 @@ namespace risk {
             map,
             fromSelection,
             toSelection,
-            gameState.getPlayerTurn()
+            gameState.getPlayerTurnID()
         );
     }
 
@@ -243,9 +231,13 @@ namespace risk {
     )
     {
         troopManager.createReinforceOrder(
-            gameState.getPlayerTurn(),
+            gameState.getPlayerTurnID(),
             territoryID,
             troopCount
+        );
+
+        gameState.addReinforceOrder(
+            troopManager.getLastReinforceOrder()
         );
     }
 
@@ -254,7 +246,9 @@ namespace risk {
         GameState& gameState
     )
     {
-        troopManager.executeReinforceOrder();
+        troopManager.executeReinforceOrder(
+            gameStateManager
+        );
     }
 
 
@@ -262,7 +256,20 @@ namespace risk {
         GameState& gameState
     )
     {
+        gameState.removeLastReinforceOrder();
+
         troopManager.undoReinforceOrder();
+    }
+
+
+    void GameSession::updateReinforceOrder(
+        bool add,
+        GameState& gameState
+    )
+    {
+        troopManager.updateReinforceOrder(
+            add
+        );
     }
 
 
@@ -277,7 +284,7 @@ namespace risk {
     )
     {
         troopManager.createCashSetOrder(
-            gameState.getPlayerTurn(),
+            gameState.getPlayerTurnID(),
             setType,
             cards
         );
@@ -291,11 +298,12 @@ namespace risk {
         int reinforcementBonus =
             troopManager.executeCashSetOrder(
                 getPlayer(
-                    gameState.getPlayerTurn()
-                )
+                    gameState.getPlayerTurnID()
+                ),
+                gameStateManager
             );
 
-        gameState.setReinforcePool(
+        gameState.setInitialReinforceCount(
             gameState.getReinforcePool()
             +
             reinforcementBonus
@@ -316,20 +324,31 @@ namespace risk {
     //=========================================================
 
     void GameSession::createAttackOrder(
-        TerritoryID fromTerritory,
-        TerritoryID toTerritory,
-        int attackingTroops,
-        GameState& gameState
-    )
+        GameState& gameState)
     {
+        TerritoryID fromTerritory =
+            gameState.getFromTerritorySelection();
+
+        TerritoryID toTerritory =
+            gameState.getToTerritorySelection();
+
+        int attackingTroops =
+            map.getTerritory(
+                fromTerritory
+            ).getTroopCount() - 1;
+
         attackManager.createAttack(
-            gameState.getPlayerTurn(),
+            gameState.getPlayerTurnID(),
             fromTerritory,
             toTerritory,
             attackingTroops,
             map.getTerritory(
                 toTerritory
             ).getTroopCount()
+        );
+
+        gameState.addAttackOrder(
+            attackManager.getLastAttackOrder()
         );
     }
 
@@ -338,7 +357,9 @@ namespace risk {
         GameState& gameState
     )
     {
-        attackManager.executeAttackOrder();
+        attackManager.executeAttackOrder(
+            gameStateManager
+        );
     }
 
 
@@ -346,6 +367,8 @@ namespace risk {
         GameState& gameState
     )
     {
+        gameState.removeLastAttackOrder();
+
         attackManager.undoAttack();
     }
 
@@ -361,6 +384,10 @@ namespace risk {
     {
         attackManager.createRollDiceOrder(
             diceCount
+        );
+
+        gameState.addRollDiceOrder(
+            attackManager.getLastRollDiceOrder()
         );
     }
 
@@ -378,6 +405,8 @@ namespace risk {
         GameState& gameState
     )
     {
+        gameState.removeLastRollDiceOrder();
+
         attackManager.undoRollDiceOrder();
     }
 
@@ -394,10 +423,14 @@ namespace risk {
     )
     {
         attackManager.createMoveTroopsOrder(
-            gameState.getPlayerTurn(),
+            gameState.getPlayerTurnID(),
             fromTerritory,
             toTerritory,
             troopCount
+        );
+
+        gameState.addMoveTroopsOrder(
+            attackManager.getLastMoveTroopsOrder()
         );
     }
 
@@ -406,7 +439,9 @@ namespace risk {
         GameState& gameState
     )
     {
-        attackManager.executeMoveTroopsOrder();
+        attackManager.executeMoveTroopsOrder(
+            gameStateManager
+        );
     }
 
 
@@ -414,6 +449,8 @@ namespace risk {
         GameState& gameState
     )
     {
+        gameState.removeLastMoveTroopsOrder();
+
         attackManager.undoMoveTroopsOrder();
     }
 
@@ -430,10 +467,14 @@ namespace risk {
     )
     {
         troopManager.createFortifyOrder(
-            gameState.getPlayerTurn(),
+            gameState.getPlayerTurnID(),
             fromTerritory,
             toTerritory,
             troopCount
+        );
+
+        gameState.addFortifyOrder(
+            troopManager.getLastFortifyOrder()
         );
     }
 
@@ -442,7 +483,9 @@ namespace risk {
         GameState& gameState
     )
     {
-        troopManager.executeFortifyOrder();
+        troopManager.executeFortifyOrder(
+            gameStateManager
+        );
     }
 
 
@@ -450,6 +493,8 @@ namespace risk {
         GameState& gameState
     )
     {
+        gameState.removeLastFortifyOrder();
+
         troopManager.undoFortifyOrder();
     }
 
@@ -523,19 +568,40 @@ namespace risk {
             "Player ID not found"
         );
     }
-    
+
 
     //=========================================================
     // SETTERS
     //=========================================================
 
     void GameSession::addTroop(
-        TerritoryID territoryID
-    )
+        TerritoryID territoryID,
+        int playerID)
     {
         gameStateManager.updateTerritoryTroopCount(
             territoryID,
-            1
+            1);
+
+        gameStateManager.updatePlayerTroopCount(
+            playerID,
+            1);
+    }
+
+
+    void GameSession::setReinforcePool(
+        GameState& gameState
+    )
+    {
+        int playerID =
+            gameState.getPlayerTurnID();
+
+        int reinforcementPool =
+            troopManager.calculateReinforcements(
+                players[playerID]
+            );
+
+        gameState.setInitialReinforceCount(
+            reinforcementPool
         );
     }
 

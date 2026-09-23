@@ -241,6 +241,38 @@ build CMakeFiles\risk_v1.dir\src\core\session\GameSetupState.cpp.obj: CXX_COMPIL
   TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
   TARGET_PDB = risk_v1.pdb
 
+build CMakeFiles\risk_v1.dir\src\graphics\game_elements\BoardGraphics.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\game_elements\BoardGraphics.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\game_elements
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
+build CMakeFiles\risk_v1.dir\src\graphics\game_elements\TerritoryGraphics.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\game_elements\TerritoryGraphics.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\game_elements
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
+build CMakeFiles\risk_v1.dir\src\graphics\game_elements\PlayerGraphics.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\game_elements\PlayerGraphics.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\game_elements
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
+build CMakeFiles\risk_v1.dir\src\graphics\game_elements\CardGraphics.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\game_elements\CardGraphics.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\game_elements
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
 build CMakeFiles\risk_v1.dir\src\graphics\ui\GameWindow.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\ui\GameWindow.cpp || cmake_object_order_depends_target_risk_v1
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
@@ -273,6 +305,22 @@ build CMakeFiles\risk_v1.dir\src\graphics\ui\LoadingUI.cpp.obj: CXX_COMPILER__ri
   TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
   TARGET_PDB = risk_v1.pdb
 
+build CMakeFiles\risk_v1.dir\src\graphics\ui\ProfileUI.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\ui\ProfileUI.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\ui
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
+build CMakeFiles\risk_v1.dir\src\graphics\ui\GameSessionUI.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\ui\GameSessionUI.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\ui
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
 build CMakeFiles\risk_v1.dir\src\graphics\ui\GameSetupUI.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\ui\GameSetupUI.cpp || cmake_object_order_depends_target_risk_v1
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
@@ -281,35 +329,51 @@ build CMakeFiles\risk_v1.dir\src\graphics\ui\GameSetupUI.cpp.obj: CXX_COMPILER__
   TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
   TARGET_PDB = risk_v1.pdb
 
-build CMakeFiles\risk_v1.dir\src\graphics\game_elements\BoardGraphics.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\game_elements\BoardGraphics.cpp || cmake_object_order_depends_target_risk_v1
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
-  OBJECT_DIR = CMakeFiles\risk_v1.dir
-  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\game_elements
-  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
-  TARGET_PDB = risk_v1.pdb
-
-build CMakeFiles\risk_v1.dir\src\graphics\game_elements\TerritoryGraphics.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\game_elements\TerritoryGraphics.cpp || cmake_object_order_depends_target_risk_v1
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
-  OBJECT_DIR = CMakeFiles\risk_v1.dir
-  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\game_elements
-  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
-  TARGET_PDB = risk_v1.pdb
-
-build CMakeFiles\risk_v1.dir\src\graphics\game_elements\PlayerGraphics.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\game_elements\PlayerGraphics.cpp || cmake_object_order_depends_target_risk_v1
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
-  OBJECT_DIR = CMakeFiles\risk_v1.dir
-  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\game_elements
-  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
-  TARGET_PDB = risk_v1.pdb
-
-build CMakeFiles\risk_v1.dir\src\graphics\ui\ProfileUI.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\ui\ProfileUI.cpp || cmake_object_order_depends_target_risk_v1
+build CMakeFiles\risk_v1.dir\src\graphics\ui\ReinforceUI.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\ui\ReinforceUI.cpp || cmake_object_order_depends_target_risk_v1
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
   OBJECT_DIR = CMakeFiles\risk_v1.dir
   OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\ui
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
+build CMakeFiles\risk_v1.dir\src\graphics\components\PlayerIndicator.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\components\PlayerIndicator.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\components
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
+build CMakeFiles\risk_v1.dir\src\graphics\components\SetupControls.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\components\SetupControls.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\components
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
+build CMakeFiles\risk_v1.dir\src\graphics\components\ContinentValueBoard.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\components\ContinentValueBoard.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\components
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
+build CMakeFiles\risk_v1.dir\src\graphics\components\ReinforceControls.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\components\ReinforceControls.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\components
+  TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
+  TARGET_PDB = risk_v1.pdb
+
+build CMakeFiles\risk_v1.dir\src\graphics\components\CardContainer.cpp.obj: CXX_COMPILER__risk_v1_unscanned_Debug C$:\Users\joshk\programming\risk_V1\src\graphics\components\CardContainer.cpp || cmake_object_order_depends_target_risk_v1
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\Users\joshk\programming\risk_V1\include -external:IC:\Users\joshk\programming\risk_V1\out\build\x64-Debug\_deps\sfml-src\include -external:W0
+  OBJECT_DIR = CMakeFiles\risk_v1.dir
+  OBJECT_FILE_DIR = CMakeFiles\risk_v1.dir\src\graphics\components
   TARGET_COMPILE_PDB = CMakeFiles\risk_v1.dir\
   TARGET_PDB = risk_v1.pdb
 
@@ -385,7 +449,7 @@ build CMakeFiles\risk_v1.dir\src\core\utils\ContinentConverter.cpp.obj: CXX_COMP
 #############################################
 # Link the executable risk_v1.exe
 
-build risk_v1.exe: CXX_EXECUTABLE_LINKER__risk_v1_Debug CMakeFiles\risk_v1.dir\src\main.cpp.obj CMakeFiles\risk_v1.dir\src\entities\Territory.cpp.obj CMakeFiles\risk_v1.dir\src\entities\Player.cpp.obj CMakeFiles\risk_v1.dir\src\entities\Card.cpp.obj CMakeFiles\risk_v1.dir\src\world\Continent.cpp.obj CMakeFiles\risk_v1.dir\src\world\Map.cpp.obj CMakeFiles\risk_v1.dir\src\world\MapLoader.cpp.obj CMakeFiles\risk_v1.dir\src\world\Deck.cpp.obj CMakeFiles\risk_v1.dir\src\world\DeckLoader.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\Order.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\AttackOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\CashSetOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\FortifyOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\ReinforceOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\RollDiceOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\MoveTroopsOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\managers\GameStateManager.cpp.obj CMakeFiles\risk_v1.dir\src\core\managers\AttackManager.cpp.obj CMakeFiles\risk_v1.dir\src\core\managers\LogManager.cpp.obj CMakeFiles\risk_v1.dir\src\core\managers\TroopManager.cpp.obj CMakeFiles\risk_v1.dir\src\core\session\GameInitializer.cpp.obj CMakeFiles\risk_v1.dir\src\core\session\GameSession.cpp.obj CMakeFiles\risk_v1.dir\src\core\session\GameState.cpp.obj CMakeFiles\risk_v1.dir\src\core\session\GameSetupState.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\GameWindow.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\MenuUI.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\LUIExchange.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\LoadingUI.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\GameSetupUI.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\game_elements\BoardGraphics.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\game_elements\TerritoryGraphics.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\game_elements\PlayerGraphics.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\ProfileUI.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateTerritorySelection.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateAttackInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateDiceInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateReinforceInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateSetInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateFortifyInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\utils\TerritoryConverter.cpp.obj CMakeFiles\risk_v1.dir\src\core\utils\ContinentConverter.cpp.obj | _deps\sfml-build\lib\sfml-graphics-d.lib _deps\sfml-build\lib\sfml-window-d.lib _deps\sfml-build\lib\sfml-system-d.lib || _deps\sfml-build\bin\sfml-graphics-d-3.dll _deps\sfml-build\bin\sfml-system-d-3.dll _deps\sfml-build\bin\sfml-window-d-3.dll
+build risk_v1.exe: CXX_EXECUTABLE_LINKER__risk_v1_Debug CMakeFiles\risk_v1.dir\src\main.cpp.obj CMakeFiles\risk_v1.dir\src\entities\Territory.cpp.obj CMakeFiles\risk_v1.dir\src\entities\Player.cpp.obj CMakeFiles\risk_v1.dir\src\entities\Card.cpp.obj CMakeFiles\risk_v1.dir\src\world\Continent.cpp.obj CMakeFiles\risk_v1.dir\src\world\Map.cpp.obj CMakeFiles\risk_v1.dir\src\world\MapLoader.cpp.obj CMakeFiles\risk_v1.dir\src\world\Deck.cpp.obj CMakeFiles\risk_v1.dir\src\world\DeckLoader.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\Order.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\AttackOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\CashSetOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\FortifyOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\ReinforceOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\RollDiceOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\orders\MoveTroopsOrder.cpp.obj CMakeFiles\risk_v1.dir\src\core\managers\GameStateManager.cpp.obj CMakeFiles\risk_v1.dir\src\core\managers\AttackManager.cpp.obj CMakeFiles\risk_v1.dir\src\core\managers\LogManager.cpp.obj CMakeFiles\risk_v1.dir\src\core\managers\TroopManager.cpp.obj CMakeFiles\risk_v1.dir\src\core\session\GameInitializer.cpp.obj CMakeFiles\risk_v1.dir\src\core\session\GameSession.cpp.obj CMakeFiles\risk_v1.dir\src\core\session\GameState.cpp.obj CMakeFiles\risk_v1.dir\src\core\session\GameSetupState.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\game_elements\BoardGraphics.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\game_elements\TerritoryGraphics.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\game_elements\PlayerGraphics.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\game_elements\CardGraphics.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\GameWindow.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\MenuUI.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\LUIExchange.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\LoadingUI.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\ProfileUI.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\GameSessionUI.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\GameSetupUI.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\ui\ReinforceUI.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\components\PlayerIndicator.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\components\SetupControls.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\components\ContinentValueBoard.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\components\ReinforceControls.cpp.obj CMakeFiles\risk_v1.dir\src\graphics\components\CardContainer.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateTerritorySelection.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateAttackInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateDiceInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateReinforceInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateSetInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\validation\ValidateFortifyInput.cpp.obj CMakeFiles\risk_v1.dir\src\core\utils\TerritoryConverter.cpp.obj CMakeFiles\risk_v1.dir\src\core\utils\ContinentConverter.cpp.obj | _deps\sfml-build\lib\sfml-graphics-d.lib _deps\sfml-build\lib\sfml-window-d.lib _deps\sfml-build\lib\sfml-system-d.lib || _deps\sfml-build\bin\sfml-graphics-d-3.dll _deps\sfml-build\bin\sfml-system-d-3.dll _deps\sfml-build\bin\sfml-window-d-3.dll
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = _deps\sfml-build\lib\sfml-graphics-d.lib  _deps\sfml-build\lib\sfml-window-d.lib  _deps\sfml-build\lib\sfml-system-d.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

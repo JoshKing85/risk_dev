@@ -37,8 +37,7 @@ namespace {
         AttackManager attackManager;
 
         AttackManagerTests()
-            : gameStateManager(map, players),
-            attackManager(gameStateManager)
+            : gameStateManager(map, players)
         {
         }
 
@@ -250,11 +249,11 @@ TEST_F(AttackManagerTests, MultipleCompletedAttacksRemainInCreationOrder)
         { 3, 2 }
     );
 
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     attackManager.createAttack(
         0,
-                TerritoryID::Bearus,
+        TerritoryID::Bearus,
         TerritoryID::Tairono,
         10,
         5
@@ -265,7 +264,7 @@ TEST_F(AttackManagerTests, MultipleCompletedAttacksRemainInCreationOrder)
         { 6 }
     );
 
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     // Assert
     const std::vector<AttackOrder>& attacks =
@@ -323,11 +322,11 @@ TEST_F(AttackManagerTests, UndoAttackLeavesEarlierOrdersIntact)
         { 1 }
     );
 
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     attackManager.createAttack(
         0,
-                TerritoryID::Bearus,
+        TerritoryID::Bearus,
         TerritoryID::Tairono,
         10,
         5
@@ -408,7 +407,7 @@ TEST_F(AttackManagerTests, AttackOrderBecomesCompletedAfterExecution)
     );
 
     // Act
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     // Assert
     EXPECT_TRUE(
@@ -427,7 +426,7 @@ TEST_F(AttackManagerTests, AttackResultMatchesStoredDice)
     );
 
     // Act
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     // Assert
     const RollDiceOrder& roll =
@@ -483,7 +482,7 @@ TEST_F(AttackManagerTests, DefenderWinsTiedDiceComparison)
     );
 
     // Act
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     // Assert
     const AttackResult& result =
@@ -516,7 +515,7 @@ TEST_F(AttackManagerTests, AttackerLossesAreRemovedFromAttackingTerritory)
     );
 
     // Act
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     // Assert
     EXPECT_EQ(
@@ -538,7 +537,7 @@ TEST_F(AttackManagerTests, DefenderLossesAreRemovedFromDefendingTerritory)
     );
 
     // Act
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     // Assert
     EXPECT_EQ(
@@ -562,7 +561,7 @@ TEST_F(AttackManagerTests, DefenderTerritoryIsCapturedWhenTroopsReachZero)
 
     attackManager.createAttack(
         0,
-                TerritoryID::Bearus,
+        TerritoryID::Bearus,
         TerritoryID::Rockies,
         10,
         1
@@ -574,7 +573,7 @@ TEST_F(AttackManagerTests, DefenderTerritoryIsCapturedWhenTroopsReachZero)
     );
 
     // Act
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     // Assert
     const AttackResult& result =
@@ -600,7 +599,7 @@ TEST_F(AttackManagerTests, CaptureTransfersTerritoryOwnerThroughGameStateManager
 
     attackManager.createAttack(
         0,
-                TerritoryID::Bearus,
+        TerritoryID::Bearus,
         TerritoryID::Rockies,
         10,
         1
@@ -612,7 +611,7 @@ TEST_F(AttackManagerTests, CaptureTransfersTerritoryOwnerThroughGameStateManager
     );
 
     // Act
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     // Assert
     EXPECT_EQ(
@@ -648,7 +647,7 @@ TEST_F(AttackManagerTests, GetLastAttackOrderReturnsNewestAttack)
 
     attackManager.createAttack(
         0,
-                TerritoryID::Bearus,
+        TerritoryID::Bearus,
         TerritoryID::Tairono,
         10,
         5
@@ -675,11 +674,11 @@ TEST_F(AttackManagerTests, GetLastRollDiceOrderReturnsNewestRoll)
         { 1 }
     );
 
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     attackManager.createAttack(
         0,
-                TerritoryID::Bearus,
+        TerritoryID::Bearus,
         TerritoryID::Tairono,
         10,
         5
@@ -690,7 +689,7 @@ TEST_F(AttackManagerTests, GetLastRollDiceOrderReturnsNewestRoll)
         { 6, 5 }
     );
 
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     // Act
     const RollDiceOrder& latestRoll =
@@ -827,7 +826,7 @@ TEST_F(AttackManagerTests, ExecuteMoveTroopsOrderRemovesTroopsFromSource)
     );
 
     // Act
-    attackManager.executeMoveTroopsOrder();
+    attackManager.executeMoveTroopsOrder(gameStateManager);
 
     // Assert
     EXPECT_EQ(
@@ -849,7 +848,7 @@ TEST_F(AttackManagerTests, ExecuteMoveTroopsOrderAddsTroopsToDestination)
     );
 
     // Act
-    attackManager.executeMoveTroopsOrder();
+    attackManager.executeMoveTroopsOrder(gameStateManager);
 
     // Assert
     EXPECT_EQ(
@@ -876,7 +875,7 @@ TEST_F(AttackManagerTests, MoveTroopsDoesNotChangePlayerTotalTroopCount)
     );
 
     // Act
-    attackManager.executeMoveTroopsOrder();
+    attackManager.executeMoveTroopsOrder(gameStateManager);
 
     // Assert
     EXPECT_EQ(
@@ -899,11 +898,11 @@ TEST_F(AttackManagerTests, VectorGettersReturnCompleteOrderHistories)
         { 1 }
     );
 
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     attackManager.createAttack(
         0,
-                TerritoryID::Bearus,
+        TerritoryID::Bearus,
         TerritoryID::Tairono,
         10,
         5
@@ -914,7 +913,7 @@ TEST_F(AttackManagerTests, VectorGettersReturnCompleteOrderHistories)
         { 6 }
     );
 
-    attackManager.executeAttackOrder();
+    attackManager.executeAttackOrder(gameStateManager);
 
     attackManager.createMoveTroopsOrder(
         0,
@@ -923,7 +922,7 @@ TEST_F(AttackManagerTests, VectorGettersReturnCompleteOrderHistories)
         1
     );
 
-    attackManager.executeMoveTroopsOrder();
+    attackManager.executeMoveTroopsOrder(gameStateManager);
 
     attackManager.createMoveTroopsOrder(
         0,
@@ -932,7 +931,7 @@ TEST_F(AttackManagerTests, VectorGettersReturnCompleteOrderHistories)
         1
     );
 
-    attackManager.executeMoveTroopsOrder();
+    attackManager.executeMoveTroopsOrder(gameStateManager);
 
     // Assert
     EXPECT_EQ(

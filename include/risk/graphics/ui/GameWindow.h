@@ -7,6 +7,8 @@
 #include "risk/graphics/ui/LUIExchange.h"
 #include "risk/graphics/ui/LoadingUI.h"
 #include "risk/graphics/ui/MenuUI.h"
+#include "risk/graphics/ui/GameSessionUI.h"
+
 
 namespace risk {
 
@@ -19,7 +21,7 @@ private:
   LUIExchange exchangeLUI;
 
   LoadingUI loadingUI;
-  GameSetupUI gameSetupUI;
+  GameSessionUI gameSessionUI;
 
   sf::Clock loadingClock;
   bool loadingStarted = false;

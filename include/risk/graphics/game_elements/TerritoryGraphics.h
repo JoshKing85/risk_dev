@@ -42,6 +42,7 @@ public:
   bool contains(sf::Vector2f point) const;
   TerritoryID getTerritoryID() const;
   int getPlayerID() const;
+  const std::vector<sf::Vector2f> &getVertices() const;
 };
 
 } // namespace risk

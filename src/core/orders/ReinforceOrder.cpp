@@ -18,4 +18,9 @@ namespace risk {
 	int ReinforceOrder::getReinforceTroopCount() const {
 		return reinforceTroopCount;
 	}
+
+	void ReinforceOrder::setReinforceTroopCount(int reinforceTroopCount)
+	{
+		this->reinforceTroopCount = reinforceTroopCount;
+	}
 }

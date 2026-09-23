@@ -14,10 +14,7 @@ namespace risk {
     // Constructor
     //=========================================================
 
-    AttackManager::AttackManager(
-        GameStateManager& gameStateManager
-    )
-        : gameStateManager(gameStateManager)
+    AttackManager::AttackManager()
     {
     }
 
@@ -100,7 +97,9 @@ namespace risk {
     // Attack execution
     //=========================================================
 
-    void AttackManager::executeAttackOrder()
+    void AttackManager::executeAttackOrder(
+        GameStateManager& gameStateManager
+    )
     {
         AttackOrder& currentAttack =
             attackOrders.back();
@@ -110,13 +109,15 @@ namespace risk {
 
         resolveAttack(
             currentAttack,
-            currentRoll
+            currentRoll,
+            gameStateManager
         );
     }
 
     void AttackManager::resolveAttack(
         AttackOrder& currentAttack,
-        const RollDiceOrder& currentRoll
+        const RollDiceOrder& currentRoll,
+        GameStateManager& gameStateManager
     )
     {
         const int playerID =
@@ -294,7 +295,9 @@ namespace risk {
         }
     }
 
-    void AttackManager::executeMoveTroopsOrder()
+    void AttackManager::executeMoveTroopsOrder(
+        GameStateManager& gameStateManager
+    )
     {
         const MoveTroopsOrder& currentMove =
             moveTroopsOrders.back();

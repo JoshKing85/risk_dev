@@ -6,19 +6,74 @@ namespace risk {
     {
     }
 
+
     //=========================================================
     // SETTERS
     //=========================================================
 
-    void GameState::setPhase(PhaseType newPhase)
+    void GameState::setPhase(
+        PhaseType newPhase)
     {
         phase = newPhase;
     }
 
-    void GameState::calcSetCount(int setCount)
+
+    void GameState::setPlayerTurnID(
+        int playerID)
     {
-        this->setCount = setCount;
+        playerTurnID = playerID;
     }
+
+
+    void GameState::setToSelection(
+        TerritoryID territoryID)
+    {
+        ToSelection = territoryID;
+    }
+
+
+    void GameState::setFromSelection(
+        TerritoryID territoryID)
+    {
+        FromSelection = territoryID;
+    }
+
+
+    void GameState::setAttackerDice(
+        int diceCount)
+    {
+        attackerDice = diceCount;
+    }
+
+
+    void GameState::setAttackConfirmed(
+        bool confirmed)
+    {
+        attackConfirmed = confirmed;
+    }
+
+
+    void GameState::setInitialReinforceCount(
+        int troopCount)
+    {
+        reinforcePool = troopCount;
+    }
+
+
+    void GameState::updateReinforcePool(
+        int troopCount)
+    {
+        reinforcePool =
+            reinforcePool - troopCount;
+    }
+
+
+    void GameState::setReinforceComplete(
+        bool complete)
+    {
+        initReinforceComplete = complete;
+    }
+
 
     void GameState::setPlayerCards(
         std::vector<Card>& playerSet)
@@ -26,44 +81,99 @@ namespace risk {
         playerCards = playerSet;
     }
 
-    void GameState::addSelectedCard(Card& card)
+
+    //=========================================================
+    // ADD ORDERS
+    //=========================================================
+
+    void GameState::addReinforceOrder(
+        const ReinforceOrder& order)
     {
-        SelectedCards.push_back(card);
+        reinforceOrders.push_back(&order);
     }
 
-    void GameState::setPlayerTurn(int playerID)
+
+    void GameState::addAttackOrder(
+        const AttackOrder& order)
     {
-        playerTurn = playerID;
+        attackOrders.push_back(&order);
     }
 
-    void GameState::setAuxPhase(
-        AuxiliaryPhase auxPhase)
+
+    void GameState::addRollDiceOrder(
+        const RollDiceOrder& order)
     {
-        this->auxPhase = auxPhase;
+        rollDiceOrders.push_back(&order);
     }
 
-    void GameState::setReinforcePool(
-        int reinforcePool)
+
+    void GameState::addMoveTroopsOrder(
+        const MoveTroopsOrder& order)
     {
-        this->reinforcePool = reinforcePool;
+        moveTroopsOrders.push_back(&order);
     }
 
-    void GameState::setTempToSelection(
-        TerritoryID& territoryID)
+
+    void GameState::addFortifyOrder(
+        const FortifyOrder& order)
     {
-        tempToSelection = territoryID;
+        fortifyOrders.push_back(&order);
     }
 
-    void GameState::setTempFromSelection(
-        TerritoryID& territoryID)
+
+    //=========================================================
+    // REMOVE LAST ORDERS
+    //=========================================================
+
+    void GameState::removeLastReinforceOrder()
     {
-        tempFromSelection = territoryID;
+        reinforceOrders.pop_back();
     }
 
-    void GameState::setTempReinforceCount(
-        int count)
+
+    void GameState::removeLastAttackOrder()
     {
-        tempReinforceCount = count;
+        attackOrders.pop_back();
+    }
+
+
+    void GameState::removeLastRollDiceOrder()
+    {
+        rollDiceOrders.pop_back();
+    }
+
+
+    void GameState::removeLastMoveTroopsOrder()
+    {
+        moveTroopsOrders.pop_back();
+    }
+
+
+    void GameState::removeLastFortifyOrder()
+    {
+        fortifyOrders.pop_back();
+    }
+
+
+    //=========================================================
+    // CLEARERS
+    //=========================================================
+
+    void GameState::clearOrders()
+    {
+        reinforceOrders.clear();
+        attackOrders.clear();
+        rollDiceOrders.clear();
+        moveTroopsOrders.clear();
+        fortifyOrders.clear();
+    }
+
+    void GameState::clearAttack()
+    {
+        fromTerritorySelection = TerritoryID::None;
+        toTerritorySelection = TerritoryID::None;
+        attackerDice = 0;
+        attackConfirmed = false;
     }
 
     //=========================================================
@@ -75,34 +185,104 @@ namespace risk {
         return phase;
     }
 
-    int GameState::getPlayerTurn()
+
+    int GameState::getPlayerTurnID()
     {
-        return playerTurn;
+        return playerTurnID;
     }
 
-    int GameState::getSetCount()
-    {
-        return setCount;
-    }
 
     int GameState::getReinforcePool()
     {
         return reinforcePool;
     }
 
-    int GameState::getTempReinforceCount()
+
+    bool GameState::getReinforceComplete()
     {
-        return tempReinforceCount;
+        return initReinforceComplete;
     }
 
-    TerritoryID GameState::getTempToTerritorySelection()
+
+    int GameState::calcSetCount()
     {
-        return tempToSelection;
+        setCount =
+            static_cast<int>(
+                playerCards.size());
+
+        return setCount;
     }
 
-    TerritoryID GameState::getTempFromTerritorySelection()
+
+    TerritoryID
+        GameState::getToTerritorySelection() const
     {
-        return tempFromSelection;
+        return ToSelection;
+    }
+
+
+    TerritoryID
+        GameState::getFromTerritorySelection() const
+    {
+        return FromSelection;
+    }
+
+
+    int GameState::getAttackerDice() const
+    {
+        return attackerDice;
+    }
+
+
+    bool GameState::getAttackConfirmed() const
+    {
+        return attackConfirmed;
+    }
+
+
+    std::vector<Card>
+        GameState::getPlayerCards()
+    {
+        return playerCards;
+    }
+
+
+    //=========================================================
+    // ORDER GETTERS
+    //=========================================================
+
+    const ReinforceOrder&
+        GameState::getLastReinforceOrder() const
+    {
+        return *reinforceOrders.back();
+    }
+
+
+    const AttackOrder&
+        GameState::getLastAttackOrder() const
+    {
+        return *attackOrders.back();
+    }
+
+
+    const RollDiceOrder&
+        GameState::getLastRollDiceOrder() const
+    {
+        return *rollDiceOrders.back();
+    }
+
+
+    const MoveTroopsOrder&
+        GameState::getLastMoveTroopsOrder() const
+    {
+        return *moveTroopsOrders.back();
+    }
+
+
+    const FortifyOrder&
+        GameState::getLastFortifyOrder() const
+    {
+        return *fortifyOrders.back();
     }
 
 } // namespace risk

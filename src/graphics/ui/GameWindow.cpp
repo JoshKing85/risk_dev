@@ -50,17 +50,16 @@ namespace risk {
 
 
                 // -------------------------
-                // Game setup events
+                // Game events
                 // -------------------------
 
                 else if (
-                    gameState.getPhase() ==
-                    PhaseType::GameSetup)
+                    gameState.getPhase() !=
+                    PhaseType::Loading)
                 {
-                    exchangeLUI.handleGameSetupEvent(
+                    gameSessionUI.handleEvent(
                         *event,
                         window,
-                        gameSetupUI,
                         gameSession,
                         gameState
                     );
@@ -110,25 +109,24 @@ namespace risk {
             // -------------------------
             // Update graphics
             // -------------------------
+            std::vector<PlayerGraphics>& playerGraphics =
+                gameSessionUI.getPlayerGraphics();
 
-            if (gameState.getPhase() ==
-                PhaseType::GameSetup)
+            std::unordered_map<TerritoryID, TerritoryGraphics>&
+                territoryGraphicsMap =
+                gameSessionUI.getTerritoryGraphics();
+
+            const std::vector<Player>& players =
+                gameSession.getPlayers();
+
+            const Map& map =
+                gameSession.getMap();
+
+            
+            if (gameState.getPhase() == PhaseType::GameSetup)
             {
-                std::vector<PlayerGraphics>& playerGraphics =
-                    gameSetupUI.getPlayerGraphics();
-
-                std::unordered_map<TerritoryID, TerritoryGraphics>&
-                    territoryGraphicsMap =
-                    gameSetupUI.getTerritoryGraphics();
-
-                const std::vector<Player>& players =
-                    gameSession.getPlayers();
-
-                const Map& map =
-                    gameSession.getMap();
-
                 GameSetupState& gameSetupState =
-                    gameSetupUI.getGameSetupState();
+                    gameSessionUI.getGameSetupState();
 
                 exchangeLUI.updateGraphics(
                     map,
@@ -137,6 +135,16 @@ namespace risk {
                     territoryGraphicsMap,
                     playerGraphics,
                     &gameSetupState
+                );
+            }
+            else
+            {
+                exchangeLUI.updateGraphics(
+                    map,
+                    players,
+                    gameState,
+                    territoryGraphicsMap,
+                    playerGraphics
                 );
             }
 
@@ -153,119 +161,47 @@ namespace risk {
                     window
                 );
             }
+
+
+            // -------------------------
+            // Loading
+            // -------------------------
+
+            else if (
+                gameState.getPhase() ==
+                PhaseType::Loading)
+            {
+                loadingUI.draw(
+                    window
+                );
+
+                if (loadingStarted &&
+                    loadingClock
+                    .getElapsedTime()
+                    .asSeconds() >= 2.f)
+                {
+                    gameSessionUI.initialLoading(
+                        gameSession,
+                        gameState,
+                        menuUI.getHumanPlayerNumbers(),
+                        menuUI.getAiPlayerNumbers(),
+                        menuUI.getMapSelection()
+                    );
+                }
+            }
+
+
+            // -------------------------
+            // Game UI
+            // -------------------------
+
             else
             {
-                // -------------------------
-                // Loading
-                // -------------------------
-
-                if (gameState.getPhase() ==
-                    PhaseType::Loading)
-                {
-                    exchangeLUI.loading(
-                        window,
-                        loadingUI
-                    );
-
-                    if (loadingStarted &&
-                        loadingClock
-                        .getElapsedTime()
-                        .asSeconds() >= 2.f)
-                    {
-                        exchangeLUI.initialLoading(
-                            gameSession,
-                            gameSetupUI,
-                            gameState,
-                            menuUI.getHumanPlayerNumbers(),
-                            menuUI.getAiPlayerNumbers(),
-                            menuUI.getMapSelection()
-                        );
-                    }
-                }
-
-
-                // -------------------------
-                // Game setup
-                // -------------------------
-
-                else if (
-                    gameState.getPhase() ==
-                    PhaseType::GameSetup)
-                {
-                    exchangeLUI.gameSetupDraw(
-                        window,
-                        gameSetupUI
-                    );
-
-                    // GameSetupUI handles
-                    // profile setup and initial
-                    // troop placement.
-                }
-
-
-                // -------------------------
-                // Reinforce
-                // -------------------------
-
-                else if (
-                    gameState.getPhase() ==
-                    PhaseType::Reinforce)
-                {
-                    // SessionUI draws base game screen.
-                    // ReinforceUI handles reinforce controls.
-                }
-
-
-                // -------------------------
-                // Attack
-                // -------------------------
-
-                else if (
-                    gameState.getPhase() ==
-                    PhaseType::Attack)
-                {
-                    // SessionUI draws base game screen.
-                    // AttackUI handles attack controls.
-                }
-
-
-                // -------------------------
-                // Fortify
-                // -------------------------
-
-                else if (
-                    gameState.getPhase() ==
-                    PhaseType::Fortify)
-                {
-                    // SessionUI draws base game screen.
-                    // FortifyUI handles fortify controls.
-                }
-
-
-                // -------------------------
-                // Game won
-                // -------------------------
-
-                else if (
-                    gameState.getPhase() ==
-                    PhaseType::GameWon)
-                {
-                    // SessionUI draws base game screen.
-                    // GameWonUI handles game won controls.
-                }
-
-
-                // -------------------------
-                // Game quit
-                // -------------------------
-
-                else if (
-                    gameState.getPhase() ==
-                    PhaseType::GameQuit)
-                {
-                    // SessionUI draws base game screen.
-                    // GameQuitUI handles game quit controls.
-                }
+                gameSessionUI.draw(
+                    window,
+                    gameState,
+                    gameSession
+                );
             }
 
             window.display();

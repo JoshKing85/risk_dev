@@ -33,9 +33,7 @@ TEST(TroopManagerTests, StartsWithEmptyOrderHistories)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     EXPECT_TRUE(
         troopManager.getReinforceOrders().empty()
@@ -66,9 +64,7 @@ TEST(TroopManagerTests, CreatesReinforceOrder)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createReinforceOrder(
         0,
@@ -125,9 +121,7 @@ TEST(TroopManagerTests, ExecuteReinforceOrderAddsTroopsToTerritory)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createReinforceOrder(
         0,
@@ -135,7 +129,7 @@ TEST(TroopManagerTests, ExecuteReinforceOrderAddsTroopsToTerritory)
         5
     );
 
-    troopManager.executeReinforceOrder();
+    troopManager.executeReinforceOrder(gameStateManager);
 
     EXPECT_EQ(
         map.getTerritory(
@@ -165,9 +159,7 @@ TEST(TroopManagerTests, ExecuteReinforceOrderMarksOrderCompleted)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createReinforceOrder(
         0,
@@ -175,7 +167,7 @@ TEST(TroopManagerTests, ExecuteReinforceOrderMarksOrderCompleted)
         5
     );
 
-    troopManager.executeReinforceOrder();
+    troopManager.executeReinforceOrder(gameStateManager);
 
     EXPECT_TRUE(
         troopManager
@@ -200,9 +192,7 @@ TEST(TroopManagerTests, UndoReinforceOrderRemovesLatestPendingOrder)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createReinforceOrder(
         0,
@@ -229,9 +219,7 @@ TEST(TroopManagerTests, UndoReinforceOrderLeavesEarlierOrdersIntact)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createReinforceOrder(
         0,
@@ -276,9 +264,7 @@ TEST(TroopManagerTests, CreatesFortifyOrder)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createFortifyOrder(
         0,
@@ -349,9 +335,7 @@ TEST(TroopManagerTests, ExecuteFortifyOrderMovesTroopsBetweenTerritories)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createFortifyOrder(
         0,
@@ -360,7 +344,7 @@ TEST(TroopManagerTests, ExecuteFortifyOrderMovesTroopsBetweenTerritories)
         4
     );
 
-    troopManager.executeFortifyOrder();
+    troopManager.executeFortifyOrder(gameStateManager);
 
     EXPECT_EQ(
         map.getTerritory(
@@ -407,9 +391,7 @@ TEST(TroopManagerTests, ExecuteFortifyOrderDoesNotChangeCombinedTroopCount)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     const int troopsBefore =
         map.getTerritory(
@@ -427,7 +409,7 @@ TEST(TroopManagerTests, ExecuteFortifyOrderDoesNotChangeCombinedTroopCount)
         4
     );
 
-    troopManager.executeFortifyOrder();
+    troopManager.executeFortifyOrder(gameStateManager);
 
     const int troopsAfter =
         map.getTerritory(
@@ -473,9 +455,7 @@ TEST(TroopManagerTests, ExecuteFortifyOrderMarksOrderCompleted)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createFortifyOrder(
         0,
@@ -484,7 +464,7 @@ TEST(TroopManagerTests, ExecuteFortifyOrderMarksOrderCompleted)
         2
     );
 
-    troopManager.executeFortifyOrder();
+    troopManager.executeFortifyOrder(gameStateManager);
 
     EXPECT_TRUE(
         troopManager
@@ -509,9 +489,7 @@ TEST(TroopManagerTests, UndoFortifyOrderRemovesLatestPendingOrder)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createFortifyOrder(
         0,
@@ -543,9 +521,7 @@ TEST(TroopManagerTests, CreatesCashSetOrder)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     std::vector<Card> cards
     {
@@ -632,9 +608,7 @@ TEST(TroopManagerTests, ExecuteCashSetOrderRemovesCashedCardsFromPlayer)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     std::vector<Card> cardsToCash
     {
@@ -649,7 +623,9 @@ TEST(TroopManagerTests, ExecuteCashSetOrderRemovesCashedCardsFromPlayer)
         cardsToCash
     );
 
-    troopManager.executeCashSetOrder(players[0]);
+    troopManager.executeCashSetOrder(
+        players[0],
+        gameStateManager);
 
     const std::vector<Card>& remainingCards =
         players[0].getPlayerSet();
@@ -704,9 +680,7 @@ TEST(TroopManagerTests, ExecuteCashSetOrderReturnsSetValue)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createCashSetOrder(
         0,
@@ -720,7 +694,9 @@ TEST(TroopManagerTests, ExecuteCashSetOrderReturnsSetValue)
         .getSetValue();
 
     const int returnedValue =
-        troopManager.executeCashSetOrder(players[0]);
+        troopManager.executeCashSetOrder(
+            players[0],
+            gameStateManager);
 
     EXPECT_EQ(
         returnedValue,
@@ -761,9 +737,7 @@ TEST(TroopManagerTests, ExecuteCashSetOrderMarksOrderCompleted)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createCashSetOrder(
         0,
@@ -771,7 +745,9 @@ TEST(TroopManagerTests, ExecuteCashSetOrderMarksOrderCompleted)
         cards
     );
 
-    troopManager.executeCashSetOrder(players[0]);
+    troopManager.executeCashSetOrder(
+        players[0],
+        gameStateManager);
 
     EXPECT_TRUE(
         troopManager
@@ -796,9 +772,7 @@ TEST(TroopManagerTests, UndoCashSetOrderRemovesLatestPendingOrder)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     std::vector<Card> cards
     {
@@ -836,9 +810,7 @@ TEST(TroopManagerTests, OrderGettersReturnCompleteHistories)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createReinforceOrder(
         0,
@@ -904,9 +876,7 @@ TEST(TroopManagerTests, GetReinforceOrdersReturnsCompleteHistory)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createReinforceOrder(
         0,
@@ -951,9 +921,7 @@ TEST(TroopManagerTests, GetFortifyOrdersReturnsCompleteHistory)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createFortifyOrder(
         0,
@@ -1000,9 +968,7 @@ TEST(TroopManagerTests, GetCashSetOrdersReturnsCompleteHistory)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     std::vector<Card> firstSet
     {
@@ -1061,9 +1027,7 @@ TEST(TroopManagerTests, GetLastReinforceOrderReturnsNewestOrder)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createReinforceOrder(
         0,
@@ -1103,9 +1067,7 @@ TEST(TroopManagerTests, GetLastFortifyOrderReturnsNewestOrder)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     troopManager.createFortifyOrder(
         0,
@@ -1152,9 +1114,7 @@ TEST(TroopManagerTests, GetLastCashSetOrderReturnsNewestOrder)
         players
     );
 
-    TroopManager troopManager(
-        gameStateManager
-    );
+    TroopManager troopManager;
 
     std::vector<Card> firstSet
     {

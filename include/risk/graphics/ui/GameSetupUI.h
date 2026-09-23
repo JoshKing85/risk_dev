@@ -3,12 +3,11 @@
 #include "risk/core/session/GameSession.h"
 #include "risk/core/session/GameSetupState.h"
 #include "risk/core/session/GameState.h"
-#include "risk/enums.h"
-#include "risk/graphics/game_elements/BoardGraphics.h"
+#include "risk/graphics/components/PlayerIndicator.h"
+#include "risk/graphics/components/SetupControls.h"
 #include "risk/graphics/game_elements/PlayerGraphics.h"
 #include "risk/graphics/game_elements/TerritoryGraphics.h"
 #include "risk/graphics/ui/ProfileUI.h"
-#include "risk/world/Map.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -20,33 +19,20 @@ namespace risk {
 
 class GameSetupUI {
 private:
-  int humanPlayerNumbers = 0;
-  int aiPlayerNumbers = 0;
-  MapType mapSelection = MapType::None;
-
-  sf::RectangleShape backButton;
-  std::optional<sf::Text> backButtonText;
-
-  sf::RectangleShape confirmButton;
-  std::optional<sf::Text> confirmButtonText;
-
-  // Current player troop placement indicator
-  sf::RectangleShape currentPlayerBox;
-  std::optional<sf::Text> currentPlayerText;
-  sf::ConvexShape currentPlayerArrow;
-
   GameSetupState gameSetupState;
+
   std::optional<ProfileUI> profileUI;
+  std::optional<PlayerIndicator> playerIndicator;
+  std::optional<SetupControls> setupControls;
+  std::optional<sf::Text> phaseTitle;
 
-  std::vector<PlayerGraphics> playerGraphics;
-  std::optional<BoardGraphics> boardGraphics;
+  void handleTroops(
+      const sf::Event &event, GameSession &gameSession, GameState &gameState,
+      std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
 
-  std::unordered_map<TerritoryID, TerritoryGraphics> territoryGraphicsMap;
-
-  void handleTroops(const sf::Event &event, GameSession &gameSession,
-                    GameState &gameState);
-
-  void troopPlacement(const sf::Event &event, GameSession &gameSession);
+  void troopPlacement(
+      const sf::Event &event, GameSession &gameSession,
+      std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
 
   void back(const sf::Event &event);
 
@@ -54,33 +40,19 @@ private:
                GameState &gameState);
 
 public:
-  void draw(sf::RenderWindow &window);
+  void initialize(GameSession &gameSession, sf::Font &font,
+                  std::vector<PlayerGraphics> &playerGraphics);
 
-  void handleEvent(const sf::Event &event, sf::RenderWindow &window,
-                   GameSession &gameSession, GameState &gameState);
+  void draw(sf::RenderWindow &window,
+            std::vector<PlayerGraphics> &playerGraphics);
 
-  void initialLoading(GameSession &gameSession, GameState &gameState,
-                      int humanPlayers, int aiPlayers, MapType mapSelection);
-
-  void setupState(GameSession &gameSession, const sf::Font &font);
-
-  void createTerritoryGraphicsMap(Map &territoryMap, MapType mapSelection);
-
-  void setBackPosition(sf::Vector2f position);
-
-  void setConfirmPosition(sf::Vector2f position);
-
-  sf::FloatRect getBackBounds() const;
-
-  sf::FloatRect getConfirmBounds() const;
+  void handleEvent(
+      const sf::Event &event, sf::RenderWindow &window,
+      GameSession &gameSession, GameState &gameState,
+      std::vector<PlayerGraphics> &playerGraphics,
+      std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
 
   GameSetupState &getGameSetupState();
-
-  BoardGraphics &getBoardGraphics();
-
-  std::unordered_map<TerritoryID, TerritoryGraphics> &getTerritoryGraphics();
-
-  std::vector<PlayerGraphics> &getPlayerGraphics();
 };
 
 } // namespace risk

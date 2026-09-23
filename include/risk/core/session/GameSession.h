@@ -56,7 +56,9 @@ public:
   bool validateSelection(TerritoryID selectedTerritory,
                          std::vector<TerritoryID> territories);
 
-  bool validateAttackSelection(GameState &gameState, TerritoryID toSelection,
+  bool validateAttackSelection(int playerID, TerritoryID &territorySelection);
+
+  bool validateAttackInput(TerritoryID toSelection,
                                TerritoryID fromSelection);
 
   bool validateReinforceInput(int troopCount, GameState &gameState);
@@ -79,6 +81,8 @@ public:
 
   void undoReinforceOrder(GameState &gameState);
 
+  void updateReinforceOrder(bool add, GameState &gameState);
+
   //=========================================================
   // CASH SET ORDER
   //=========================================================
@@ -94,8 +98,7 @@ public:
   // ATTACK ORDER
   //=========================================================
 
-  void createAttackOrder(TerritoryID fromTerritory, TerritoryID toTerritory,
-                         int attackingTroops, GameState &gameState);
+  void createAttackOrder(GameState &gameState);
 
   void executeAttackOrder(GameState &gameState);
 
@@ -137,7 +140,11 @@ public:
   // SETTERS
   //=========================================================
 
-  void addTroop(TerritoryID territoryID);
+  void addTroop(TerritoryID territoryID, int playerID);
+
+  void setReinforcePool(GameState &gameState);
+
+  
 
   //=========================================================
   // GETTERS

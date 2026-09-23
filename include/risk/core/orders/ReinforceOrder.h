@@ -19,6 +19,7 @@ namespace risk {
                 int reinforceTroopCount);
 
 			TerritoryID getTerritoryID() const;
-            int getReinforceTroopCount() const;		
+            int getReinforceTroopCount() const;
+			void setReinforceTroopCount(int reinforceTroopCount);
 	};
 }// namespace risk

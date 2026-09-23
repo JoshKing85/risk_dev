@@ -193,5 +193,8 @@ namespace risk
 
         return inside;
     }
-
+    const std::vector<sf::Vector2f>& TerritoryGraphics::getVertices() const
+    {
+        return vertices;
+    }
 } // namespace risk
