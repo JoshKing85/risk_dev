@@ -234,6 +234,37 @@ namespace risk {
                 playerGraphics,
                 gameState);
         }
+
+        //-----------------------------------------------------
+        // Attack
+        //-----------------------------------------------------
+
+        if (gameState.getPhase() ==
+            PhaseType::Attack)
+        {
+            if (!attackUI.has_value())
+            {
+                static sf::Font font;
+
+                if (!font.openFromFile(
+                    "C:/Windows/Fonts/arial.ttf"))
+                {
+                    throw std::runtime_error(
+                        "Could not load font");
+                }
+
+                attackUI.emplace(
+                    font,
+                    territoryGraphicsMap,
+                    gameState,
+                    gameSession);
+            }
+
+            attackUI->draw(
+                window,
+                playerGraphics,
+                gameState);
+        }
     }
 
 
@@ -275,6 +306,25 @@ namespace risk {
             if (reinforceUI.has_value())
             {
                 reinforceUI->handleReinforceEvent(
+                    event,
+                    window,
+                    gameSession,
+                    gameState,
+                    playerGraphics,
+                    territoryGraphicsMap);
+            }
+        }
+
+        //-----------------------------------------------------
+        // Attack
+        //-----------------------------------------------------
+
+        if (gameState.getPhase() ==
+            PhaseType::Attack)
+        {
+            if (attackUI.has_value())
+            {
+                attackUI->handleAttackEvent(
                     event,
                     window,
                     gameSession,

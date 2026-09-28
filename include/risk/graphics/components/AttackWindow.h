@@ -1,47 +1,30 @@
 #pragma once
-
+#include "risk/core/orders/AttackOrder.h"
 #include <SFML/Graphics.hpp>
-
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace risk {
 
 class AttackWindow {
 
 private:
-  //---------------------------------------------------------
-  // Container
-  //---------------------------------------------------------
-
   sf::RectangleShape attackWindow;
-
-  //---------------------------------------------------------
-  // From Territory
-  //---------------------------------------------------------
+  sf::Vector2f position;
 
   std::optional<sf::Text> fromTerritoryText;
   std::optional<sf::Text> fromPlayerText;
   std::optional<sf::Text> fromTroopText;
-
-  //---------------------------------------------------------
-  // From Player Avatar
-  //---------------------------------------------------------
+  sf::ConvexShape fromTerritoryShape;
 
   sf::Texture fromAvatarTexture;
   std::optional<sf::Sprite> fromAvatar;
 
-  //---------------------------------------------------------
-  // To Territory
-  //---------------------------------------------------------
-
   std::optional<sf::Text> toTerritoryText;
   std::optional<sf::Text> toPlayerText;
   std::optional<sf::Text> toTroopText;
-
-  //---------------------------------------------------------
-  // To Player Avatar
-  //---------------------------------------------------------
+  sf::ConvexShape toTerritoryShape;
 
   sf::Texture toAvatarTexture;
   std::optional<sf::Sprite> toAvatar;
@@ -53,15 +36,21 @@ private:
   std::optional<sf::Text> attackerDiceText;
   std::optional<sf::Text> defenderDiceText;
 
-  //---------------------------------------------------------
-  // Result
-  //---------------------------------------------------------
+  std::vector<sf::RectangleShape> attackerDiceButtons;
+  std::vector<sf::Text> attackerDiceNumbers;
+
+  std::vector<sf::RectangleShape> defenderDiceBoxes;
+  std::vector<sf::Text> defenderDiceNumbers;
+
+  int selectedAttackerDice = 0;
+  int selectedDefenderDice = 0;
 
   std::optional<sf::Text> attackResultText;
+  std::vector<sf::RectangleShape> attackerResultDice;
+  std::vector<sf::Text> attackerResultDiceNumbers;
 
-  //---------------------------------------------------------
-  // Controls
-  //---------------------------------------------------------
+  std::vector<sf::RectangleShape> defenderResultDice;
+  std::vector<sf::Text> defenderResultDiceNumbers;
 
   sf::RectangleShape quitAttackButton;
   std::optional<sf::Text> quitAttackText;
@@ -69,66 +58,53 @@ private:
   sf::RectangleShape attackButton;
   std::optional<sf::Text> attackButtonText;
 
+  sf::RectangleShape addTroopButton;
+  std::optional<sf::Text> addTroopText;
+
+  sf::RectangleShape removeTroopButton;
+  std::optional<sf::Text> removeTroopText;
+
+  sf::RectangleShape confirmMoveButton;
+  std::optional<sf::Text> confirmMoveText;
+
+  std::optional<sf::Text> moveTroopCountText;
+
 public:
   AttackWindow(const sf::Font &font);
 
-  //---------------------------------------------------------
-  // Position
-  //---------------------------------------------------------
-
   void setPosition(sf::Vector2f position);
 
-  //---------------------------------------------------------
-  // From Territory
-  //---------------------------------------------------------
-
   void setFromTerritoryName(const std::string &name);
-
   void setFromPlayerName(const std::string &name);
-
   void setFromTroopCount(int troopCount);
-
-  void setFromAvatar(const std::string &avatarPath);
-
-  //---------------------------------------------------------
-  // To Territory
-  //---------------------------------------------------------
+  void setFromAvatar(int avatarID);
+  void setFromVertices(const std::vector<sf::Vector2f> &vertices);
 
   void setToTerritoryName(const std::string &name);
-
   void setToPlayerName(const std::string &name);
-
   void setToTroopCount(int troopCount);
+  void setToAvatar(int avatarID);
+  void setToVertices(const std::vector<sf::Vector2f> &vertices);
 
-  void setToAvatar(const std::string &avatarPath);
-
-  //---------------------------------------------------------
-  // Dice
-  //---------------------------------------------------------
+  void setMoveTroopCount(int troopCount);
 
   void setAttackerDice(int diceCount);
-
   void setDefenderDice(int diceCount);
 
   int getAttackerDiceSelection(sf::Vector2f mousePosition) const;
 
-  //---------------------------------------------------------
-  // Result
-  //---------------------------------------------------------
+  void clearDice();
 
-  void setAttackResult(const std::string &result);
-
-  //---------------------------------------------------------
-  // Bounds
-  //---------------------------------------------------------
+  void setAttackResult(
+    const AttackResult &result,
+    const std::vector<int> &attackingDice,
+    const std::vector<int> &defendingDice);
 
   sf::FloatRect getQuitAttackBounds() const;
-
   sf::FloatRect getAttackBounds() const;
-
-  //---------------------------------------------------------
-  // Draw
-  //---------------------------------------------------------
+  sf::FloatRect getAddTroopBounds() const;
+  sf::FloatRect getRemoveTroopBounds() const;
+  sf::FloatRect getConfirmMoveBounds() const;
 
   void draw(sf::RenderWindow &window);
 };

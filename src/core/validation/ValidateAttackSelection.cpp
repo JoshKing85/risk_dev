@@ -14,7 +14,7 @@ namespace risk {
 
 			for (const auto& territory : adjacentTerritories)
 			{
-				if (map.getTerritory(territory).getOwnerID != playerID)
+				if (map.getTerritory(territory).getOwnerID() != playerID)
 				{
 					return true;
 				}

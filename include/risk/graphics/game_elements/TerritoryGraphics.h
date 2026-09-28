@@ -14,6 +14,7 @@ private:
   TerritoryID territoryID;
   ContinentID continentID;
   int playerID;
+  std::string title;
 
   std::vector<sf::Vector2f> vertices;
 
@@ -43,6 +44,7 @@ public:
   TerritoryID getTerritoryID() const;
   int getPlayerID() const;
   const std::vector<sf::Vector2f> &getVertices() const;
+  std::string getTitle() const;
 };
 
 } // namespace risk

@@ -110,9 +110,9 @@ public:
 
   void createRollDiceOrder(int diceCount, GameState &gameState);
 
-  void executeRollDiceOrder(GameState &gameState);
-
   void undoRollDiceOrder(GameState &gameState);
+
+  void updateRollDiceOrder(int diceCount);
 
   //=========================================================
   // MOVE TROOPS ORDER
@@ -120,6 +120,8 @@ public:
 
   void createMoveTroopsOrder(TerritoryID fromTerritory, TerritoryID toTerritory,
                              int troopCount, GameState &gameState);
+
+  void updateMoveTroopsOrder(bool add);
 
   void executeMoveTroopsOrder(GameState &gameState);
 

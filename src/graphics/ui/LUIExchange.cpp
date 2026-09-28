@@ -62,6 +62,26 @@ namespace risk {
                             .getReinforceTroopCount();
                     }
 
+                    // ---------------------------------------------
+                    // Attack territory selections
+                    // ---------------------------------------------
+
+                    if (gameState.getPhase() ==
+                        PhaseType::Attack)
+                    {
+                        if (gameState.getFromTerritorySelection() ==
+                            territoryID)
+                        {
+                            selected = true;
+                        }
+
+                        if (gameState.getToTerritorySelection() ==
+                            territoryID)
+                        {
+                            selected = true;
+                        }
+                    }
+
 
                     graphicsTerritory->second.setTroopCount(
                         troopCount

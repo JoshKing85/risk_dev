@@ -88,6 +88,7 @@ add_executable(risk_v1
     src/graphics/ui/GameSessionUI.cpp
     src/graphics/ui/GameSetupUI.cpp
     src/graphics/ui/ReinforceUI.cpp
+    src/graphics/ui/AttackUI.cpp
 
     # Graphic component classes
     src/graphics/components/PlayerIndicator.cpp
@@ -95,6 +96,9 @@ add_executable(risk_v1
     src/graphics/components/ContinentValueBoard.cpp
     src/graphics/components/ReinforceControls.cpp
     src/graphics/components/CardContainer.cpp
+    src/graphics/components/PreAttack.cpp 
+    src/graphics/components/AttackWindow.cpp 
+
 
     # Validation functions
     src/core/validation/ValidateTerritorySelection.cpp
@@ -103,6 +107,7 @@ add_executable(risk_v1
     src/core/validation/ValidateReinforceInput.cpp
     src/core/validation/ValidateSetInput.cpp
     src/core/validation/ValidateFortifyInput.cpp
+    src/core/validation/ValidateAttackSelection.cpp
 
     # Utility functions
     src/core/utils/TerritoryConverter.cpp

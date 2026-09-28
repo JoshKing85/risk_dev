@@ -13,9 +13,7 @@ namespace risk {
     )
         : Order(playerID, OrderType::RollDice),
         numberAttackerDice(numberAttackerDice),
-        numberDefenderDice(numberDefenderDice),
-        attackingDice(generateDice(numberAttackerDice)),
-        defendingDice(generateDice(numberDefenderDice))
+        numberDefenderDice(numberDefenderDice)
     {
     }
 
@@ -43,7 +41,30 @@ namespace risk {
         );
     }
 
-    std::vector<int> RollDiceOrder::generateDice(int numberOfDice)
+    void RollDiceOrder::updateAttackerDice(
+        int numberOfDice
+    )
+    {
+        numberAttackerDice =
+            numberOfDice;
+    }
+
+    void RollDiceOrder::execute()
+    {
+        attackingDice =
+            generateDice(
+                numberAttackerDice
+            );
+
+        defendingDice =
+            generateDice(
+                numberDefenderDice
+            );
+    }
+
+    std::vector<int> RollDiceOrder::generateDice(
+        int numberOfDice
+    )
     {
         std::vector<int> dice;
 
@@ -51,9 +72,13 @@ namespace risk {
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dist(1, 6);
 
-        for (int i = 0; i < numberOfDice; ++i)
+        for (int i = 0;
+            i < numberOfDice;
+            ++i)
         {
-            dice.push_back(dist(gen));
+            dice.push_back(
+                dist(gen)
+            );
         }
 
         std::sort(
@@ -65,12 +90,14 @@ namespace risk {
         return dice;
     }
 
-    const std::vector<int>& RollDiceOrder::getAttackingDice() const
+    const std::vector<int>&
+        RollDiceOrder::getAttackingDice() const
     {
         return attackingDice;
     }
 
-    const std::vector<int>& RollDiceOrder::getDefendingDice() const
+    const std::vector<int>&
+        RollDiceOrder::getDefendingDice() const
     {
         return defendingDice;
     }

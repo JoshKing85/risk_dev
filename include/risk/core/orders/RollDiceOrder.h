@@ -23,6 +23,10 @@ public:
   RollDiceOrder(int playerID, const std::vector<int> &attackingDice,
                 const std::vector<int> &defendingDice);
 
+  void updateAttackerDice(int numberOfDice);
+
+  void execute();
+
   const std::vector<int> &getAttackingDice() const;
   const std::vector<int> &getDefendingDice() const;
 };

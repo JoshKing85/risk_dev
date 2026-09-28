@@ -34,18 +34,8 @@ private:
   std::optional<PlayerIndicator> playerIndicator;
 
   sf::RectangleShape fortifyButton;
-  sf::Text fortifyText;
+  std::optional<sf::Text> fortifyButtonText;
 
-
-  //---------------------------------------------------------
-  // Event Handling
-  //---------------------------------------------------------
-
-  void handleAttackEvent(
-      const sf::Event &event, sf::RenderWindow &window,
-      GameSession &gameSession, GameState &gameState,
-      std::vector<PlayerGraphics> &playerGraphics,
-      std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
   //---------------------------------------------------------
   // Territory Selection
   //---------------------------------------------------------
@@ -59,7 +49,7 @@ private:
   // Pre Attack
   //---------------------------------------------------------
 
-  void preAttack(
+  void handlePreAttack(
       const sf::Event &event, sf::RenderWindow &window,
       GameSession &gameSession, GameState &gameState,
       std::vector<PlayerGraphics> &playerGraphics,
@@ -67,23 +57,41 @@ private:
 
   void back(GameSession &gameSession, GameState &gameState);
 
-  void confirm(GameSession &gameSession, GameState &gameState);
+  void confirm(
+      GameSession &gameSession, GameState &gameState,
+      std::vector<PlayerGraphics> &playerGraphics,
+      std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
 
   //---------------------------------------------------------
   // Attack Window
   //---------------------------------------------------------
  
-  void handleAttackWindow(GameSession &gameSession, GameState &gameState,
-                       std::vector<PlayerGraphics> &playerGraphics);
+  void handleAttackWindow(
+      const sf::Event &event, sf::RenderWindow &window, 
+      GameSession &gameSession, GameState &gameState,
+      std::vector<PlayerGraphics> &playerGraphics,
+      std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
 
-  void selectDice(const sf::Event &event, GameState &gameState,
-                  GameSession &gameSession);
+  void setAttackWindow(
+      GameState &gameState, GameSession &gameSession, std::vector<PlayerGraphics> &playerGraphics,
+      std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
+  
+  void selectDice(
+      int diceCount,
+      GameState &gameState,
+      GameSession &gameSession);
 
   void attack(GameState &gameState, GameSession &gameSession);
 
   void quitAttack(GameState &gameState, GameSession &gameSession);
 
-  void moveTroops(GameState &gameState, GameSession &gameSession);
+  void addTroops(GameSession &gameSession);
+
+  void removeTroops(GameSession &gameSession);
+
+  void confirmMove(GameState &gameState, GameSession &gameSession);
+
+
 
 public:
   //---------------------------------------------------------
@@ -94,7 +102,15 @@ public:
            const std::unordered_map<TerritoryID, TerritoryGraphics>
                &territoryGraphicsMap,
            GameState &gameState, GameSession &gameSession);
+  //---------------------------------------------------------
+  // Event Handling
+  //---------------------------------------------------------
 
+  void handleAttackEvent(
+      const sf::Event &event, sf::RenderWindow &window,
+      GameSession &gameSession, GameState &gameState,
+      std::vector<PlayerGraphics> &playerGraphics,
+      std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
   //---------------------------------------------------------
   // Draw
   //---------------------------------------------------------

@@ -9,6 +9,18 @@ namespace risk {
 		troopsMoved(troopsMoved) {
 	}
 
+	void MoveTroopsOrder::updateMoveTroopsOrder(bool add)
+	{
+		if (add) 
+		{
+			troopsMoved ++;
+		}
+		else
+		{
+			troopsMoved --;
+		}
+	}
+
 	TerritoryID MoveTroopsOrder::getFromTerritory() const {
 		return fromTerritory;
 	}

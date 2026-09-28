@@ -11,6 +11,8 @@ private:
   int playerID;
   int troopCount;
   int cardCount = 0;
+  int avatarID = -1;
+  std::string playerName;
 
   sf::Vector2f playerPosition;
   sf::Color playerColour;
@@ -48,6 +50,10 @@ public:
   void draw(sf::RenderWindow &window) const;
 
   int getPlayerID() const;
+
+  int getAvatarID() const;
+
+  std::string getName() const;
 };
 
 } // namespace risk

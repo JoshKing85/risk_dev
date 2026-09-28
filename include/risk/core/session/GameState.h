@@ -22,8 +22,8 @@ private:
   int reinforcePool = 0;
   bool initReinforceComplete = false;
 
-  TerritoryID ToSelection = TerritoryID::None;
-  TerritoryID FromSelection = TerritoryID::None;
+  TerritoryID toSelection = TerritoryID::None;
+  TerritoryID fromSelection = TerritoryID::None;
 
   int attackerDice = 0;
   bool attackConfirmed = false;
@@ -122,6 +122,8 @@ public:
   const RollDiceOrder &getLastRollDiceOrder() const;
   const MoveTroopsOrder &getLastMoveTroopsOrder() const;
   const FortifyOrder &getLastFortifyOrder() const;
+
+  bool hasMoveTroopsOrder() const;
 };
 
 } // namespace risk

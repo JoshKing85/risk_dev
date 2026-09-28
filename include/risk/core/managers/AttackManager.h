@@ -50,12 +50,16 @@ public:
   // Resolves latest AttackOrder using latest RollDiceOrder
   void executeAttackOrder(GameStateManager &gameStateManager);
 
+  void updateRollDiceOrder(int diceCount);
+
   //=========================================================
   // Post-capture troop movement
   //=========================================================
 
   void createMoveTroopsOrder(int playerID, TerritoryID fromTerritory,
                              TerritoryID toTerritory, int moveTroopCount);
+
+  void updateMoveTroopsOrder(bool add);
 
   void undoMoveTroopsOrder();
 

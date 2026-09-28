@@ -20,6 +20,7 @@ namespace risk
         : territoryID(territoryID),
         continentID(continentID),
         playerID(playerID),
+        title(title),
         vertices(vertices),
         titleText(font),
         troopCountText(font),
@@ -196,5 +197,9 @@ namespace risk
     const std::vector<sf::Vector2f>& TerritoryGraphics::getVertices() const
     {
         return vertices;
+    }
+    std::string TerritoryGraphics::getTitle() const
+    {
+        return title;
     }
 } // namespace risk

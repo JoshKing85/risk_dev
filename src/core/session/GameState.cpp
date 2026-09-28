@@ -28,14 +28,14 @@ namespace risk {
     void GameState::setToSelection(
         TerritoryID territoryID)
     {
-        ToSelection = territoryID;
+        toSelection = territoryID;
     }
 
 
     void GameState::setFromSelection(
         TerritoryID territoryID)
     {
-        FromSelection = territoryID;
+        fromSelection = territoryID;
     }
 
 
@@ -170,8 +170,8 @@ namespace risk {
 
     void GameState::clearAttack()
     {
-        fromTerritorySelection = TerritoryID::None;
-        toTerritorySelection = TerritoryID::None;
+        fromSelection = TerritoryID::None;
+        toSelection = TerritoryID::None;
         attackerDice = 0;
         attackConfirmed = false;
     }
@@ -217,14 +217,14 @@ namespace risk {
     TerritoryID
         GameState::getToTerritorySelection() const
     {
-        return ToSelection;
+        return toSelection;
     }
 
 
     TerritoryID
         GameState::getFromTerritorySelection() const
     {
-        return FromSelection;
+        return fromSelection;
     }
 
 
@@ -283,6 +283,11 @@ namespace risk {
         GameState::getLastFortifyOrder() const
     {
         return *fortifyOrders.back();
+    }
+
+    bool GameState::hasMoveTroopsOrder() const
+    {
+        return !moveTroopsOrders.empty();
     }
 
 } // namespace risk

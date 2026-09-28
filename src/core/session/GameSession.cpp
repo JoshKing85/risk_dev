@@ -391,16 +391,6 @@ namespace risk {
         );
     }
 
-
-    void GameSession::executeRollDiceOrder(
-        GameState& gameState
-    )
-    {
-        // AttackManager resolves the latest RollDiceOrder
-        // when executeAttackOrder() is called.
-    }
-
-
     void GameSession::undoRollDiceOrder(
         GameState& gameState
     )
@@ -408,6 +398,11 @@ namespace risk {
         gameState.removeLastRollDiceOrder();
 
         attackManager.undoRollDiceOrder();
+    }
+
+    void GameSession::updateRollDiceOrder(int diceCount)
+    {
+        attackManager.updateRollDiceOrder(diceCount);
     }
 
 
@@ -432,6 +427,11 @@ namespace risk {
         gameState.addMoveTroopsOrder(
             attackManager.getLastMoveTroopsOrder()
         );
+    }
+
+    void GameSession::updateMoveTroopsOrder(bool add)
+    {
+        attackManager.updateMoveTroopsOrder(add);
     }
 
 

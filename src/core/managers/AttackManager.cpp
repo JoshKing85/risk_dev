@@ -85,6 +85,18 @@ namespace risk {
         );
     }
 
+    void AttackManager::updateRollDiceOrder(
+        int diceCount
+    )
+    {
+        RollDiceOrder& currentRoll =
+            rollDiceOrders.back();
+
+        currentRoll.updateAttackerDice(
+            diceCount
+        );
+    }
+
     void AttackManager::undoRollDiceOrder()
     {
         if (!rollDiceOrders.empty())
@@ -104,8 +116,10 @@ namespace risk {
         AttackOrder& currentAttack =
             attackOrders.back();
 
-        const RollDiceOrder& currentRoll =
+        RollDiceOrder& currentRoll =
             rollDiceOrders.back();
+
+        currentRoll.execute();
 
         resolveAttack(
             currentAttack,
@@ -213,7 +227,7 @@ namespace risk {
 
         //-----------------------------------------------------
         // Complete attack
-        //-----------------------------------------------------
+        //---------------------------------------------------------
 
         currentAttack.setResult(result);
 
@@ -285,6 +299,13 @@ namespace risk {
             toTerritory,
             moveTroopCount
         );
+    }
+    void AttackManager::updateMoveTroopsOrder(bool add)
+    {
+        MoveTroopsOrder& currentMove =
+            moveTroopsOrders.back();
+
+        currentMove.updateMoveTroopsOrder(add);
     }
 
     void AttackManager::undoMoveTroopsOrder()

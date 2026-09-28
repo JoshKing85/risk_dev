@@ -16,6 +16,8 @@ public:
   MoveTroopsOrder(int playerID, TerritoryID fromTerritory,
                   TerritoryID toTerritory, int troopsMoved);
 
+  void updateMoveTroopsOrder(bool add);
+
   TerritoryID getFromTerritory() const;
   TerritoryID getToTerritory() const;
   int getTroopsMoved() const;

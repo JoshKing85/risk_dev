@@ -8,6 +8,7 @@
 #include "risk/graphics/game_elements/TerritoryGraphics.h"
 #include "risk/graphics/ui/GameSetupUI.h"
 #include "risk/graphics/ui/ReinforceUI.h"
+#include "risk/graphics/ui/AttackUI.h"
 #include "risk/world/Map.h"
 
 #include <SFML/Graphics.hpp>
@@ -43,6 +44,7 @@ private:
 
   std::optional<GameSetupUI> gameSetupUI;
   std::optional<ReinforceUI> reinforceUI;
+  std::optional<AttackUI> attackUI;
 
 public:
   //---------------------------------------------------------

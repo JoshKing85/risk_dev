@@ -92,10 +92,12 @@ namespace risk
         // Player name
         // -----------------------------
 
-        playerNameText.setString(
+        playerName =
             "Player " +
-            std::to_string(playerID + 1)
-        );
+            std::to_string(playerID + 1);
+
+        playerNameText.setString(
+            playerName);
 
         playerNameText.setCharacterSize(
             22
@@ -282,12 +284,12 @@ namespace risk
 
 
     void PlayerGraphics::setName(
-        const std::string& name
-    )
+        const std::string& name)
     {
+        playerName = name;
+
         playerNameText.setString(
-            name
-        );
+            playerName);
     }
 
 
@@ -318,9 +320,11 @@ namespace risk
 
 
     void PlayerGraphics::setAvatar(
-        int avatarID
+        int newAvatarID
     )
     {
+        avatarID = newAvatarID;
+
         std::string avatarPath;
 
         switch (avatarID)
@@ -345,6 +349,8 @@ namespace risk
                 "C:/Users/joshk/programming/risk_V1/data/graphics/avatars/blank.png";
             break;
         }
+
+        // rest of your existing method unchanged
 
         if (!avatarTexture.loadFromFile(
             avatarPath
@@ -432,6 +438,14 @@ namespace risk
     int PlayerGraphics::getPlayerID() const
     {
         return playerID;
+    }
+    int PlayerGraphics::getAvatarID() const
+    {
+        return avatarID;
+    }
+    std::string PlayerGraphics::getName() const
+    {
+        return playerName;
     }
 
 } // namespace risk
