@@ -331,22 +331,22 @@ namespace risk
         {
         case 0:
             avatarPath =
-                "C:/Users/joshk/programming/risk_V1/data/graphics/avatars/nelson.png";
+                "data/graphics/avatars/nelson.png";
             break;
 
         case 1:
             avatarPath =
-                "C:/Users/joshk/programming/risk_V1/data/graphics/avatars/samurai.png";
+                "data/graphics/avatars/samurai.png";
             break;
 
         case 2:
             avatarPath =
-                "C:/Users/joshk/programming/risk_V1/data/graphics/avatars/viking.png";
+                "data/graphics/avatars/viking.png";
             break;
 
         default:
             avatarPath =
-                "C:/Users/joshk/programming/risk_V1/data/graphics/avatars/blank.png";
+                "data/graphics/avatars/blank.png";
             break;
         }
 

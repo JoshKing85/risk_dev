@@ -1,0 +1,16 @@
+C:\Users\joshk\source\repos\risk_v1\risk_v1\bin\Debug\net10.0\risk_v1.exe
+C:\Users\joshk\source\repos\risk_v1\risk_v1\bin\Debug\net10.0\risk_v1.deps.json
+C:\Users\joshk\source\repos\risk_v1\risk_v1\bin\Debug\net10.0\risk_v1.runtimeconfig.json
+C:\Users\joshk\source\repos\risk_v1\risk_v1\bin\Debug\net10.0\risk_v1.dll
+C:\Users\joshk\source\repos\risk_v1\risk_v1\bin\Debug\net10.0\risk_v1.pdb
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\risk_v1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\risk_v1.AssemblyInfoInputs.cache
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\risk_v1.AssemblyInfo.cs
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\risk_v1.csproj.CoreCompileInputs.cache
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\risk_v1.sourcelink.json
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\risk_v1.dll
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\refint\risk_v1.dll
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\risk_v1.pdb
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\risk_v1.genruntimeconfig.cache
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\ref\risk_v1.dll
+C:\Users\joshk\source\repos\risk_v1\risk_v1\obj\Debug\net10.0\risk_v1.csproj.Up2Date

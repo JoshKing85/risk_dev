@@ -3,7 +3,7 @@
 #include "risk/core/validation/ValidateTerritorySelection.h"
 #include "risk/core/validation/ValidateAttackInput.h"
 #include "risk/core/validation/ValidateDiceInput.h"
-#include "risk/core/validation/ValidateReinforceInput.h"
+#include "risk/core/validation/ValidateTroopCountInput.h"
 #include "risk/core/validation/ValidateSetInput.h"
 #include "risk/core/validation/ValidateFortifyInput.h"
 
@@ -260,7 +260,7 @@ TEST(ValidationTests, DiceInputReturnsFalseForMoreThanThreeDice)
 TEST(ValidationTests, ReinforceInputReturnsTrueWhenReinforcingWithinTroopPool)
 {
     EXPECT_TRUE(
-        isReinforceValid(
+        isTroopCountValid(
             3,
             5
         )
@@ -270,7 +270,7 @@ TEST(ValidationTests, ReinforceInputReturnsTrueWhenReinforcingWithinTroopPool)
 TEST(ValidationTests, ReinforceInputReturnsTrueWhenUsingEntireTroopPool)
 {
     EXPECT_TRUE(
-        isReinforceValid(
+        isTroopCountValid(
             5,
             5
         )
@@ -280,7 +280,7 @@ TEST(ValidationTests, ReinforceInputReturnsTrueWhenUsingEntireTroopPool)
 TEST(ValidationTests, ReinforceInputReturnsFalseWhenExceedingTroopPool)
 {
     EXPECT_FALSE(
-        isReinforceValid(
+        isTroopCountValid(
             6,
             5
         )
@@ -290,7 +290,7 @@ TEST(ValidationTests, ReinforceInputReturnsFalseWhenExceedingTroopPool)
 TEST(ValidationTests, ReinforceInputReturnsFalseForZeroTroops)
 {
     EXPECT_FALSE(
-        isReinforceValid(
+        isTroopCountValid(
             0,
             5
         )
@@ -300,7 +300,7 @@ TEST(ValidationTests, ReinforceInputReturnsFalseForZeroTroops)
 TEST(ValidationTests, ReinforceInputReturnsFalseForNegativeTroops)
 {
     EXPECT_FALSE(
-        isReinforceValid(
+        isTroopCountValid(
             -1,
             5
         )

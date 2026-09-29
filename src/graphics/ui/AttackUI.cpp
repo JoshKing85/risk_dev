@@ -1,4 +1,5 @@
 #include "risk/graphics/ui/AttackUI.h"
+#include "risk/core/validation/ValidateTroopCountInput.h"
 
 #include <iostream>
 
@@ -130,10 +131,6 @@ namespace risk {
     }
 
 
-    //---------------------------------------------------------
-    // Event Handling
-    //---------------------------------------------------------
-
     void AttackUI::handleAttackEvent(
         const sf::Event& event,
         sf::RenderWindow& window,
@@ -142,9 +139,35 @@ namespace risk {
         std::vector<PlayerGraphics>& playerGraphics,
         std::unordered_map<TerritoryID, TerritoryGraphics>& territoryGraphicsMap)
     {
+        if (const auto* mousePressed =
+            event.getIf<sf::Event::MouseButtonPressed>())
+        {
+            sf::Vector2f mousePosition = {
+                static_cast<float>(
+                    mousePressed->position.x),
+                static_cast<float>(
+                    mousePressed->position.y)
+            };
+
+            sf::FloatRect bounds =
+                fortifyButton.getGlobalBounds();
+
+            if (bounds.contains(mousePosition))
+            {
+                std::cout << "[ATTACK UI] Fortify button clicked" << std::endl;
+                fortify(gameState);
+                return;
+            }
+        }
+
         if (gameState.getFromTerritorySelection() == TerritoryID::None ||
             gameState.getToTerritorySelection() == TerritoryID::None)
         {
+            std::cout << "[ROUTE] Territory Selection | FROM="
+                << static_cast<int>(gameState.getFromTerritorySelection())
+                << " TO=" << static_cast<int>(gameState.getToTerritorySelection())
+                << " Confirmed=" << gameState.getAttackConfirmed() << std::endl;
+
             territorySelection(
                 event,
                 window,
@@ -152,10 +175,14 @@ namespace risk {
                 gameState,
                 territoryGraphicsMap);
         }
-
         else if (gameState.getAttackConfirmed() == false &&
             gameState.getToTerritorySelection() != TerritoryID::None)
         {
+            std::cout << "[ROUTE] Pre Attack | FROM="
+                << static_cast<int>(gameState.getFromTerritorySelection())
+                << " TO=" << static_cast<int>(gameState.getToTerritorySelection())
+                << " Confirmed=" << gameState.getAttackConfirmed() << std::endl;
+
             handlePreAttack(
                 event,
                 window,
@@ -164,9 +191,13 @@ namespace risk {
                 playerGraphics,
                 territoryGraphicsMap);
         }
-
         else if (gameState.getAttackConfirmed() == true)
         {
+            std::cout << "[ROUTE] Attack Window | FROM="
+                << static_cast<int>(gameState.getFromTerritorySelection())
+                << " TO=" << static_cast<int>(gameState.getToTerritorySelection())
+                << " Confirmed=" << gameState.getAttackConfirmed() << std::endl;
+
             handleAttackWindow(
                 event,
                 window,
@@ -211,6 +242,9 @@ namespace risk {
                 if (territoryGraphics.contains(
                     mousePosition))
                 {
+                    std::cout << "[CLICK] Territory ID="
+                        << static_cast<int>(territoryID)
+                        << " Title=" << territoryGraphics.getTitle() << std::endl;
                     //-------------------------------------------------
                     // FROM selection
                     //-------------------------------------------------
@@ -220,12 +254,20 @@ namespace risk {
                         TerritoryID selectedTerritoryID =
                             territoryID;
 
-                        if (gameSession.validateAttackSelection(
+                        bool validFrom = gameSession.validateAttackSelection(
                             gameState.getPlayerTurnID(),
-                            selectedTerritoryID))
+                            selectedTerritoryID);
+
+                        std::cout << "[FROM] Validation=" << validFrom << std::endl;
+
+                        if (validFrom)
                         {
                             gameState.setFromSelection(
                                 selectedTerritoryID);
+
+                            std::cout << "[FROM] Selected ID="
+                                << static_cast<int>(selectedTerritoryID)
+                                << " Title=" << territoryGraphics.getTitle() << std::endl;
                         }
 
                         return;
@@ -235,12 +277,20 @@ namespace risk {
                     // TO selection
                     //-------------------------------------------------
 
-                    if (gameSession.validateAttackInput(
+                    bool validTo = gameSession.validateAttackInput(
                         fromTerritory,
-                        territoryID))
+                        territoryID);
+
+                    std::cout << "[TO] Validation=" << validTo << std::endl;
+
+                    if (validTo)
                     {
                         gameState.setToSelection(
                             territoryID);
+
+                        std::cout << "[TO] Selected ID="
+                            << static_cast<int>(territoryID)
+                            << " Title=" << territoryGraphics.getTitle() << std::endl;
 
                         sf::FloatRect bounds =
                             territoryGraphics.getBounds();
@@ -301,6 +351,7 @@ namespace risk {
             if (preAttackBox->getBackBounds().contains(
                 mousePosition))
             {
+                std::cout << "[PRE ATTACK] Back clicked" << std::endl;
                 back(
                     gameSession,
                     gameState);
@@ -311,6 +362,7 @@ namespace risk {
             if (preAttackBox->getConfirmBounds().contains(
                 mousePosition))
             {
+                std::cout << "[PRE ATTACK] Confirm clicked" << std::endl;
                 confirm(
                     gameSession,
                     gameState,
@@ -327,6 +379,7 @@ namespace risk {
         GameSession& gameSession,
         GameState& gameState)
     {
+        std::cout << "[PRE ATTACK] Clearing attack selection" << std::endl;
         gameState.clearAttack();
     }
 
@@ -337,11 +390,20 @@ namespace risk {
         std::vector<PlayerGraphics>& playerGraphics,
         std::unordered_map<TerritoryID, TerritoryGraphics>& territoryGraphicsMap)
     {
+        std::cout << "[CONFIRM] FROM="
+            << static_cast<int>(gameState.getFromTerritorySelection())
+            << " TO=" << static_cast<int>(gameState.getToTerritorySelection()) << std::endl;
+
         gameState.setAttackConfirmed(
             true);
 
         gameSession.createAttackOrder(
             gameState);
+
+        std::cout << "[ORDER] AttackOrder created | attacking troops="
+            << gameState.getLastAttackOrder().getAttackingTroopCount()
+            << " defending troops="
+            << gameState.getLastAttackOrder().getDefendingTroopCount() << std::endl;
 
         setAttackWindow(
             gameState,
@@ -375,11 +437,14 @@ namespace risk {
 
             if (gameState.hasMoveTroopsOrder())
             {
+                std::cout << "[ATTACK WINDOW] Move Troops mode" << std::endl;
                 if (attackWindow->getAddTroopBounds().contains(
                     mousePosition))
                 {
+                    std::cout << "[MOVE] Add clicked" << std::endl;
                     addTroops(
-                        gameSession);
+                        gameSession,
+                        gameState);
 
                     return;
                 }
@@ -387,8 +452,10 @@ namespace risk {
                 if (attackWindow->getRemoveTroopBounds().contains(
                     mousePosition))
                 {
+                    std::cout << "[MOVE] Remove clicked" << std::endl;
                     removeTroops(
-                        gameSession);
+                        gameSession,
+                        gameState);
 
                     return;
                 }
@@ -396,6 +463,7 @@ namespace risk {
                 if (attackWindow->getConfirmMoveBounds().contains(
                     mousePosition))
                 {
+                    std::cout << "[MOVE] Confirm clicked" << std::endl;
                     confirmMove(
                         gameState,
                         gameSession);
@@ -416,6 +484,7 @@ namespace risk {
 
             if (diceCount > 0)
             {
+                std::cout << "[DICE] Dice button clicked=" << diceCount << std::endl;
                 selectDice(
                     diceCount,
                     gameState,
@@ -427,6 +496,7 @@ namespace risk {
             if (attackWindow->getAttackBounds().contains(
                 mousePosition))
             {
+                std::cout << "[ATTACK WINDOW] Attack clicked" << std::endl;
                 attack(
                     gameState,
                     gameSession);
@@ -437,6 +507,7 @@ namespace risk {
             if (attackWindow->getQuitAttackBounds().contains(
                 mousePosition))
             {
+                std::cout << "[ATTACK WINDOW] Quit clicked" << std::endl;
                 quitAttack(
                     gameState,
                     gameSession);
@@ -481,10 +552,6 @@ namespace risk {
                 gameState.getToTerritorySelection())
             .getOwnerID();
 
-        int defTroopCount =
-            gameState.getLastAttackOrder()
-            .getDefendingTroopCount();
-
         TerritoryGraphics& toTerritory =
             territoryGraphicsMap.at(
                 gameState.getToTerritorySelection());
@@ -495,9 +562,16 @@ namespace risk {
         const std::vector<sf::Vector2f>& toVertices =
             toTerritory.getVertices();
 
-        
-        
-       
+
+
+
+        std::cout << "[WINDOW] Configuring AttackWindow | attacker=" << attPlayerID
+            << " defender=" << defPlayerID
+            << " FROM=" << fromTitle
+            << " TO=" << toTitle
+            << " attacker troops=" << attTroopCount
+            << " defender troops=" << defTroopCount << std::endl;
+
         for (auto& player : playerGraphics)
         {
             if (player.getPlayerID() ==
@@ -556,9 +630,14 @@ namespace risk {
         GameState& gameState,
         GameSession& gameSession)
     {
-        if (!gameSession.validateDiceInput(
+        bool validDice = gameSession.validateDiceInput(
             diceCount,
-            gameState))
+            gameState);
+
+        std::cout << "[DICE] Selection=" << diceCount
+            << " Valid=" << validDice << std::endl;
+
+        if (!validDice)
         {
             return;
         }
@@ -567,12 +646,14 @@ namespace risk {
         {
             gameSession.updateRollDiceOrder(
                 diceCount);
+            std::cout << "[ORDER] RollDiceOrder updated" << std::endl;
         }
         else
         {
             gameSession.createRollDiceOrder(
                 diceCount,
                 gameState);
+            std::cout << "[ORDER] RollDiceOrder created" << std::endl;
         }
 
         gameState.setAttackerDice(
@@ -591,6 +672,8 @@ namespace risk {
         GameState& gameState,
         GameSession& gameSession)
     {
+        std::cout << "[ATTACK] Executing AttackOrder" << std::endl;
+
         gameSession.executeAttackOrder(
             gameState);
 
@@ -613,8 +696,16 @@ namespace risk {
             .getResult()
             .attackingTroopCount - 1;
 
+        std::cout << "[ATTACK] Outcome=" << static_cast<int>(outcome)
+            << " attacker losses=" << gameState.getLastAttackOrder().getResult().attackerLosses
+            << " defender losses=" << gameState.getLastAttackOrder().getResult().defenderLosses
+            << " attacker remaining=" << gameState.getLastAttackOrder().getResult().attackingTroopCount
+            << " defender remaining=" << gameState.getLastAttackOrder().getResult().defendingTroopCount
+            << " movable troops=" << troopsAvailable << std::endl;
+
         if (outcome == AttackOutcome::Captured)
         {
+            std::cout << "[ATTACK] Territory captured" << std::endl;
             if (troopsAvailable >= diceCount)
             {
                 gameSession.createMoveTroopsOrder(
@@ -623,8 +714,12 @@ namespace risk {
                     diceCount,
                     gameState);
 
+                std::cout << "[ORDER] MoveTroopsOrder created | troops="
+                    << gameState.getLastMoveTroopsOrder().getTroopsMoved() << std::endl;
+
                 if (troopsAvailable == diceCount)
                 {
+                    std::cout << "[MOVE] Forced move - executing automatically" << std::endl;
                     gameSession.executeMoveTroopsOrder(
                         gameState);
 
@@ -643,11 +738,15 @@ namespace risk {
                 troopsAvailable,
                 gameState);
 
+            std::cout << "[ORDER] MoveTroopsOrder created | troops="
+                << gameState.getLastMoveTroopsOrder().getTroopsMoved() << std::endl;
+
             return;
         }
 
         if (troopsAvailable > 0)
         {
+            std::cout << "[ATTACK] Continuing attack" << std::endl;
             gameSession.createAttackOrder(
                 gameState);
 
@@ -672,6 +771,7 @@ namespace risk {
             return;
         }
 
+        std::cout << "[ATTACK] No movable attacking troops - clearing attack" << std::endl;
         gameState.clearAttack();
         attackWindow->clearDice();
     }
@@ -685,6 +785,8 @@ namespace risk {
         GameState& gameState,
         GameSession& gameSession)
     {
+        std::cout << "[QUIT] Quit attack requested" << std::endl;
+
         if (!gameState.getLastRollDiceOrder().isCompleted())
         {
             gameSession.undoRollDiceOrder(
@@ -699,6 +801,7 @@ namespace risk {
 
         gameState.clearAttack();
         attackWindow->clearDice();
+        std::cout << "[QUIT] Attack cleared" << std::endl;
     }
 
 
@@ -707,17 +810,43 @@ namespace risk {
     //---------------------------------------------------------
 
     void AttackUI::addTroops(
-        GameSession& gameSession)
+        GameSession& gameSession,
+        GameState& gameState)
     {
-        /// need validate move troops add too whether to draw add troop button maybe
-        gameSession.updateMoveTroopsOrder(true);
+        int troopCount = gameState.getLastMoveTroopsOrder().getTroopsMoved() + 1;
+        int troopPool = gameState.getLastAttackOrder().getResult().attackingTroopCount - 1;
+
+        std::cout << "[MOVE] Add proposed=" << troopCount
+            << " max=" << troopPool << std::endl;
+
+        if (isTroopCountValid(troopCount, troopPool))
+
+        {
+            gameSession.updateMoveTroopsOrder(true);
+            std::cout << "[MOVE] Updated troops="
+                << gameState.getLastMoveTroopsOrder().getTroopsMoved() << std::endl;
+        }
+
     }
 
 
     void AttackUI::removeTroops(
-        GameSession& gameSession)
+        GameSession& gameSession,
+        GameState& gameState)
     {
-        gameSession.updateMoveTroopsOrder(false);
+        int minTroopCount = gameState.getLastRollDiceOrder().getAttackingDice().size();
+        int currentTroopsMoved = gameState.getLastMoveTroopsOrder().getTroopsMoved();
+
+        std::cout << "[MOVE] Remove proposed=" << currentTroopsMoved - 1
+            << " minimum=" << minTroopCount << std::endl;
+
+        if (minTroopCount <= currentTroopsMoved - 1)
+        {
+            gameSession.updateMoveTroopsOrder(false);
+            std::cout << "[MOVE] Updated troops="
+                << gameState.getLastMoveTroopsOrder().getTroopsMoved() << std::endl;
+        }
+
     }
 
 
@@ -725,12 +854,37 @@ namespace risk {
         GameState& gameState,
         GameSession& gameSession)
     {
+        std::cout << "[MOVE] Executing MoveTroopsOrder | troops="
+            << gameState.getLastMoveTroopsOrder().getTroopsMoved() << std::endl;
 
+        gameSession.executeMoveTroopsOrder(
+            gameState);
+
+        attackWindow->clearDice();
+
+        gameState.clearAttack();
+        std::cout << "[MOVE] Complete - attack state cleared" << std::endl;
     }
 
-//---------------------------------------------------------
-// Draw
-//---------------------------------------------------------
+
+    //---------------------------------------------------------
+    // Fortify Button 
+    //---------------------------------------------------------
+
+    void AttackUI::fortify(GameState& gameState)
+    {
+        if (!gameState.getAttackConfirmed())
+        {
+            std::cout << "[FORTIFY] Transitioning to Fortify phase" << std::endl;
+            attackWindow->clearDice();
+            gameState.clearAttack();
+            gameState.setPhase(PhaseType::Fortify);
+        }
+    }
+
+    //---------------------------------------------------------
+    // Draw
+    //---------------------------------------------------------
 
     void AttackUI::draw(
         sf::RenderWindow& window,

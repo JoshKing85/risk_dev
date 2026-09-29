@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sfml-src/src/SFML/Graphics
+# Install script for directory: C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sfml-src/src/SFML/Graphics
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Users/joshk/programming/risk_V1/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/joshk/source/repos/risk_v1/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,31 +33,31 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "devel" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY OPTIONAL FILES "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sfml-build/lib/sfml-graphics-d.lib")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY OPTIONAL FILES "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sfml-build/lib/sfml-graphics-d.lib")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "bin" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE SHARED_LIBRARY FILES "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sfml-build/bin/sfml-graphics-d-3.dll")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE SHARED_LIBRARY FILES "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sfml-build/bin/sfml-graphics-d-3.dll")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/freetype-build/cmake_install.cmake")
+  include("C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/freetype-build/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/harfbuzz-build/cmake_install.cmake")
+  include("C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/harfbuzz-build/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sheenbidi-build/cmake_install.cmake")
+  include("C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sheenbidi-build/cmake_install.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sfml-build/src/SFML/Graphics/install_local_manifest.txt"
+  file(WRITE "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sfml-build/src/SFML/Graphics/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

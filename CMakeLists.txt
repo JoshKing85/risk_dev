@@ -64,7 +64,6 @@ add_executable(risk_v1
     src/core/managers/AttackManager.cpp
     src/core/managers/LogManager.cpp
     src/core/managers/TroopManager.cpp
-    
 
     # Session classes
     src/core/session/GameInitializer.cpp
@@ -77,7 +76,6 @@ add_executable(risk_v1
     src/graphics/game_elements/TerritoryGraphics.cpp
     src/graphics/game_elements/PlayerGraphics.cpp
     src/graphics/game_elements/CardGraphics.cpp
-    
 
     # Graphic UI classes
     src/graphics/ui/GameWindow.cpp
@@ -92,19 +90,18 @@ add_executable(risk_v1
 
     # Graphic component classes
     src/graphics/components/PlayerIndicator.cpp
-    src/graphics/components/SetupControls.cpp 
+    src/graphics/components/SetupControls.cpp
     src/graphics/components/ContinentValueBoard.cpp
     src/graphics/components/ReinforceControls.cpp
     src/graphics/components/CardContainer.cpp
-    src/graphics/components/PreAttack.cpp 
-    src/graphics/components/AttackWindow.cpp 
-
+    src/graphics/components/PreAttack.cpp
+    src/graphics/components/AttackWindow.cpp
 
     # Validation functions
     src/core/validation/ValidateTerritorySelection.cpp
     src/core/validation/ValidateAttackInput.cpp
     src/core/validation/ValidateDiceInput.cpp
-    src/core/validation/ValidateReinforceInput.cpp
+    src/core/validation/ValidateTroopCountInput.cpp
     src/core/validation/ValidateSetInput.cpp
     src/core/validation/ValidateFortifyInput.cpp
     src/core/validation/ValidateAttackSelection.cpp
@@ -112,8 +109,7 @@ add_executable(risk_v1
     # Utility functions
     src/core/utils/TerritoryConverter.cpp
     src/core/utils/ContinentConverter.cpp
-   
-   )
+)
 
 target_include_directories(risk_v1 PRIVATE
     include
@@ -123,6 +119,10 @@ target_link_libraries(risk_v1 PRIVATE
     SFML::Graphics
 )
 
+# -----------------------------
+# Runtime Files
+# -----------------------------
+
 # Copy SFML DLLs beside risk_v1.exe after build
 add_custom_command(TARGET risk_v1 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -130,6 +130,13 @@ add_custom_command(TARGET risk_v1 POST_BUILD
         $<TARGET_FILE:SFML::Window>
         $<TARGET_FILE:SFML::System>
         $<TARGET_FILE_DIR:risk_v1>
+)
+
+# Copy game data beside risk_v1.exe after build
+add_custom_command(TARGET risk_v1 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/data"
+        "$<TARGET_FILE_DIR:risk_v1>/data"
 )
 
 # -----------------------------
@@ -152,18 +159,18 @@ enable_testing()
 # -----------------------------
 
 add_executable(unit_tests
-    
+
     # Entity tests
     tests/entityTests/CardTests.cpp
     tests/entityTests/PlayerTests.cpp
     tests/entityTests/TerritoryTests.cpp
 
     # World tests
-   tests/worldTests/ContinentTests.cpp
-   tests/worldTests/DeckTests.cpp
-   tests/worldTests/DeckLoaderTests.cpp
-   tests/worldTests/MapTests.cpp
-   tests/worldTests/MapLoaderTests.cpp
+    tests/worldTests/ContinentTests.cpp
+    tests/worldTests/DeckTests.cpp
+    tests/worldTests/DeckLoaderTests.cpp
+    tests/worldTests/MapTests.cpp
+    tests/worldTests/MapLoaderTests.cpp
 
     # Order tests
     tests/coreTests/orderTests/AttackOrderTests.cpp
@@ -212,21 +219,21 @@ add_executable(unit_tests
 
     # Session source files
     src/core/session/GameInitializer.cpp
-   
 
     # Validation source files
     src/core/validation/ValidateTerritorySelection.cpp
     src/core/validation/ValidateAttackInput.cpp
     src/core/validation/ValidateDiceInput.cpp
-    src/core/validation/ValidateReinforceInput.cpp
+    src/core/validation/ValidateTroopCountInput.cpp
     src/core/validation/ValidateSetInput.cpp
     src/core/validation/ValidateFortifyInput.cpp
 
-   # Utils source files
-   src/core/utils/ContinentConverter.cpp
-   src/core/utils/TerritoryConverter.cpp
-   
- "include/risk/graphics/components/PlayerIndicator.h")
+    # Utils source files
+    src/core/utils/ContinentConverter.cpp
+    src/core/utils/TerritoryConverter.cpp
+
+    include/risk/graphics/components/PlayerIndicator.h
+)
 
 target_include_directories(unit_tests PRIVATE
     include

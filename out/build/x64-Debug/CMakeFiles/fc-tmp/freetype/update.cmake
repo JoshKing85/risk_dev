@@ -4,6 +4,6 @@ message(VERBOSE "Executing update step for freetype")
 
 block(SCOPE_FOR VARIABLES)
 
-include("C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/CMakeFiles/fc-tmp/freetype/freetype-gitupdate.cmake")
+include("C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/CMakeFiles/fc-tmp/freetype/freetype-gitupdate.cmake")
 
 endblock()

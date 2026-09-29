@@ -183,9 +183,9 @@ namespace risk {
 
         const std::array<std::string, 3> avatarPaths =
         {
-            "C:/Users/joshk/programming/risk_V1/data/graphics/avatars/nelson.png",
-            "C:/Users/joshk/programming/risk_V1/data/graphics/avatars/samurai.png",
-            "C:/Users/joshk/programming/risk_V1/data/graphics/avatars/viking.png"
+            "data/graphics/avatars/nelson.png",
+            "data/graphics/avatars/samurai.png",
+            "data/graphics/avatars/viking.png"
         };
 
         for (int i = 0; i < 3; ++i)

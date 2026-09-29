@@ -4,6 +4,6 @@ message(VERBOSE "Executing download step for harfbuzz")
 
 block(SCOPE_FOR VARIABLES)
 
-include("C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/CMakeFiles/fc-tmp/harfbuzz/harfbuzz-gitclone.cmake")
+include("C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/CMakeFiles/fc-tmp/harfbuzz/harfbuzz-gitclone.cmake")
 
 endblock()

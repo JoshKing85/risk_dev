@@ -251,7 +251,7 @@ namespace risk {
         GameSession& gameSession,
         GameState& gameState)
     {
-        if (gameSession.validateReinforceInput(
+        if (gameSession.validateTroopCountInput(
             1,
             gameState))
         {

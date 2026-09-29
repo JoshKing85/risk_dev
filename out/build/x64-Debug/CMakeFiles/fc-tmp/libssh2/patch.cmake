@@ -5,9 +5,9 @@ message(VERBOSE "Executing patch step for libssh2")
 block(SCOPE_FOR VARIABLES)
 
 execute_process(
-  WORKING_DIRECTORY "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/libssh2-src"
+  WORKING_DIRECTORY "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/libssh2-src"
   COMMAND_ERROR_IS_FATAL LAST
-  COMMAND  [====[C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe]====] [====[-DLIBSSH2_DIR=C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/libssh2-src]====] [====[-DMODULES_DIR=C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sfml-src/src/SFML/Network/../../../cmake/Modules]====] [====[-P]====] [====[C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sfml-src/tools/libssh2/PatchLibssh2.cmake]====]
+  COMMAND  [====[C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe]====] [====[-DLIBSSH2_DIR=C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/libssh2-src]====] [====[-DMODULES_DIR=C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sfml-src/src/SFML/Network/../../../cmake/Modules]====] [====[-P]====] [====[C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sfml-src/tools/libssh2/PatchLibssh2.cmake]====]
 )
 
 endblock()

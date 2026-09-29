@@ -1,6 +1,6 @@
 {
   "board": {
-    "background_texture": "C:/Users/joshk/programming/risk_V1/data/graphics/classic/basic_map_texture.jpg",
+    "background_texture": "data/graphics/classic/basic_map_texture.jpg",
 
     "continent_values": [
       {

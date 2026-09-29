@@ -1,4 +1,4 @@
-prefix=C:/Users/joshk/programming/risk_V1/out/install/x64-Debug
+prefix=C:/Users/joshk/source/repos/risk_v1/out/install/x64-Debug
 includedir=${prefix}/include
 libdir=${prefix}/lib
 

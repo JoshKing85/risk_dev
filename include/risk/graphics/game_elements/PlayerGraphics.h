@@ -27,7 +27,7 @@ private:
   sf::Text cardCountText;
 
   const std::string blankAvatarPath =
-      "C:/Users/joshk/programming/risk_V1/data/graphics/avatars/blank.png";
+      "data/graphics/avatars/blank.png";
 
   const sf::Vector2f panelSize = {320.0f, 245.0f};
   const sf::Vector2f avatarSize = {150.0f, 150.0f};

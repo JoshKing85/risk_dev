@@ -1,9 +1,9 @@
 # libvorbis pkg-config source file
 
-prefix=C:/Users/joshk/programming/risk_V1/out/install/x64-Debug
-exec_prefix=C:/Users/joshk/programming/risk_V1/out/install/x64-Debug/bin
-libdir=C:/Users/joshk/programming/risk_V1/out/install/x64-Debug/lib
-includedir=C:/Users/joshk/programming/risk_V1/out/install/x64-Debug/include
+prefix=C:/Users/joshk/source/repos/risk_v1/out/install/x64-Debug
+exec_prefix=C:/Users/joshk/source/repos/risk_v1/out/install/x64-Debug/bin
+libdir=C:/Users/joshk/source/repos/risk_v1/out/install/x64-Debug/lib
+includedir=C:/Users/joshk/source/repos/risk_v1/out/install/x64-Debug/include
 
 Name: vorbis
 Description: vorbis is the primary Ogg Vorbis library

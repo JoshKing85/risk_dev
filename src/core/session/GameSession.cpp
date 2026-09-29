@@ -19,7 +19,7 @@
 #include "risk/core/validation/ValidateAttackSelection.h"
 #include "risk/core/validation/ValidateDiceInput.h"
 #include "risk/core/validation/ValidateFortifyInput.h"
-#include "risk/core/validation/ValidateReinforceInput.h"
+#include "risk/core/validation/ValidateTroopCountInput.h"
 #include "risk/core/validation/ValidateSetInput.h"
 
 #include <stdexcept>
@@ -171,11 +171,11 @@ namespace risk {
     }
 
 
-    bool GameSession::validateReinforceInput(
+    bool GameSession::validateTroopCountInput(
         int troopCount,
         GameState& gameState)
     {
-        return isReinforceValid(
+        return isTroopCountValid(
             troopCount,
             gameState.getReinforcePool());
     }

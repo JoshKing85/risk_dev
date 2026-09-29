@@ -85,13 +85,21 @@ private:
 
   void quitAttack(GameState &gameState, GameSession &gameSession);
 
-  void addTroops(GameSession &gameSession);
+  //---------------------------------------------------------
+  // Move Troops
+  //---------------------------------------------------------
 
-  void removeTroops(GameSession &gameSession);
+  void addTroops(GameSession &gameSession, GameState &gameState);
+
+  void removeTroops(GameSession &gameSession, GameState &gameState);
 
   void confirmMove(GameState &gameState, GameSession &gameSession);
 
+  //---------------------------------------------------------
+  // Fortify Button
+  //---------------------------------------------------------
 
+  void fortify(GameState &gameState);
 
 public:
   //---------------------------------------------------------

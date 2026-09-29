@@ -61,7 +61,7 @@ public:
   bool validateAttackInput(TerritoryID toSelection,
                                TerritoryID fromSelection);
 
-  bool validateReinforceInput(int troopCount, GameState &gameState);
+  bool validateTroopCountInput(int troopCount, GameState &gameState);
 
   bool validateDiceInput(int diceCount, GameState &gameState);
 

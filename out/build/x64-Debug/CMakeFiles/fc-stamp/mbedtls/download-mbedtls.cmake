@@ -1,5 +1,5 @@
 # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
-# file Copyright.txt or https://cmake.org/licensing for details.
+# file LICENSE.rst or https://cmake.org/licensing for details.
 
 cmake_minimum_required(VERSION ${CMAKE_VERSION}) # this file comes with cmake
 
@@ -22,14 +22,14 @@ function(check_file_hash has_hash hash_is_good)
   set("${has_hash}" TRUE PARENT_SCOPE)
 
   message(VERBOSE "verifying file...
-       file='C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2'")
+       file='C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2'")
 
-  file("SHA256" "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2" actual_value)
+  file("SHA256" "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2" actual_value)
 
   if(NOT "${actual_value}" STREQUAL "4a11f1777bb95bf4ad96721cac945a26e04bf19f57d905f241fe77ebeddf46d8")
     set("${hash_is_good}" FALSE PARENT_SCOPE)
     message(VERBOSE "SHA256 hash of
-    C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2
+    C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2
   does not match expected value
     expected: '4a11f1777bb95bf4ad96721cac945a26e04bf19f57d905f241fe77ebeddf46d8'
       actual: '${actual_value}'")
@@ -71,32 +71,32 @@ function(sleep_before_download attempt)
   execute_process(COMMAND "${CMAKE_COMMAND}" -E sleep "${sleep_seconds}")
 endfunction()
 
-if(EXISTS "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2")
+if(EXISTS "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2")
   check_file_hash(has_hash hash_is_good)
   if(has_hash)
     if(hash_is_good)
       message(VERBOSE "File already exists and hash match (skip download):
-  file='C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2'
+  file='C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2'
   SHA256='4a11f1777bb95bf4ad96721cac945a26e04bf19f57d905f241fe77ebeddf46d8'"
       )
       return()
     else()
       message(VERBOSE "File already exists but hash mismatch. Removing...")
-      file(REMOVE "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2")
+      file(REMOVE "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2")
     endif()
   else()
     message(VERBOSE "File already exists but no hash specified (use URL_HASH):
-  file='C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2'
+  file='C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2'
 Old file will be removed and new file downloaded from URL."
     )
-    file(REMOVE "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2")
+    file(REMOVE "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2")
   endif()
 endif()
 
 set(retry_number 5)
 
 message(VERBOSE "Downloading...
-   dst='C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2'
+   dst='C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2'
    timeout='none'
    inactivity timeout='none'"
 )
@@ -119,7 +119,7 @@ foreach(i RANGE ${retry_number})
 
       file(
         DOWNLOAD
-        "${url}" "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2"
+        "${url}" "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2"
         
         # no TIMEOUT
         # no INACTIVITY_TIMEOUT
@@ -136,7 +136,7 @@ foreach(i RANGE ${retry_number})
         check_file_hash(has_hash hash_is_good)
         if(has_hash AND NOT hash_is_good)
           message(VERBOSE "Hash mismatch, removing...")
-          file(REMOVE "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2")
+          file(REMOVE "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/mbedtls-tmp/mbedtls-3.6.5.tar.bz2")
         else()
           message(VERBOSE "Downloading... done")
           return()

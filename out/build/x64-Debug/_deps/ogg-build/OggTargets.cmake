@@ -7,7 +7,7 @@ if(CMAKE_VERSION VERSION_LESS "2.8.3")
    message(FATAL_ERROR "CMake >= 2.8.3 required")
 endif()
 cmake_policy(PUSH)
-cmake_policy(VERSION 2.8.3...3.29)
+cmake_policy(VERSION 2.8.3...4.1)
 #----------------------------------------------------------------
 # Generated CMake target import file.
 #----------------------------------------------------------------
@@ -50,14 +50,14 @@ unset(_cmake_expected_targets)
 add_library(Ogg::ogg STATIC IMPORTED)
 
 set_target_properties(Ogg::ogg PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/ogg-src/include;C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/ogg-build/include"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/ogg-src/include;C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/ogg-build/include"
 )
 
 # Import target "Ogg::ogg" for configuration "Debug"
 set_property(TARGET Ogg::ogg APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(Ogg::ogg PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "C"
-  IMPORTED_LOCATION_DEBUG "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sfml-build/lib/oggd.lib"
+  IMPORTED_LOCATION_DEBUG "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sfml-build/lib/oggd.lib"
   )
 
 # This file does not depend on other imported targets which have

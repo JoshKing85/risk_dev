@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sheenbidi-src
-BuildDirectory: C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sheenbidi-build
+SourceDirectory: C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sheenbidi-src
+BuildDirectory: C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sheenbidi-build
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: Ziggy
+Site: LAPTOP-5Q2REF77
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Win32-ninja
@@ -27,8 +27,8 @@ SubmitInactivityTimeout:
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe" "C:/Users/joshk/programming/risk_V1/out/build/x64-Debug/_deps/sheenbidi-src"
-MakeCommand: "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
+ConfigureCommand: "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe" "C:/Users/joshk/source/repos/risk_v1/out/build/x64-Debug/_deps/sheenbidi-src"
+MakeCommand: "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -63,8 +63,8 @@ UpdateOptions:
 UpdateType: git
 
 # Compiler info
-Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
-CompilerVersion: 19.44.35228.0
+Compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe
+CompilerVersion: 19.51.36260.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
