@@ -66,6 +66,7 @@ public:
   //=========================================================
 
   void updateReinforceOrder(bool add);
+  void updateFortifyOrder(bool add);
 
   //=========================================================
   // Getters

@@ -19,13 +19,13 @@ namespace risk {
 		return playerID;
 	}
 
-	std::string Player::getPlayerName()const {
-		return playerName;
-	}
-
 	int Player::getTroopCount()const {
 
 		return troopCount;
+	}
+
+	bool Player::getIsActive()const {
+		return isActive;
 	}
 
 	const std::vector<Card>& Player::getPlayerSet() const {
@@ -57,8 +57,8 @@ namespace risk {
 		currentSet = newSet;
 	}
 	// --- Player Management ---
-	void Player::setPlayerName(const std::string& name) {
-		playerName = name;
+	void Player::setIsActive(bool active) {
+		isActive = active;
 	}
 
 	// --- Territory management ---

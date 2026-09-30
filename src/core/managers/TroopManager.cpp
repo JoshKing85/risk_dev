@@ -274,6 +274,22 @@ namespace risk {
             );
         }
     }
+    //=========================================================
+    // Update fortification
+    //=========================================================
+
+    void TroopManager::updateFortifyOrder(
+        bool add
+    )
+    {
+        FortifyOrder& currentFortifyOrder =
+            fortifyOrders.back();
+
+        if (!currentFortifyOrder.isCompleted())
+        {
+            currentFortifyOrder.updateFortifyOrder(add);
+        }
+    }
 
     //=========================================================
     // Getters

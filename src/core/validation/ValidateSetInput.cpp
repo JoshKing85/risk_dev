@@ -2,50 +2,64 @@
 
 namespace risk {
 
+    std::optional<SetType> validateSet(
+        const std::vector<Card>& cards)
+    {
+        int infantry = 0;
+        int cavalry = 0;
+        int artillery = 0;
+        int wild = 0;
 
-	bool isValidSet(const std::vector<Card>& cards) {
+        if (cards.size() != 3)
+        {
+            return std::nullopt;
+        }
 
-		int infantry = 0;
-		int cavalry = 0;
-		int artillery = 0;
-		int wild = 0;
+        for (const auto& card : cards)
+        {
+            switch (card.getCardType())
+            {
+            case CardType::Infantry:
+                infantry++;
+                break;
 
-		if (cards.size() != 3)
-		{
-			return false;
-		}
-		for (const auto& card : cards) {
+            case CardType::Cavalry:
+                cavalry++;
+                break;
 
-			switch (card.getCardType()) {
-			case CardType::Infantry:
-				infantry++;
-				break;
-			case CardType::Cavalry:
-				cavalry++;
-				break;
-			case CardType::Artillery:
-				artillery++;
-				break;
-			case CardType::Wild:
-				wild++;
-				break;
-			}
-		}
+            case CardType::Artillery:
+                artillery++;
+                break;
 
-		if (wild > 0) {
-			return true;
-		}
+            case CardType::Wild:
+                wild++;
+                break;
+            }
+        }
 
-		if (infantry == 3 || cavalry == 3 || artillery == 3) {
-			return true;
-		}
+        if (infantry + wild == 3)
+        {
+            return SetType::InfantrySet;
+        }
 
-		if (infantry == 1 && cavalry == 1 && artillery == 1)
-		{
-			return true;
-		}
+        if (cavalry + wild == 3)
+        {
+            return SetType::CavalrySet;
+        }
 
-		return false;
-	};
-}
-	
+        if (artillery + wild == 3)
+        {
+            return SetType::ArtillerySet;
+        }
+
+        if (infantry <= 1 &&
+            cavalry <= 1 &&
+            artillery <= 1)
+        {
+            return SetType::MixedSet;
+        }
+
+        return std::nullopt;
+    }
+
+} // namespace risk

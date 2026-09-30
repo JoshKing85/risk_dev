@@ -5,11 +5,11 @@ namespace risk {
 		int playerID,
 		TerritoryID fromTerritory,
 		TerritoryID toTerritory,
-		int fortifyTroopCount)
+		int troopCount)
 		: Order(playerID, OrderType::Fortify),
 		fromTerritory(fromTerritory),
 		toTerritory(toTerritory),
-		fortifyTroopCount(fortifyTroopCount)
+		troopCount(troopCount)
 	{
 	}
 
@@ -25,7 +25,19 @@ namespace risk {
 
 	int FortifyOrder::getFortifyTroopCount() const {
 
-		return fortifyTroopCount;
+		return troopCount;
+	}
+
+	void FortifyOrder::updateFortifyOrder(bool add)
+	{
+		if (add)
+		{
+			troopCount++;
+		}
+		else
+		{
+			troopCount--;
+		}
 	}
 	
 }

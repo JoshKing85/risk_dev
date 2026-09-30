@@ -26,6 +26,8 @@ private:
   sf::RectangleShape cashSetButton;
   sf::Text cashSetButtonText;
 
+  const sf::Font &font;
+
   //---------------------------------------------------------
   // Card Graphics
   //---------------------------------------------------------
@@ -37,6 +39,7 @@ private:
   //---------------------------------------------------------
 
   bool open = false;
+  bool cashSetAvailable = false;
 
   std::vector<int> selectedCards;
 
@@ -46,7 +49,7 @@ private:
 
   void setContainer(const std::unordered_map<TerritoryID, TerritoryGraphics>
                         &territoryGraphicsMap,
-                    const std::vector<Card> &playerSet, const sf::Font &font);
+                    const std::vector<Card> &playerSet);
 
   void setCardPositions();
 
@@ -64,6 +67,14 @@ public:
   void closeContainer();
 
   bool isOpen() const;
+
+  //---------------------------------------------------------
+  // Set Validity
+  //---------------------------------------------------------
+
+  void setCashSetAvailable(bool available);
+
+  bool getCashSetAvailable() const;
 
   //---------------------------------------------------------
   // Selection
@@ -89,7 +100,7 @@ public:
 
   void updateCards(const std::unordered_map<TerritoryID, TerritoryGraphics>
                        &territoryGraphicsMap,
-                   const std::vector<Card> &playerSet, const sf::Font &font);
+                   const std::vector<Card> &playerSet);
 
   //---------------------------------------------------------
   // Clear

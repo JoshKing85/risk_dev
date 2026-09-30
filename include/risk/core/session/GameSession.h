@@ -68,7 +68,7 @@ public:
   bool validateFortifySelection(TerritoryID fromSelection,
                                 TerritoryID toSelection, GameState &gameState);
 
-  bool validateCashSet(const std::vector<Card> &cards);
+  std::optional<SetType> validateCashSet(const std::vector<Card> &cards);
 
   //=========================================================
   // REINFORCE ORDER
@@ -138,6 +138,8 @@ public:
 
   void undoFortifyOrder(GameState &gameState);
 
+  void updateFortifyOrder(bool add);
+
   //=========================================================
   // SETTERS
   //=========================================================
@@ -146,6 +148,7 @@ public:
 
   void setReinforcePool(GameState &gameState);
 
+  void updatePlayerSet(GameState &gameState, std::vector<Card> &cards);
   
 
   //=========================================================
@@ -160,6 +163,8 @@ public:
   std::vector<int> getTroopCounts() const;
 
   Player &getPlayer(int playerID);
+  const std::vector<Card> &getPlayerCards(int playerID);
+  std::vector<Card> checkCardState(int defendingPlayerID);
 };
 
 } // namespace risk

@@ -76,9 +76,15 @@ namespace risk {
 
 
     void GameState::setPlayerCards(
-        std::vector<Card>& playerSet)
+        const std::vector<Card>& playerSet)
     {
         playerCards = playerSet;
+        setCount = playerSet.size();
+    }
+
+    void GameState::setTurnStarted(bool started)
+    {
+        turnStarted = started;
     }
 
 
@@ -159,6 +165,15 @@ namespace risk {
     // CLEARERS
     //=========================================================
 
+    void GameState::clearTurn()
+    {
+        setReinforceComplete(false);
+        setPlayerCards({});
+        setTurnStarted(false);
+        clearAttack();
+        clearOrders();
+
+    }
     void GameState::clearOrders()
     {
         reinforceOrders.clear();
@@ -244,6 +259,11 @@ namespace risk {
         GameState::getPlayerCards()
     {
         return playerCards;
+    }
+
+    bool GameState::getTurnStarted() const
+    {
+        return turnStarted;
     }
 
 

@@ -184,6 +184,8 @@ namespace risk {
             territory.draw(
                 window);
         }
+        
+        
 
 
         //-----------------------------------------------------
@@ -228,6 +230,14 @@ namespace risk {
                     gameState,
                     gameSession);
             }
+            
+            if (!gameState.getTurnStarted())
+            {
+                reinforceUI->setPlayerState(
+                    gameState,
+                    gameSession,
+                    territoryGraphicsMap);
+            }
 
             reinforceUI->draw(
                 window,
@@ -261,6 +271,34 @@ namespace risk {
             }
 
             attackUI->draw(
+                window,
+                playerGraphics,
+                gameState);
+        }
+        //-----------------------------------------------------
+        // Fortify
+        //-----------------------------------------------------
+
+        if (gameState.getPhase() ==
+            PhaseType::Fortify)
+        {
+            if (!fortifyUI.has_value())
+            {
+                static sf::Font font;
+
+                if (!font.openFromFile(
+                    "C:/Windows/Fonts/arial.ttf"))
+                {
+                    throw std::runtime_error(
+                        "Could not load font");
+                }
+
+                fortifyUI.emplace(
+                    font,
+                    gameState);
+            }
+
+            fortifyUI->draw(
                 window,
                 playerGraphics,
                 gameState);
@@ -325,6 +363,25 @@ namespace risk {
             if (attackUI.has_value())
             {
                 attackUI->handleAttackEvent(
+                    event,
+                    window,
+                    gameSession,
+                    gameState,
+                    playerGraphics,
+                    territoryGraphicsMap);
+            }
+        }
+
+        //-----------------------------------------------------
+        // Fortify
+        //-----------------------------------------------------
+
+        if (gameState.getPhase() ==
+            PhaseType::Fortify)
+        {
+            if (fortifyUI.has_value())
+            {
+                fortifyUI->handleFortifyEvent(
                     event,
                     window,
                     gameSession,

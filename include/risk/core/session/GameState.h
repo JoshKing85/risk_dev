@@ -16,7 +16,7 @@ namespace risk {
 class GameState {
 private:
   PhaseType phase = PhaseType::Loading;
-
+  bool turnStarted = false;
   int playerTurnID = 0;
 
   int reinforcePool = 0;
@@ -62,8 +62,8 @@ public:
   void updateReinforcePool(int troopCount);
   void setReinforceComplete(bool complete);
 
-  void setPlayerCards(std::vector<Card> &playerSet);
-
+  void setPlayerCards(const std::vector<Card> &playerSet);
+  void setTurnStarted(bool started);
   //=========================================================
   // ADD ORDERS
   //=========================================================
@@ -87,6 +87,7 @@ public:
   //=========================================================
   // CLEARERS
   //=========================================================
+  void clearTurn();
 
   void clearOrders();
 
@@ -112,6 +113,8 @@ public:
   bool getAttackConfirmed() const;
 
   std::vector<Card> getPlayerCards();
+
+   bool getTurnStarted() const;
 
   //=========================================================
   // ORDER GETTERS

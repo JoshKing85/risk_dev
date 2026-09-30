@@ -11,7 +11,7 @@ namespace risk {
 
 			TerritoryID fromTerritory;
             TerritoryID toTerritory;
-            int fortifyTroopCount;
+            int troopCount;
 
 		public:
             FortifyOrder(
@@ -23,6 +23,8 @@ namespace risk {
 			TerritoryID getFromTerritory() const;
 			TerritoryID getToTerritory() const;
 			int getFortifyTroopCount() const;
+
+			void updateFortifyOrder(bool add);
 
 
 

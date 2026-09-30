@@ -14,7 +14,7 @@ private:
     static PlayerID nextID;
 
     PlayerID playerID;
-    std::string playerName;
+   
     int troopCount;
 
     std::vector<Card> currentSet;
@@ -22,14 +22,16 @@ private:
     std::vector<ContinentID> continentsOwned;
     std::vector<PlayerID> allies;
 
+    bool isActive = true;
+
 public:
     // Constructor
     Player(PlayerID playerID);
 
     // --- Getters ---
     PlayerID getPlayerID() const;
-    std::string getPlayerName() const;
     int getTroopCount() const;
+    bool getIsActive()const;
 
     const std::vector<Card>& getPlayerSet() const;
     const std::vector<TerritoryID>& getTerritoriesHeld() const;
@@ -41,7 +43,7 @@ public:
     void removeTroops(int amount);
 
     // --- Player Management ---
-    void setPlayerName(const std::string& name);
+    void setIsActive(bool active);
 
     // --- Card management ---
     void setPlayerSet(const std::vector<Card>& newSet);

@@ -26,6 +26,7 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <iostream>
 
 namespace risk {
 
@@ -122,11 +123,28 @@ namespace risk {
         troopManager.clearOrders();
 
         // 3. Reset/advance turn state
-        // gameState.clear/reset...
-        // gameState advance player...
+        gameState.clearTurn();
+        int count = 0;
+        int pointer = gameState.getPlayerTurnID() + 1;
+
+        while (count < players.size())
+        {
+            if (pointer >= players.size())
+            {
+                pointer = 0;
+            }
+
+            if (players[pointer].getIsActive())
+            {
+                gameState.setPlayerTurnID(pointer);
+                gameState.setPhase(PhaseType::Reinforce);
+                break;
+            }
+
+            pointer++;
+            count++;
+        }
     }
-
-
     //=========================================================
     // VALIDATION
     //=========================================================
@@ -156,18 +174,22 @@ namespace risk {
 
     bool GameSession::validateAttackInput(
         TerritoryID toSelection,
-        TerritoryID fromSelection
-    )
+        TerritoryID fromSelection)
     {
         return isValidAttackInput(
             toSelection,
             map.getTerritory(
-                fromSelection
-            ).getAdjacentTerritories(),
+                fromSelection)
+            .getAdjacentTerritories(),
             map.getTerritory(
-                fromSelection
-            ).getTroopCount()
-        );
+                fromSelection)
+            .getTroopCount(),
+            map.getTerritory(
+                fromSelection)
+            .getOwnerID(),
+            map.getTerritory(
+                toSelection)
+            .getOwnerID());
     }
 
 
@@ -210,13 +232,10 @@ namespace risk {
     }
 
 
-    bool GameSession::validateCashSet(
-        const std::vector<Card>& cards
-    )
+    std::optional<SetType> GameSession::validateCashSet(
+        const std::vector<Card>& cards)
     {
-        return isValidSet(
-            cards
-        );
+        return validateSet(cards);
     }
 
 
@@ -354,14 +373,46 @@ namespace risk {
 
 
     void GameSession::executeAttackOrder(
-        GameState& gameState
-    )
+        GameState& gameState)
     {
-        attackManager.executeAttackOrder(
-            gameStateManager
-        );
-    }
+        int defendingPlayerID =
+            map.getTerritory(
+                gameState.getToTerritorySelection())
+            .getOwnerID();
 
+        attackManager.executeAttackOrder(
+            gameStateManager);
+
+        if (attackManager
+            .getLastAttackOrder()
+            .getResult()
+            .attackOutcome != AttackOutcome::Captured)
+        {
+            return;
+        }
+
+        Player& defendingPlayer =
+            getPlayer(
+                defendingPlayerID);
+
+        if (!defendingPlayer
+            .getTerritoriesHeld()
+            .empty())
+        {
+            return;
+        }
+
+        std::vector<Card> defendingCards =
+            defendingPlayer.getPlayerSet();
+
+        updatePlayerSet(
+            gameState,
+            defendingCards);
+
+        defendingPlayer.setIsActive(
+            false);
+    }
+    
 
     void GameSession::undoAttackOrder(
         GameState& gameState
@@ -498,6 +549,13 @@ namespace risk {
         troopManager.undoFortifyOrder();
     }
 
+    void GameSession::updateFortifyOrder(
+        bool add
+    )
+    {
+        troopManager.updateFortifyOrder(add);
+    }
+
 
     //=========================================================
     // GETTERS
@@ -603,6 +661,57 @@ namespace risk {
         gameState.setInitialReinforceCount(
             reinforcementPool
         );
+    }
+
+    void GameSession::updatePlayerSet(
+        GameState& gameState,
+        std::vector<Card>& cards)
+    {
+        Player& attackingPlayer =
+            getPlayer(
+                gameState.getPlayerTurnID());
+
+        cards.insert(
+            cards.end(),
+            attackingPlayer.getPlayerSet().begin(),
+            attackingPlayer.getPlayerSet().end());
+
+        gameStateManager.updatePlayerSet(
+            gameState.getPlayerTurnID(),
+            cards);
+    }
+
+    std::vector<Card> GameSession::checkCardState(
+        int defendingPlayerID)
+    {
+        Player& defendingPlayer =
+            getPlayer(
+                defendingPlayerID);
+
+        if (defendingPlayer
+            .getTerritoriesHeld()
+            .empty())
+        {
+            return defendingPlayer
+                .getPlayerSet();
+        }
+
+        return {};
+    }
+
+    const std::vector<Card>& GameSession::getPlayerCards(
+        int playerID)
+    {
+        for (auto& player : players)
+        {
+            if (player.getPlayerID() == playerID)
+            {
+                return player.getPlayerSet();
+            }
+        }
+
+        throw std::runtime_error(
+            "Player ID not found");
     }
 
 } // namespace risk

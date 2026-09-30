@@ -86,7 +86,6 @@ namespace risk {
         const std::string& name
     )
     {
-        player.setPlayerName(name);
 
         std::cout
             << "[DEBUG] Player "

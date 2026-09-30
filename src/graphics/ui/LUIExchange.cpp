@@ -17,85 +17,121 @@ namespace risk {
     )
     {
         // Update territory graphics
-            for (const auto& [territoryID, territory] :
-                map.getTerritories())
+        for (const auto& [territoryID, territory] :
+            map.getTerritories())
+        {
+            auto graphicsTerritory =
+                territoryGraphicsMap.find(territoryID);
+
+            if (graphicsTerritory !=
+                territoryGraphicsMap.end())
             {
-                auto graphicsTerritory =
-                    territoryGraphicsMap.find(territoryID);
+                int troopCount =
+                    territory.getTroopCount();
 
-                if (graphicsTerritory !=
-                    territoryGraphicsMap.end())
+                bool selected = false;
+
+
+                // ---------------------------------------------
+                // Game Setup pending troop
+                // ---------------------------------------------
+
+                if (gameSetupState != nullptr &&
+                    gameSetupState->getTerritorySelected() ==
+                    territoryID)
                 {
-                    int troopCount =
-                        territory.getTroopCount();
+                    selected = true;
+                    troopCount++;
+                }
 
-                    bool selected = false;
+
+                // ---------------------------------------------
+                // Reinforce pending troops
+                // ---------------------------------------------
+
+                if (gameState.getPhase() ==
+                    PhaseType::Reinforce &&
+                    gameState.getToTerritorySelection() ==
+                    territoryID)
+                {
+                    selected = true;
+
+                    troopCount +=
+                        gameState
+                        .getLastReinforceOrder()
+                        .getReinforceTroopCount();
+                }
 
 
-                    // ---------------------------------------------
-                    // Game Setup pending troop
-                    // ---------------------------------------------
+                // ---------------------------------------------
+                // Attack territory selections
+                // ---------------------------------------------
 
-                    if (gameSetupState != nullptr &&
-                        gameSetupState->getTerritorySelected() ==
+                if (gameState.getPhase() ==
+                    PhaseType::Attack)
+                {
+                    if (gameState.getFromTerritorySelection() ==
                         territoryID)
                     {
                         selected = true;
-                        troopCount++;
                     }
 
+                    if (gameState.getToTerritorySelection() ==
+                        territoryID)
+                    {
+                        selected = true;
+                    }
+                }
 
-                    // ---------------------------------------------
-                    // Reinforce pending troops
-                    // ---------------------------------------------
 
-                    if (gameState.getPhase() ==
-                        PhaseType::Reinforce &&
-                        gameState.getToTerritorySelection() ==
+                // ---------------------------------------------
+                // Fortify pending troops
+                // ---------------------------------------------
+
+                if (gameState.getPhase() ==
+                    PhaseType::Fortify)
+                {
+                    if (gameState.getFromTerritorySelection() ==
+                        territoryID)
+                    {
+                        selected = true;
+
+                        if (gameState.getToTerritorySelection() !=
+                            TerritoryID::None)
+                        {
+                            troopCount -=
+                                gameState
+                                .getLastFortifyOrder()
+                                .getFortifyTroopCount();
+                        }
+                    }
+
+                    if (gameState.getToTerritorySelection() ==
                         territoryID)
                     {
                         selected = true;
 
                         troopCount +=
                             gameState
-                            .getLastReinforceOrder()
-                            .getReinforceTroopCount();
+                            .getLastFortifyOrder()
+                            .getFortifyTroopCount();
                     }
-
-                    // ---------------------------------------------
-                    // Attack territory selections
-                    // ---------------------------------------------
-
-                    if (gameState.getPhase() ==
-                        PhaseType::Attack)
-                    {
-                        if (gameState.getFromTerritorySelection() ==
-                            territoryID)
-                        {
-                            selected = true;
-                        }
-
-                        if (gameState.getToTerritorySelection() ==
-                            territoryID)
-                        {
-                            selected = true;
-                        }
-                    }
-
-
-                    graphicsTerritory->second.setTroopCount(
-                        troopCount
-                    );
-
-                    graphicsTerritory->second.setPlayerID(
-                        territory.getOwnerID()
-                    );
-
-                    graphicsTerritory->second.setSelected(
-                        selected
-                    );
                 }
+
+
+                graphicsTerritory->second.setTroopCount(
+                    troopCount
+                );
+
+                graphicsTerritory->second.setPlayerID(
+                    territory.getOwnerID()
+                );
+
+                graphicsTerritory->second.setSelected(
+                    selected
+                );
             }
+        }
 
         // Update player graphics
         for (const auto& player : players)

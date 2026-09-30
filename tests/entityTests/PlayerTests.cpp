@@ -40,21 +40,17 @@ TEST(PlayerTests, StartsWithNoAllies)
 }
 
 // --------------------------------------------------
-// Player Name Tests
+// Player Active Tests
 // --------------------------------------------------
 
-TEST(PlayerTests, CanSetPlayerName)
+TEST(PlayerTests, CanSetPlayerActive)
 {
     Player player(1);
 
-    std::string name =
-        "Josh";
+    player.setIsActive(false);
 
-    player.setPlayerName(name);
-
-    EXPECT_EQ(
-        player.getPlayerName(),
-        "Josh"
+    EXPECT_FALSE(
+        player.getIsActive()
     );
 }
 

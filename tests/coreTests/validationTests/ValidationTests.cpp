@@ -2,6 +2,7 @@
 
 #include "risk/core/validation/ValidateTerritorySelection.h"
 #include "risk/core/validation/ValidateAttackInput.h"
+#include "risk/core/validation/ValidateAttackSelection.h"
 #include "risk/core/validation/ValidateDiceInput.h"
 #include "risk/core/validation/ValidateTroopCountInput.h"
 #include "risk/core/validation/ValidateSetInput.h"
@@ -98,7 +99,9 @@ TEST(ValidationTests, AttackInputReturnsTrueWhenTargetIsAdjacentAndEnoughTroops)
         isValidAttackInput(
             TerritoryID::Rockies,
             adjacentTerritories,
-            3
+            3,
+            0,
+            1
         )
     );
 }
@@ -113,7 +116,9 @@ TEST(ValidationTests, AttackInputReturnsTrueWithMinimumTwoTroops)
         isValidAttackInput(
             TerritoryID::Rockies,
             adjacentTerritories,
-            2
+            2,
+            0,
+            1
         )
     );
 }
@@ -128,6 +133,8 @@ TEST(ValidationTests, AttackInputReturnsFalseWhenOnlyOneTroopAvailable)
         isValidAttackInput(
             TerritoryID::Rockies,
             adjacentTerritories,
+            1,
+            0,
             1
         )
     );
@@ -144,7 +151,9 @@ TEST(ValidationTests, AttackInputReturnsFalseWhenTargetIsNotAdjacent)
         isValidAttackInput(
             TerritoryID::Amazonia,
             adjacentTerritories,
-            5
+            5,
+            0,
+            1
         )
     );
 }
@@ -157,7 +166,9 @@ TEST(ValidationTests, AttackInputReturnsFalseWhenAdjacentTerritoriesIsEmpty)
         isValidAttackInput(
             TerritoryID::Rockies,
             adjacentTerritories,
-            5
+            5,
+            0,
+            1
         )
     );
 }
@@ -174,10 +185,146 @@ TEST(ValidationTests, AttackInputFindsTargetLaterInAdjacentVector)
         isValidAttackInput(
             TerritoryID::EasternPeninsula,
             adjacentTerritories,
-            5
+            5,
+            0,
+            1
         )
     );
 }
+
+TEST(ValidationTests, AttackInputReturnsFalseWhenTargetHasSameOwner)
+{
+    const std::vector<TerritoryID> adjacentTerritories = {
+        TerritoryID::Rockies
+    };
+
+    EXPECT_FALSE(
+        isValidAttackInput(
+            TerritoryID::Rockies,
+            adjacentTerritories,
+            3,
+            0,
+            0
+        )
+    );
+}
+
+
+// --------------------------------------------------
+// Attack Selection Validation Tests
+// --------------------------------------------------
+
+TEST(ValidationTests, AttackSelectionReturnsTrueWhenEnemyIsAdjacent)
+{
+    Map map;
+
+    Territory selectedTerritory(
+        TerritoryID::Bearus,
+        ContinentID::NorthAmerica,
+        {
+            TerritoryID::Rockies
+        }
+    );
+
+    Territory adjacentTerritory(
+        TerritoryID::Rockies,
+        ContinentID::NorthAmerica,
+        {
+            TerritoryID::Bearus
+        }
+    );
+
+    selectedTerritory.setOwner(0);
+    adjacentTerritory.setOwner(1);
+
+    selectedTerritory.addTroops(2);
+
+    map.addTerritory(selectedTerritory);
+    map.addTerritory(adjacentTerritory);
+
+    EXPECT_TRUE(
+        isValidAttackSelection(
+            0,
+            TerritoryID::Bearus,
+            map
+        )
+    );
+}
+
+TEST(ValidationTests, AttackSelectionReturnsFalseWhenLessThanTwoTroops)
+{
+    Map map;
+
+    Territory selectedTerritory(
+        TerritoryID::Bearus,
+        ContinentID::NorthAmerica,
+        {
+            TerritoryID::Rockies
+        }
+    );
+
+    Territory adjacentTerritory(
+        TerritoryID::Rockies,
+        ContinentID::NorthAmerica,
+        {
+            TerritoryID::Bearus
+        }
+    );
+
+    selectedTerritory.setOwner(0);
+    adjacentTerritory.setOwner(1);
+
+    selectedTerritory.addTroops(1);
+
+    map.addTerritory(selectedTerritory);
+    map.addTerritory(adjacentTerritory);
+
+    EXPECT_FALSE(
+        isValidAttackSelection(
+            0,
+            TerritoryID::Bearus,
+            map
+        )
+    );
+}
+
+TEST(ValidationTests, AttackSelectionReturnsFalseWhenNoEnemyIsAdjacent)
+{
+    Map map;
+
+    Territory selectedTerritory(
+        TerritoryID::Bearus,
+        ContinentID::NorthAmerica,
+        {
+            TerritoryID::Rockies
+        }
+    );
+
+    Territory adjacentTerritory(
+        TerritoryID::Rockies,
+        ContinentID::NorthAmerica,
+        {
+            TerritoryID::Bearus
+        }
+    );
+
+    selectedTerritory.setOwner(0);
+    adjacentTerritory.setOwner(0);
+
+    selectedTerritory.addTroops(2);
+
+    map.addTerritory(selectedTerritory);
+    map.addTerritory(adjacentTerritory);
+
+    EXPECT_FALSE(
+        isValidAttackSelection(
+            0,
+            TerritoryID::Bearus,
+            map
+        )
+    );
+}
+
 
 // --------------------------------------------------
 // Dice Input Validation Tests
@@ -310,7 +457,7 @@ TEST(ValidationTests, ReinforceInputReturnsFalseForNegativeTroops)
 // Set Validation Tests
 // --------------------------------------------------
 
-TEST(ValidationTests, SetReturnsTrueForThreeInfantryCards)
+TEST(ValidationTests, SetReturnsInfantrySetForThreeInfantryCards)
 {
     const std::vector<Card> cards = {
         Card(CardType::Infantry),
@@ -318,12 +465,13 @@ TEST(ValidationTests, SetReturnsTrueForThreeInfantryCards)
         Card(CardType::Infantry)
     };
 
-    EXPECT_TRUE(
-        isValidSet(cards)
+    EXPECT_EQ(
+        validateSet(cards),
+        SetType::InfantrySet
     );
 }
 
-TEST(ValidationTests, SetReturnsTrueForThreeCavalryCards)
+TEST(ValidationTests, SetReturnsCavalrySetForThreeCavalryCards)
 {
     const std::vector<Card> cards = {
         Card(CardType::Cavalry),
@@ -331,12 +479,13 @@ TEST(ValidationTests, SetReturnsTrueForThreeCavalryCards)
         Card(CardType::Cavalry)
     };
 
-    EXPECT_TRUE(
-        isValidSet(cards)
+    EXPECT_EQ(
+        validateSet(cards),
+        SetType::CavalrySet
     );
 }
 
-TEST(ValidationTests, SetReturnsTrueForThreeArtilleryCards)
+TEST(ValidationTests, SetReturnsArtillerySetForThreeArtilleryCards)
 {
     const std::vector<Card> cards = {
         Card(CardType::Artillery),
@@ -344,12 +493,13 @@ TEST(ValidationTests, SetReturnsTrueForThreeArtilleryCards)
         Card(CardType::Artillery)
     };
 
-    EXPECT_TRUE(
-        isValidSet(cards)
+    EXPECT_EQ(
+        validateSet(cards),
+        SetType::ArtillerySet
     );
 }
 
-TEST(ValidationTests, SetReturnsTrueForMixedSet)
+TEST(ValidationTests, SetReturnsMixedSet)
 {
     const std::vector<Card> cards = {
         Card(CardType::Infantry),
@@ -357,12 +507,13 @@ TEST(ValidationTests, SetReturnsTrueForMixedSet)
         Card(CardType::Artillery)
     };
 
-    EXPECT_TRUE(
-        isValidSet(cards)
+    EXPECT_EQ(
+        validateSet(cards),
+        SetType::MixedSet
     );
 }
 
-TEST(ValidationTests, SetReturnsTrueWhenSetContainsWild)
+TEST(ValidationTests, SetReturnsInfantrySetWhenWildCompletesInfantrySet)
 {
     const std::vector<Card> cards = {
         Card(CardType::Infantry),
@@ -370,12 +521,27 @@ TEST(ValidationTests, SetReturnsTrueWhenSetContainsWild)
         Card(CardType::Wild)
     };
 
-    EXPECT_TRUE(
-        isValidSet(cards)
+    EXPECT_EQ(
+        validateSet(cards),
+        SetType::InfantrySet
     );
 }
 
-TEST(ValidationTests, SetReturnsFalseForInvalidCombination)
+TEST(ValidationTests, SetReturnsMixedSetWhenWildCompletesMixedSet)
+{
+    const std::vector<Card> cards = {
+        Card(CardType::Infantry),
+        Card(CardType::Cavalry),
+        Card(CardType::Wild)
+    };
+
+    EXPECT_EQ(
+        validateSet(cards),
+        SetType::MixedSet
+    );
+}
+
+TEST(ValidationTests, SetReturnsNulloptForInvalidCombination)
 {
     const std::vector<Card> cards = {
         Card(CardType::Infantry),
@@ -383,24 +549,26 @@ TEST(ValidationTests, SetReturnsFalseForInvalidCombination)
         Card(CardType::Cavalry)
     };
 
-    EXPECT_FALSE(
-        isValidSet(cards)
+    EXPECT_EQ(
+        validateSet(cards),
+        std::nullopt
     );
 }
 
-TEST(ValidationTests, SetReturnsFalseWithFewerThanThreeCards)
+TEST(ValidationTests, SetReturnsNulloptWithFewerThanThreeCards)
 {
     const std::vector<Card> cards = {
         Card(CardType::Infantry),
         Card(CardType::Infantry)
     };
 
-    EXPECT_FALSE(
-        isValidSet(cards)
+    EXPECT_EQ(
+        validateSet(cards),
+        std::nullopt
     );
 }
 
-TEST(ValidationTests, SetReturnsFalseWithMoreThanThreeCards)
+TEST(ValidationTests, SetReturnsNulloptWithMoreThanThreeCards)
 {
     const std::vector<Card> cards = {
         Card(CardType::Infantry),
@@ -409,8 +577,9 @@ TEST(ValidationTests, SetReturnsFalseWithMoreThanThreeCards)
         Card(CardType::Infantry)
     };
 
-    EXPECT_FALSE(
-        isValidSet(cards)
+    EXPECT_EQ(
+        validateSet(cards),
+        std::nullopt
     );
 }
 // --------------------------------------------------

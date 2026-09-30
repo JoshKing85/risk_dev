@@ -87,6 +87,7 @@ add_executable(risk_v1
     src/graphics/ui/GameSetupUI.cpp
     src/graphics/ui/ReinforceUI.cpp
     src/graphics/ui/AttackUI.cpp
+    src/graphics/ui/FortifyUI.cpp
 
     # Graphic component classes
     src/graphics/components/PlayerIndicator.cpp
@@ -96,6 +97,7 @@ add_executable(risk_v1
     src/graphics/components/CardContainer.cpp
     src/graphics/components/PreAttack.cpp
     src/graphics/components/AttackWindow.cpp
+    src/graphics/components/FortifyControls.cpp
 
     # Validation functions
     src/core/validation/ValidateTerritorySelection.cpp
@@ -109,7 +111,7 @@ add_executable(risk_v1
     # Utility functions
     src/core/utils/TerritoryConverter.cpp
     src/core/utils/ContinentConverter.cpp
-)
+ )
 
 target_include_directories(risk_v1 PRIVATE
     include
@@ -227,13 +229,14 @@ add_executable(unit_tests
     src/core/validation/ValidateTroopCountInput.cpp
     src/core/validation/ValidateSetInput.cpp
     src/core/validation/ValidateFortifyInput.cpp
+    src/core/validation/ValidateAttackSelection.cpp
 
     # Utils source files
     src/core/utils/ContinentConverter.cpp
     src/core/utils/TerritoryConverter.cpp
 
     include/risk/graphics/components/PlayerIndicator.h
-)
+ )
 
 target_include_directories(unit_tests PRIVATE
     include

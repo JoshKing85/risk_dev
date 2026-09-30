@@ -9,6 +9,7 @@
 #include "risk/graphics/ui/GameSetupUI.h"
 #include "risk/graphics/ui/ReinforceUI.h"
 #include "risk/graphics/ui/AttackUI.h"
+#include "risk/graphics/ui/FortifyUI.h"
 #include "risk/world/Map.h"
 
 #include <SFML/Graphics.hpp>
@@ -45,6 +46,9 @@ private:
   std::optional<GameSetupUI> gameSetupUI;
   std::optional<ReinforceUI> reinforceUI;
   std::optional<AttackUI> attackUI;
+  std::optional<FortifyUI> fortifyUI;
+
+  int activePlayerID = -1;
 
 public:
   //---------------------------------------------------------

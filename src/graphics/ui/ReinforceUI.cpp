@@ -41,13 +41,6 @@ namespace risk {
             20.0f
             });
 
-        //-----------------------------------------------------
-        // Player state
-        //-----------------------------------------------------
-
-        setPlayerState(
-            gameState,
-            gameSession);
 
         cardContainer.emplace(
             font,
@@ -75,8 +68,11 @@ namespace risk {
 
     void ReinforceUI::setPlayerState(
         GameState& gameState,
-        GameSession& gameSession)
+        GameSession& gameSession,
+        const std::unordered_map<TerritoryID, TerritoryGraphics>&
+        territoryGraphicsMap)
     {
+
         gameSession.setReinforcePool(
             gameState);
 
@@ -84,13 +80,90 @@ namespace risk {
             gameSession.getPlayer(
                 gameState.getPlayerTurnID());
 
-        std::vector<Card> playerSet =
-            player.getPlayerSet();
-
         gameState.setPlayerCards(
-            playerSet);
+            player.getPlayerSet());
+
+        playerIndicator->setPosition(
+            gameState.getPlayerTurnID());
+
+        cardContainer->updateCards(
+            territoryGraphicsMap,
+            gameState.getPlayerCards());
+
+        reinforceControls->setRemainingTroops(
+            gameState.getReinforcePool());
+
+        gameState.setTurnStarted(true);
     }
 
+    void ReinforceUI::handleReinforceEvent(
+        const sf::Event& event,
+        sf::RenderWindow& window,
+        GameSession& gameSession,
+        GameState& gameState,
+        std::vector<PlayerGraphics>& playerGraphics,
+        std::unordered_map<TerritoryID, TerritoryGraphics>& territoryGraphicsMap)
+    {
+        if (const auto* mousePressed =
+            event.getIf<sf::Event::MouseButtonPressed>())
+        {
+            sf::Vector2f mousePosition = {
+                static_cast<float>(
+                    mousePressed->position.x),
+                static_cast<float>(
+                    mousePressed->position.y)
+            };
+
+            if (cardContainer->getTabBounds().contains(
+                mousePosition))
+            {
+                if (cardContainer->isOpen())
+                {
+                    cardContainer->clearSelectedCards();
+
+                    cardContainer->setCashSetAvailable(
+                        false);
+
+                    cardContainer->closeContainer();
+                }
+                else
+                {
+                    cardContainer->openContainer();
+                }
+
+                return;
+            }
+
+            if (cardContainer->isOpen())
+            {
+                if (cardContainer->getCashSetAvailable() &&
+                    cardContainer->getCashSetBounds().contains(
+                        mousePosition))
+                {
+                    cashSet(
+                        gameSession,
+                        gameState,
+                        territoryGraphicsMap);
+
+                    return;
+                }
+
+                cardContainer->selectCard(
+                    mousePosition);
+
+                validateCardSelection(
+                    gameSession,
+                    gameState);
+            }
+        }
+
+        handleTroops(
+            event,
+            window,
+            gameSession,
+            gameState,
+            territoryGraphicsMap);
+    }
 
     void ReinforceUI::handleTroops(
         const sf::Event& event,
@@ -360,53 +433,88 @@ namespace risk {
         }
     }
 
-
-    void ReinforceUI::handleReinforceEvent(
-        const sf::Event& event,
-        sf::RenderWindow& window,
-        GameSession& gameSession,
-        GameState& gameState,
-        std::vector<PlayerGraphics>& playerGraphics,
-        std::unordered_map<TerritoryID, TerritoryGraphics>& territoryGraphicsMap)
+    // -------------------------------------------------------- 
+    // Card Handling
+    //---------------------------------------------------------
+    void ReinforceUI::validateCardSelection(
+        GameSession & gameSession,
+        GameState & gameState)
     {
-        if (const auto* mousePressed =
-            event.getIf<sf::Event::MouseButtonPressed>())
+        const std::vector<int>& selectedIndices =
+            cardContainer->getSelectedCards();
+
+        const std::vector<Card>& playerCards =
+            gameState.getPlayerCards();
+
+        std::vector<Card> selectedCards;
+
+        for (int index : selectedIndices)
         {
-            sf::Vector2f mousePosition = {
-                static_cast<float>(
-                    mousePressed->position.x),
-                static_cast<float>(
-                    mousePressed->position.y)
-            };
-
-            if (cardContainer->getTabBounds().contains(
-                mousePosition))
-            {
-                if (cardContainer->isOpen())
-                {
-                    cardContainer->closeContainer();
-                }
-                else
-                {
-                    cardContainer->openContainer();
-                }
-
-                return;
-            }
-
-            if (cardContainer->isOpen())
-            {
-                cardContainer->selectCard(
-                    mousePosition);
-            }
+            selectedCards.push_back(
+                playerCards[index]);
         }
 
-        handleTroops(
-            event,
-            window,
-            gameSession,
-            gameState,
-            territoryGraphicsMap);
+        std::optional<SetType> setType =
+            gameSession.validateCashSet(
+                selectedCards);
+
+        cardContainer->setCashSetAvailable(
+            setType.has_value());
+    }
+
+        void ReinforceUI::cashSet(
+            GameSession& gameSession,
+            GameState& gameState,
+            std::unordered_map<TerritoryID, TerritoryGraphics>&
+            territoryGraphicsMap)
+    {
+        const std::vector<int>& selectedIndices =
+            cardContainer->getSelectedCards();
+
+        const std::vector<Card>& playerCards =
+            gameState.getPlayerCards();
+
+        std::vector<Card> selectedCards;
+
+        for (int index : selectedIndices)
+        {
+            selectedCards.push_back(
+                playerCards[index]);
+        }
+
+        std::optional<SetType> setType =
+            gameSession.validateCashSet(
+                selectedCards);
+
+        if (!setType.has_value())
+        {
+            return;
+        }
+
+        gameSession.createCashSetOrder(
+            setType.value(),
+            selectedCards,
+            gameState);
+
+        gameSession.executeCashSetOrder(
+            gameState);
+
+        Player& player =
+            gameSession.getPlayer(
+                gameState.getPlayerTurnID());
+
+        gameState.setPlayerCards(
+            player.getPlayerSet());
+
+        cardContainer->updateCards(
+            territoryGraphicsMap,
+            gameState.getPlayerCards());
+
+        cardContainer->setCashSetAvailable(
+            false);
+
+        reinforceControls->setRemainingTroops(
+            gameState.getReinforcePool());
     }
 
 

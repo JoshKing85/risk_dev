@@ -6,6 +6,6 @@
 
 namespace risk {
 
-	bool isValidSet(const std::vector<Card> &cards);
+	std::optional<SetType> validateSet(const std::vector<Card> &cards);
 }
 

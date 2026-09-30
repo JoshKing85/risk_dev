@@ -17,29 +17,6 @@
 
 using namespace risk;
 
-//=========================================================
-// Player Setup
-//=========================================================
-
-TEST(GameInitializerTests, UpdatePlayerChangesName)
-{
-    GameInitializer initializer;
-
-    Player player(0);
-
-    std::string name =
-        "Josh";
-
-    initializer.updatePlayer(
-        player,
-        name
-    );
-
-    EXPECT_EQ(
-        player.getPlayerName(),
-        "Josh"
-    );
-}
 
 //=========================================================
 // Initialize Game

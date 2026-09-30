@@ -317,21 +317,20 @@ namespace risk {
     }
 
     void AttackManager::executeMoveTroopsOrder(
-        GameStateManager& gameStateManager
-    )
+        GameStateManager& gameStateManager)
     {
-        const MoveTroopsOrder& currentMove =
+        MoveTroopsOrder& currentMove =
             moveTroopsOrders.back();
 
         gameStateManager.updateTerritoryTroopCount(
             currentMove.getFromTerritory(),
-            -currentMove.getTroopsMoved()
-        );
+            -currentMove.getTroopsMoved());
 
         gameStateManager.updateTerritoryTroopCount(
             currentMove.getToTerritory(),
-            currentMove.getTroopsMoved()
-        );
+            currentMove.getTroopsMoved());
+
+        currentMove.complete();
     }
 
     void AttackManager::clearOrders()

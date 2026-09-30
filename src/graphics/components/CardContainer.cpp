@@ -9,7 +9,8 @@ namespace risk {
         const std::unordered_map<TerritoryID, TerritoryGraphics>&
         territoryGraphicsMap,
         const std::vector<Card>& playerSet)
-        : tabText(font),
+        : font(font),
+        tabText(font),
         cashSetButtonText(font)
     {
         //---------------------------------------------------------
@@ -85,8 +86,7 @@ namespace risk {
 
         setContainer(
             territoryGraphicsMap,
-            playerSet,
-            font);
+            playerSet);
     }
 
 
@@ -97,8 +97,7 @@ namespace risk {
     void CardContainer::setContainer(
         const std::unordered_map<TerritoryID, TerritoryGraphics>&
         territoryGraphicsMap,
-        const std::vector<Card>& playerSet,
-        const sf::Font& font)
+        const std::vector<Card>& playerSet)
     {
         cardGraphics.clear();
         selectedCards.clear();
@@ -238,6 +237,23 @@ namespace risk {
 
 
     //---------------------------------------------------------
+    // Set validity
+    //---------------------------------------------------------
+
+    void CardContainer::setCashSetAvailable(
+        bool available)
+    {
+        cashSetAvailable = available;
+    }
+
+
+    bool CardContainer::getCashSetAvailable() const
+    {
+        return cashSetAvailable;
+    }
+
+
+    //---------------------------------------------------------
     // Selection
     //---------------------------------------------------------
 
@@ -339,13 +355,11 @@ namespace risk {
     void CardContainer::updateCards(
         const std::unordered_map<TerritoryID, TerritoryGraphics>&
         territoryGraphicsMap,
-        const std::vector<Card>& playerSet,
-        const sf::Font& font)
+        const std::vector<Card>& playerSet)
     {
         setContainer(
             territoryGraphicsMap,
-            playerSet,
-            font);
+            playerSet);
     }
 
 
@@ -393,8 +407,11 @@ namespace risk {
             card.draw(window);
         }
 
-        window.draw(cashSetButton);
-        window.draw(cashSetButtonText);
+        if (cashSetAvailable)
+        {
+            window.draw(cashSetButton);
+            window.draw(cashSetButtonText);
+        }
     }
 
 } // namespace risk

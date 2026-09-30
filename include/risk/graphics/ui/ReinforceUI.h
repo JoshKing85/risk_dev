@@ -31,11 +31,6 @@ private:
   std::optional<CardContainer> cardContainer;
   std::optional<PlayerIndicator> playerIndicator;
 
-  //---------------------------------------------------------
-  // Player State
-  //---------------------------------------------------------
-
-  void setPlayerState(GameState &gameState, GameSession &gameSession);
 
   //---------------------------------------------------------
   // Troop Placement
@@ -63,11 +58,30 @@ private:
 
   void removeTroop(GameSession &gameSession, GameState &gameState);
 
+  //---------------------------------------------------------
+  // Card Handling
+  //---------------------------------------------------------
+
+  void validateCardSelection(GameSession &gameSession, GameState &gameState);
+
+  void cashSet(
+      GameSession &gameSession, GameState &gameState,
+      std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
+
 public:
   ReinforceUI(const sf::Font &font,
               const std::unordered_map<TerritoryID, TerritoryGraphics>
                   &territoryGraphicsMap,
               GameState &gameState, GameSession &gameSession);
+
+  //---------------------------------------------------------
+  // Player State
+  //---------------------------------------------------------
+
+  void ReinforceUI::setPlayerState(
+      GameState &gameState, GameSession &gameSession,
+      const std::unordered_map<TerritoryID, TerritoryGraphics>
+          &territoryGraphicsMap);
 
   void draw(sf::RenderWindow &window,
             std::vector<PlayerGraphics> &playerGraphics, GameState &gameState);
