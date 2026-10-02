@@ -2,65 +2,133 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "risk/graphics/components/DebugGrid.h"
+#include "risk/graphics/components/PlayerProfile.h"
+
 #include <array>
+#include <optional>
 #include <string>
+#include <vector>
 
 namespace risk {
 
-class GameSetupState;
-class PlayerGraphics;
-
 class ProfileUI {
+
 private:
-  int selectedAvatar = -1;
+  //---------------------------------------------------------
+  // State
+  //---------------------------------------------------------
+
+  std::optional<DebugGrid> debugGrid;
+
+  //---------------------------------------------------------
+  // Resources
+  //---------------------------------------------------------
 
   sf::Font &font;
 
-  // Stores the name currently being typed during profile setup
-  std::string playerName;
+  //---------------------------------------------------------
+  // Background
+  //---------------------------------------------------------
 
-  // Main panel
-  sf::RectangleShape backgroundPanel;
+  sf::Texture backgroundTexture;
+  sf::Sprite backgroundSprite;
 
+  //---------------------------------------------------------
+  // Muster Board
+  //---------------------------------------------------------
+
+  sf::Texture musterBoardTexture;
+  sf::Sprite musterBoardSprite;
+
+  //---------------------------------------------------------
   // Text
-  sf::Text titleText;
+  //---------------------------------------------------------
+
+  sf::Text playerText;
+  sf::Text playerNumberText;
+
   sf::Text nameLabel;
+  sf::Text nameText;
+
   sf::Text avatarLabel;
-  sf::Text startGameText;
 
-  // Name input
-  sf::RectangleShape nameInputBox;
-  sf::Text nameInputText;
+  sf::Text startText;
 
-  // Avatar selection
-  std::array<sf::RectangleShape, 3> avatarBoxes;
-  std::array<sf::Texture, 3> avatarTextures;
-  std::array<sf::Sprite, 3> avatarSprites;
+  //---------------------------------------------------------
+  // Name Entry
+  //---------------------------------------------------------
 
-  // Start button
-  sf::RectangleShape startGameButton;
+  sf::RectangleShape nameBox;
+
+  //---------------------------------------------------------
+  // Avatar Selection
+  //---------------------------------------------------------
+
+  std::array<sf::RectangleShape, 6> avatarBoxes;
+  std::array<sf::Texture, 6> avatarTextures;
+  std::array<sf::Sprite, 6> avatarSprites;
+  
+  //---------------------------------------------------------
+  // Start
+  //---------------------------------------------------------
+
+  sf::RectangleShape startButton;
+
+  //---------------------------------------------------------
+  // Event Handlers
+  //---------------------------------------------------------
+
+  void handleNameEntry(
+      const sf::Event &event, 
+      PlayerProfile &profile);
+
+  void handleAvatarSelection(
+      const sf::Event &event, 
+      sf::RenderWindow &window,
+      PlayerProfile &profile,
+      const std::vector<PlayerProfile> &profiles);
+
+  void handleStart(const 
+      sf::Event &event, 
+      sf::RenderWindow &window,
+      PlayerProfile &profile);
+
+  //---------------------------------------------------------
+  // Actions
+  //---------------------------------------------------------
+
+  void setAvatar(int avatarID, PlayerProfile &profile);
+
+  void confirmProfile(PlayerProfile &profile);
 
 public:
+  //---------------------------------------------------------
+  // Constructor
+  //---------------------------------------------------------
+
   ProfileUI(sf::Font &font);
 
-  // Draws the profile setup screen for the current player
-  void profileUIdraw(sf::RenderWindow &window, int playerID);
+  //---------------------------------------------------------
+  // Event Router
+  //---------------------------------------------------------
 
-  // Handles keyboard and mouse input for the profile screen.
-  // Updates PlayerGraphics and GameSetupState when selections are made.
   void handleEvent(const sf::Event &event, sf::RenderWindow &window,
-                   int playerID, PlayerGraphics &playerGraphics,
-                   GameSetupState &gameSetupState);
+                   PlayerProfile &profile,
+                   const std::vector<PlayerProfile> &profiles);
 
-  // Highlights the selected avatar and updates the player's displayed avatar
-  void setAvatar(int avatarID, PlayerGraphics &playerGraphics);
+  //---------------------------------------------------------
+  // State
+  //---------------------------------------------------------
 
-  // Updates the player's displayed name and marks name selection complete
-  void setPlayerName(int playerID, PlayerGraphics &playerGraphics,
-                     GameSetupState &gameSetupState);
+  void resetProfile();
 
-  // Completes the current player's profile and moves setup to the next profile
-  void setGameSetupStateProfile(int playerID, GameSetupState &gameSetupState);
+  //---------------------------------------------------------
+  // Draw
+  //---------------------------------------------------------
+
+  void profileUIdraw(sf::RenderWindow &window, int playerID,
+                     const std::vector<PlayerProfile> &profiles);
 };
 
 } // namespace risk

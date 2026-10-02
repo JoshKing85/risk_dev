@@ -123,8 +123,7 @@ public:
   // Draw
   //---------------------------------------------------------
 
-  void draw(sf::RenderWindow &window,
-            std::vector<PlayerGraphics> &playerGraphics, GameState &gameState);
+  void draw(sf::RenderWindow &window, GameState &gameState);
 };
 
 } // namespace risk

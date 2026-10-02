@@ -1,5 +1,7 @@
 #include "risk/graphics/ui/GameSetupUI.h"
 
+#include <iostream>
+
 namespace risk {
 
     //---------------------------------------------------------
@@ -9,9 +11,9 @@ namespace risk {
     void GameSetupUI::initialize(
         GameSession& gameSession,
         sf::Font& font,
-        std::vector<PlayerGraphics>& playerGraphics)
+        std::vector<PlayerGraphics>& playerGraphics,
+        const std::vector<PlayerProfile>& playerProfiles)
     {
-        profileUI.emplace(font);
         playerIndicator.emplace(font);
         setupControls.emplace(font);
 
@@ -49,6 +51,9 @@ namespace risk {
         std::vector<int> playerIDs =
             gameSession.getPlayerIDs();
 
+        playerGraphics.reserve(
+            playerIDs.size());
+
         std::vector<int> troopCounts =
             gameSession.getTroopCounts();
 
@@ -65,7 +70,34 @@ namespace risk {
                 playerID,
                 troopCounts[playerID],
                 font);
+
+            //-------------------------------------------------
+            // Apply selected profile
+            //-------------------------------------------------
+
+            for (const auto& profile : playerProfiles)
+            {
+                if (profile.playerID == playerID)
+                {
+                    playerGraphics.back().setAvatar(
+                        profile.avatarID);
+
+                    if (!profile.playerName.empty())
+                    {
+                        playerGraphics.back().setName(
+                            profile.playerName);
+                    }
+
+                    break;
+                }
+            }
         }
+
+        std::cout
+            << "[DEBUG] Game setup initialized"
+            << " | Profiles applied: "
+            << playerProfiles.size()
+            << '\n';
     }
 
 
@@ -74,28 +106,11 @@ namespace risk {
     //---------------------------------------------------------
 
     void GameSetupUI::draw(
-        sf::RenderWindow& window,
-        std::vector<PlayerGraphics>& playerGraphics)
+        sf::RenderWindow& window)
     {
-        //-------------------------------------------------------
-        // Profile setup
-        //-------------------------------------------------------
-
-        if (!gameSetupState.getProfilesReady())
-        {
-            int playerID =
-                gameSetupState.getCurrentProfileID();
-
-            profileUI->profileUIdraw(
-                window,
-                playerID);
-
-            return;
-        }
-
-        //-------------------------------------------------------
+        //-----------------------------------------------------
         // Phase title
-        //-------------------------------------------------------
+        //-----------------------------------------------------
 
         phaseTitle->setPosition({
             static_cast<float>(
@@ -106,25 +121,16 @@ namespace risk {
         window.draw(
             *phaseTitle);
 
-        //-------------------------------------------------------
+        //-----------------------------------------------------
         // Current setup player
-        //-------------------------------------------------------
+        //-----------------------------------------------------
 
         int currentPlayerID =
             gameSetupState.getCurrentProfileID();
 
-        for (auto& playerGraphic : playerGraphics)
-        {
-            playerGraphic.setActive(
-                playerGraphic.getPlayerID() ==
-                currentPlayerID);
-
-            playerGraphic.draw(window);
-        }
-
-        //-------------------------------------------------------
+        //-----------------------------------------------------
         // Player indicator
-        //-------------------------------------------------------
+        //-----------------------------------------------------
 
         playerIndicator->setPosition(
             currentPlayerID);
@@ -132,9 +138,9 @@ namespace risk {
         playerIndicator->draw(
             window);
 
-        //-------------------------------------------------------
+        //-----------------------------------------------------
         // Setup controls
-        //-------------------------------------------------------
+        //-----------------------------------------------------
 
         if (gameSetupState.getTerritorySelected() !=
             TerritoryID::None)
@@ -154,25 +160,9 @@ namespace risk {
         sf::RenderWindow& window,
         GameSession& gameSession,
         GameState& gameState,
-        std::vector<PlayerGraphics>& playerGraphics,
         std::unordered_map<TerritoryID, TerritoryGraphics>
         & territoryGraphicsMap)
     {
-        if (!gameSetupState.getProfilesReady())
-        {
-            int playerID =
-                gameSetupState.getCurrentProfileID();
-
-            profileUI->handleEvent(
-                event,
-                window,
-                playerID,
-                playerGraphics[playerID],
-                gameSetupState);
-
-            return;
-        }
-
         handleTroops(
             event,
             gameSession,
@@ -203,7 +193,8 @@ namespace risk {
             return;
         }
 
-        back(event);
+        back(
+            event);
 
         if (gameSetupState.getTerritorySelected() !=
             TerritoryID::None)
@@ -230,7 +221,8 @@ namespace risk {
                 static_cast<float>(
                     mousePressed->position.x),
                 static_cast<float>(
-                    mousePressed->position.y) };
+                    mousePressed->position.y)
+            };
 
             for (auto& [territoryID, territoryGraphics] :
                 territoryGraphicsMap)
@@ -259,14 +251,16 @@ namespace risk {
                             bounds.position.x +
                                 bounds.size.x +
                                 10.0f,
-                            bounds.position.y });
+                            bounds.position.y
+                            });
 
                         setupControls->setBackPosition({
                             bounds.position.x +
                                 bounds.size.x +
                                 10.0f,
                             bounds.position.y +
-                                50.0f });
+                                50.0f
+                            });
                     }
 
                     break;
@@ -291,7 +285,8 @@ namespace risk {
                 static_cast<float>(
                     mousePressed->position.x),
                 static_cast<float>(
-                    mousePressed->position.y) };
+                    mousePressed->position.y)
+            };
 
             if (setupControls->getBackBounds().contains(
                 mousePosition))
@@ -316,7 +311,8 @@ namespace risk {
                 static_cast<float>(
                     mousePressed->position.x),
                 static_cast<float>(
-                    mousePressed->position.y) };
+                    mousePressed->position.y)
+            };
 
             if (setupControls->getConfirmBounds().contains(
                 mousePosition))

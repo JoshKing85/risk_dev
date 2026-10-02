@@ -6,14 +6,12 @@
 #include "risk/graphics/components/FortifyControls.h"
 #include "risk/graphics/components/PlayerIndicator.h"
 
-#include "risk/graphics/game_elements/PlayerGraphics.h"
 #include "risk/graphics/game_elements/TerritoryGraphics.h"
 
 #include <SFML/Graphics.hpp>
 
 #include <optional>
 #include <unordered_map>
-#include <vector>
 
 namespace risk {
 
@@ -53,13 +51,11 @@ private:
 public:
   FortifyUI(const sf::Font &font, GameState &gameState);
 
-  void draw(sf::RenderWindow &window,
-            std::vector<PlayerGraphics> &playerGraphics, GameState &gameState);
+  void draw(sf::RenderWindow &window, GameState &gameState);
 
   void handleFortifyEvent(
       const sf::Event &event, sf::RenderWindow &window,
       GameSession &gameSession, GameState &gameState,
-      std::vector<PlayerGraphics> &playerGraphics,
       std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
 };
 

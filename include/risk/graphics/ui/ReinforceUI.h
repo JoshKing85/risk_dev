@@ -7,7 +7,6 @@
 #include "risk/graphics/components/PlayerIndicator.h"
 #include "risk/graphics/components/ReinforceControls.h"
 
-#include "risk/graphics/game_elements/PlayerGraphics.h"
 #include "risk/graphics/game_elements/TerritoryGraphics.h"
 
 #include <SFML/Graphics.hpp>
@@ -84,12 +83,11 @@ public:
           &territoryGraphicsMap);
 
   void draw(sf::RenderWindow &window,
-            std::vector<PlayerGraphics> &playerGraphics, GameState &gameState);
+            GameState &gameState);
 
   void handleReinforceEvent(
       const sf::Event &event, sf::RenderWindow &window,
       GameSession &gameSession, GameState &gameState,
-      std::vector<PlayerGraphics> &playerGraphics,
       std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);
 };
 

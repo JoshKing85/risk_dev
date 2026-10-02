@@ -101,8 +101,8 @@ namespace risk {
         sf::RenderWindow& window,
         GameSession& gameSession,
         GameState& gameState,
-        std::vector<PlayerGraphics>& playerGraphics,
-        std::unordered_map<TerritoryID, TerritoryGraphics>& territoryGraphicsMap)
+        std::unordered_map<TerritoryID, TerritoryGraphics>&
+        territoryGraphicsMap)
     {
         if (const auto* mousePressed =
             event.getIf<sf::Event::MouseButtonPressed>())
@@ -518,37 +518,31 @@ namespace risk {
     }
 
 
-    void ReinforceUI::draw(
-        sf::RenderWindow& window,
-        std::vector<PlayerGraphics>& playerGraphics,
-        GameState& gameState)
-    {
-        phaseTitle.setPosition({
-            static_cast<float>(
-                window.getSize().x) / 2.0f,
-            20.0f
-            });
-
-        window.draw(
-            phaseTitle);
-
-        for (auto& player : playerGraphics)
+        void ReinforceUI::draw(
+            sf::RenderWindow& window,
+            GameState& gameState)
         {
-            player.draw(window);
-        }
+            phaseTitle.setPosition({
+                static_cast<float>(
+                    window.getSize().x) / 2.0f,
+                20.0f
+                });
 
-        playerIndicator->draw(
-            window);
+            window.draw(
+                phaseTitle);
 
-        if (gameState.getToTerritorySelection() !=
-            TerritoryID::None)
-        {
-            reinforceControls->draw(
+            playerIndicator->draw(
+                window);
+
+            if (gameState.getToTerritorySelection() !=
+                TerritoryID::None)
+            {
+                reinforceControls->draw(
+                    window);
+            }
+
+            cardContainer->draw(
                 window);
         }
-
-        cardContainer->draw(
-            window);
-    }
 
 } // namespace risk

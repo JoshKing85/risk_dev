@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include <nlohmann/json.hpp>
 
@@ -24,7 +25,8 @@ namespace risk {
         GameState& gameState,
         int humanPlayers,
         int aiPlayers,
-        MapType mapSelection)
+        MapType mapSelection,
+        const std::vector<PlayerProfile>& playerProfiles)
     {
         humanPlayerNumbers = humanPlayers;
         aiPlayerNumbers = aiPlayers;
@@ -141,8 +143,8 @@ namespace risk {
             gameSetupUI->initialize(
                 gameSession,
                 font,
-                playerGraphics
-            );
+                playerGraphics,
+                playerProfiles);
 
             gameState.setPhase(
                 PhaseType::GameSetup
@@ -159,17 +161,13 @@ namespace risk {
         }
     }
 
-    //---------------------------------------------------------
-    // UI Routing
-    //---------------------------------------------------------
-
     void GameSessionUI::draw(
         sf::RenderWindow& window,
         GameState& gameState,
         GameSession& gameSession)
     {
         //-----------------------------------------------------
-        // Shared game graphics
+        // Board
         //-----------------------------------------------------
 
         if (boardGraphics.has_value())
@@ -178,14 +176,29 @@ namespace risk {
                 window);
         }
 
+
+        //-----------------------------------------------------
+        // Territories
+        //-----------------------------------------------------
+
         for (const auto& [territoryID, territory] :
             territoryGraphicsMap)
         {
             territory.draw(
                 window);
         }
-        
-        
+
+
+        //-----------------------------------------------------
+        // Players
+        //-----------------------------------------------------
+
+        for (auto& playerGraphic :
+            playerGraphics)
+        {
+            playerGraphic.draw(
+                window);
+        }
 
 
         //-----------------------------------------------------
@@ -198,8 +211,7 @@ namespace risk {
             if (gameSetupUI.has_value())
             {
                 gameSetupUI->draw(
-                    window,
-                    playerGraphics);
+                    window);
             }
 
             return;
@@ -230,7 +242,7 @@ namespace risk {
                     gameState,
                     gameSession);
             }
-            
+
             if (!gameState.getTurnStarted())
             {
                 reinforceUI->setPlayerState(
@@ -241,9 +253,9 @@ namespace risk {
 
             reinforceUI->draw(
                 window,
-                playerGraphics,
                 gameState);
         }
+
 
         //-----------------------------------------------------
         // Attack
@@ -272,9 +284,10 @@ namespace risk {
 
             attackUI->draw(
                 window,
-                playerGraphics,
                 gameState);
         }
+
+
         //-----------------------------------------------------
         // Fortify
         //-----------------------------------------------------
@@ -300,7 +313,6 @@ namespace risk {
 
             fortifyUI->draw(
                 window,
-                playerGraphics,
                 gameState);
         }
     }
@@ -326,7 +338,6 @@ namespace risk {
                     window,
                     gameSession,
                     gameState,
-                    playerGraphics,
                     territoryGraphicsMap);
             }
 
@@ -348,7 +359,6 @@ namespace risk {
                     window,
                     gameSession,
                     gameState,
-                    playerGraphics,
                     territoryGraphicsMap);
             }
         }
@@ -386,7 +396,6 @@ namespace risk {
                     window,
                     gameSession,
                     gameState,
-                    playerGraphics,
                     territoryGraphicsMap);
             }
         }

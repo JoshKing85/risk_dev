@@ -17,13 +17,20 @@ namespace risk
         troopCountText(font),
         cardCountText(font)
     {
-        setPlayerID(playerID);
+        // -----------------------------
+        // Default colour
+        // -----------------------------
+
+        playerColour =
+            sf::Color(100, 100, 100);
 
         // -----------------------------
         // Player panel
         // -----------------------------
 
-        playerPanel.setSize(panelSize);
+        playerPanel.setSize(
+            panelSize
+        );
 
         playerPanel.setFillColor(
             sf::Color(0, 0, 0, 100)
@@ -37,15 +44,13 @@ namespace risk
             3.0f
         );
 
-        playerPanel.setPosition(
-            playerPosition
-        );
-
         // -----------------------------
         // Avatar
         // -----------------------------
 
-        if (!avatarTexture.loadFromFile(blankAvatarPath))
+        if (!avatarTexture.loadFromFile(
+            blankAvatarPath
+        ))
         {
             throw std::runtime_error(
                 "Could not load blank avatar: " +
@@ -94,10 +99,13 @@ namespace risk
 
         playerName =
             "Player " +
-            std::to_string(playerID + 1);
+            std::to_string(
+                playerID + 1
+            );
 
         playerNameText.setString(
-            playerName);
+            playerName
+        );
 
         playerNameText.setCharacterSize(
             22
@@ -113,7 +121,9 @@ namespace risk
 
         troopCountText.setString(
             "Troops: " +
-            std::to_string(troopCount)
+            std::to_string(
+                troopCount
+            )
         );
 
         troopCountText.setCharacterSize(
@@ -130,7 +140,9 @@ namespace risk
 
         cardCountText.setString(
             "Cards: " +
-            std::to_string(cardCount)
+            std::to_string(
+                cardCount
+            )
         );
 
         cardCountText.setCharacterSize(
@@ -141,9 +153,13 @@ namespace risk
             sf::Color::White
         );
 
-        // Position everything now that
-        // all graphical objects exist.
-        setPlayerID(playerID);
+        // -----------------------------
+        // Position player graphics
+        // -----------------------------
+
+        setPlayerID(
+            playerID
+        );
     }
 
 
@@ -151,7 +167,12 @@ namespace risk
         int newPlayerID
     )
     {
-        playerID = newPlayerID;
+        playerID =
+            newPlayerID;
+
+        // -----------------------------
+        // Player position
+        // -----------------------------
 
         switch (playerID)
         {
@@ -160,10 +181,6 @@ namespace risk
                 0.0f,
                 835.0f
             };
-
-            playerColour =
-                sf::Color(180, 60, 60);
-
             break;
 
         case 1:
@@ -171,10 +188,6 @@ namespace risk
                 320.0f,
                 835.0f
             };
-
-            playerColour =
-                sf::Color(60, 100, 180);
-
             break;
 
         case 2:
@@ -182,10 +195,6 @@ namespace risk
                 640.0f,
                 835.0f
             };
-
-            playerColour =
-                sf::Color(60, 160, 80);
-
             break;
 
         case 3:
@@ -193,10 +202,6 @@ namespace risk
                 960.0f,
                 835.0f
             };
-
-            playerColour =
-                sf::Color(180, 150, 60);
-
             break;
 
         case 4:
@@ -204,10 +209,6 @@ namespace risk
                 1280.0f,
                 835.0f
             };
-
-            playerColour =
-                sf::Color(130, 70, 170);
-
             break;
 
         case 5:
@@ -215,10 +216,6 @@ namespace risk
                 1600.0f,
                 835.0f
             };
-
-            playerColour =
-                sf::Color(60, 160, 160);
-
             break;
 
         default:
@@ -226,10 +223,6 @@ namespace risk
                 0.0f,
                 0.0f
             };
-
-            playerColour =
-                sf::Color(100, 100, 100);
-
             break;
         }
 
@@ -241,18 +234,17 @@ namespace risk
             playerPosition
         );
 
-        playerPanel.setOutlineColor(
-            playerColour
-        );
-
         // -----------------------------
         // Avatar
         // -----------------------------
 
         avatarSprite.setPosition(
             {
-                playerPosition.x + 15.0f,
-                playerPosition.y + 45.0f
+                playerPosition.x +
+                    15.0f,
+
+                playerPosition.y +
+                    45.0f
             }
         );
 
@@ -262,34 +254,46 @@ namespace risk
 
         playerNameText.setPosition(
             {
-                playerPosition.x + 180.0f,
-                playerPosition.y + 45.0f
+                playerPosition.x +
+                    180.0f,
+
+                playerPosition.y +
+                    45.0f
             }
         );
 
         troopCountText.setPosition(
             {
-                playerPosition.x + 180.0f,
-                playerPosition.y + 90.0f
+                playerPosition.x +
+                    180.0f,
+
+                playerPosition.y +
+                    90.0f
             }
         );
 
         cardCountText.setPosition(
             {
-                playerPosition.x + 180.0f,
-                playerPosition.y + 125.0f
+                playerPosition.x +
+                    180.0f,
+
+                playerPosition.y +
+                    125.0f
             }
         );
     }
 
 
     void PlayerGraphics::setName(
-        const std::string& name)
+        const std::string& name
+    )
     {
-        playerName = name;
+        playerName =
+            name;
 
         playerNameText.setString(
-            playerName);
+            playerName
+        );
     }
 
 
@@ -297,11 +301,14 @@ namespace risk
         int newCount
     )
     {
-        troopCount = newCount;
+        troopCount =
+            newCount;
 
         troopCountText.setString(
             "Troops: " +
-            std::to_string(troopCount)
+            std::to_string(
+                troopCount
+            )
         );
     }
 
@@ -310,11 +317,14 @@ namespace risk
         int newCount
     )
     {
-        cardCount = newCount;
+        cardCount =
+            newCount;
 
         cardCountText.setString(
             "Cards: " +
-            std::to_string(cardCount)
+            std::to_string(
+                cardCount
+            )
         );
     }
 
@@ -323,34 +333,111 @@ namespace risk
         int newAvatarID
     )
     {
-        avatarID = newAvatarID;
+        avatarID =
+            newAvatarID;
 
         std::string avatarPath;
 
+        // -----------------------------
+        // Avatar / faction
+        // -----------------------------
+
         switch (avatarID)
         {
+            // Napoleon - France
         case 0:
             avatarPath =
-                "data/graphics/avatars/nelson.png";
+                "data/graphics/avatars/NapoleonAvatar.png";
+
+            playerColour =
+                sf::Color(
+                    60,
+                    100,
+                    180
+                );
             break;
 
+            // Wellington - Britain
         case 1:
             avatarPath =
-                "data/graphics/avatars/samurai.png";
+                "data/graphics/avatars/WellingtonAvatar.png";
+
+            playerColour =
+                sf::Color(
+                    180,
+                    60,
+                    60
+                );
             break;
 
+            // Blucher - Prussia
         case 2:
             avatarPath =
-                "data/graphics/avatars/viking.png";
+                "data/graphics/avatars/BulcherAvatar.png";
+
+            playerColour =
+                sf::Color(
+                    35,
+                    35,
+                    35
+                );
+            break;
+
+            // Austria
+        case 3:
+            avatarPath =
+                "data/graphics/avatars/VonAvatar.png";
+
+            playerColour =
+                sf::Color(
+                    220,
+                    220,
+                    210
+                );
+            break;
+
+            // Spain
+        case 4:
+            avatarPath =
+                "data/graphics/avatars/NeedleAvatar.png";
+
+            playerColour =
+                sf::Color(
+                    190,
+                    155,
+                    45
+                );
+            break;
+
+            // Alexander - Russia
+        case 5:
+            avatarPath =
+                "data/graphics/avatars/AlexanderAvatar.png";
+
+            playerColour =
+                sf::Color(
+                    60,
+                    140,
+                    75
+                );
             break;
 
         default:
             avatarPath =
-                "data/graphics/avatars/blank.png";
+                blankAvatarPath;
+
+            playerColour =
+                sf::Color(
+                    100,
+                    100,
+                    100
+                );
             break;
         }
 
-        // rest of your existing method unchanged
+        // -----------------------------
+        // Load avatar
+        // -----------------------------
 
         if (!avatarTexture.loadFromFile(
             avatarPath
@@ -371,10 +458,13 @@ namespace risk
                 { 0, 0 },
                 {
                     static_cast<int>(
-                        avatarTexture.getSize().x
+                        avatarTexture
+                            .getSize().x
                     ),
+
                     static_cast<int>(
-                        avatarTexture.getSize().y
+                        avatarTexture
+                            .getSize().y
                     )
                 }
             )
@@ -396,7 +486,17 @@ namespace risk
                     )
             }
         );
+
+        // -----------------------------
+        // Apply faction colour
+        // -----------------------------
+
+        playerPanel.setOutlineColor(
+            playerColour
+        );
     }
+
+
     void PlayerGraphics::setActive(
         bool active
     )
@@ -423,15 +523,29 @@ namespace risk
         }
     }
 
+
     void PlayerGraphics::draw(
-        sf::RenderWindow& window
-    ) const
+        sf::RenderWindow& window) const
     {
-        window.draw(playerPanel);
-        window.draw(avatarSprite);
-        window.draw(playerNameText);
-        window.draw(troopCountText);
-        window.draw(cardCountText);
+        window.draw(
+            playerPanel
+        );
+
+        window.draw(
+            avatarSprite
+        );
+
+        window.draw(
+            playerNameText
+        );
+
+        window.draw(
+            troopCountText
+        );
+
+        window.draw(
+            cardCountText
+        );
     }
 
 
@@ -439,10 +553,14 @@ namespace risk
     {
         return playerID;
     }
+
+
     int PlayerGraphics::getAvatarID() const
     {
         return avatarID;
     }
+
+
     std::string PlayerGraphics::getName() const
     {
         return playerName;

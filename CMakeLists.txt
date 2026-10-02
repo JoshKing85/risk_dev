@@ -98,6 +98,8 @@ add_executable(risk_v1
     src/graphics/components/PreAttack.cpp
     src/graphics/components/AttackWindow.cpp
     src/graphics/components/FortifyControls.cpp
+    src/graphics/components/MapSelector.cpp 
+    src/graphics/components/DebugGrid.cpp 
 
     # Validation functions
     src/core/validation/ValidateTerritorySelection.cpp

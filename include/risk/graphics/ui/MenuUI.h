@@ -1,10 +1,13 @@
 #pragma once
 
 #include <array>
+#include <optional>
 
 #include <SFML/Graphics.hpp>
 
 #include "risk/enums.h"
+#include "risk/graphics/components/DebugGrid.h"
+#include "risk/graphics/components/MapSelector.h"
 
 namespace risk {
 
@@ -16,25 +19,57 @@ private:
   int aiPlayerNumbers;
   bool GameStarted = false;
 
-  sf::RectangleShape menuBox;
+  std::optional<MapSelector> mapSelector;
+  std::optional<DebugGrid> debugGrid;
 
+  //=====================================================
+  // Menu graphics
+  //=====================================================
+
+  sf::Texture backgroundTexture;
+  std::optional<sf::Sprite> backgroundSprite;
+
+  sf::Texture menuFrameTexture;
+  std::optional<sf::Sprite> menuFrameSprite;
+
+  sf::Shader desaturationShader;
   sf::Font font;
-
-
+  
+  // Background dampener
+  sf::VertexArray backgroundDampener;
+  
   // Menu title
   sf::Text title;
 
- 
+  // Menu backing
+  sf::RectangleShape parchmentBacking;
+
+  //=====================================================
   // Map selection
+  //=====================================================
+
   sf::Text mapSelectionTitle;
 
-  sf::RectangleShape classicMapBox;
-  sf::Text classicMapText;
+  // Map selection dividers
+  sf::Texture dividerTexture;
 
+  std::optional<sf::Sprite> leftDivider;
+  std::optional<sf::Sprite> rightDivider;
+
+  //=====================================================
   // Player selection
+  //=====================================================
+
   sf::Text numberOfPlayersTitle;
 
+  // Number of players dividers
+  std::optional<sf::Sprite> playerLeftDivider;
+  std::optional<sf::Sprite> playerRightDivider;
+
+  //=====================================================
   // Human players
+  //=====================================================
+
   sf::Text humanPlayersTitle;
 
   std::array<sf::RectangleShape, 6> humanPlayerBoxes;
@@ -46,7 +81,10 @@ private:
   sf::Text humanPlayer5Text;
   sf::Text humanPlayer6Text;
 
+  //=====================================================
   // AI players
+  //=====================================================
+
   sf::Text aiPlayersTitle;
 
   std::array<sf::RectangleShape, 6> aiPlayerBoxes;
@@ -58,7 +96,10 @@ private:
   sf::Text aiPlayer4Text;
   sf::Text aiPlayer5Text;
 
-// Start button
+  //=====================================================
+  // Start button
+  //=====================================================
+
   sf::RectangleShape startButton;
   sf::Text startButtonText;
 
@@ -78,8 +119,11 @@ public:
   //=====================================================
 
   void setMapSelection(MapType mapSelection);
+
   void setHumanPlayerNumbers(int number);
+
   void setAiPlayerNumbers(int number);
+
   void setGameStarted();
 
   //=====================================================
@@ -87,8 +131,11 @@ public:
   //=====================================================
 
   MapType getMapSelection() const;
+
   int getHumanPlayerNumbers() const;
+
   int getAiPlayerNumbers() const;
+
   bool isGameStarted() const;
 };
 

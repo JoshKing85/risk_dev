@@ -981,7 +981,6 @@ namespace risk {
 
     void AttackUI::draw(
         sf::RenderWindow& window,
-        std::vector<PlayerGraphics>& playerGraphics,
         GameState& gameState)
     {
         //-----------------------------------------------------
@@ -990,16 +989,6 @@ namespace risk {
 
         window.draw(
             phaseTitle);
-
-        //-----------------------------------------------------
-        // Player Graphics
-        //-----------------------------------------------------
-
-        for (auto& player : playerGraphics)
-        {
-            player.draw(
-                window);
-        }
 
         //-----------------------------------------------------
         // Player Indicator

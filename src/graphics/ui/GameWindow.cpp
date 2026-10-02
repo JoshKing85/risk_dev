@@ -5,27 +5,49 @@
 
 namespace risk {
 
+    //---------------------------------------------------------
+    // Construction
+    //---------------------------------------------------------
+
     GameWindow::GameWindow(
         sf::VideoMode videoMode,
-        std::string title
-    )
+        std::string title)
         : window(videoMode, title),
         gameState(),
         gameSession(),
         exchangeLUI()
     {
+        //-----------------------------------------------------
+        // Profile UI
+        //-----------------------------------------------------
+
+        if (!profileFont.openFromFile(
+            "C:/Windows/Fonts/georgia.ttf"))
+        {
+            throw std::runtime_error(
+                "Could not load profile font");
+        }
+
+        profileUI.emplace(
+            profileFont);
     }
 
 
+    //---------------------------------------------------------
+    // Main Loop
+    //---------------------------------------------------------
+
     void GameWindow::run()
     {
-        bool startGame = false;
+        bool menuActive = true;
+        bool profilesActive = false;
+        bool gameCreated = false;
 
         while (window.isOpen())
         {
-            // -------------------------
+            //-------------------------------------------------
             // Handle events
-            // -------------------------
+            //-------------------------------------------------
 
             while (const std::optional event =
                 window.pollEvent())
@@ -35,25 +57,96 @@ namespace risk {
                     window.close();
                 }
 
-
-                // -------------------------
+                //---------------------------------------------
                 // Menu events
-                // -------------------------
+                //---------------------------------------------
 
-                if (!startGame)
+                if (menuActive)
                 {
                     menuUI.handleEvent(
                         *event,
-                        window
-                    );
+                        window);
                 }
 
+                //---------------------------------------------
+                // Profile events
+                //---------------------------------------------
 
-                // -------------------------
+                else if (profilesActive)
+                {
+                    if (currentProfile <
+                        static_cast<int>(
+                            playerProfiles.size()))
+                    {
+                        PlayerProfile& profile =
+                            playerProfiles[
+                                currentProfile];
+
+                        bool wasConfirmed =
+                            profile.confirmed;
+
+                        profileUI->handleEvent(
+                            *event,
+                            window,
+                            profile,
+                            playerProfiles);
+
+                        //-------------------------------------
+                        // Avatar selected
+                        //-------------------------------------
+
+                        if (!wasConfirmed &&
+                            profile.confirmed)
+                        {
+                            currentProfile++;
+
+                            //---------------------------------
+                            // All profiles complete
+                            //---------------------------------
+
+                            if (currentProfile >=
+                                static_cast<int>(
+                                    playerProfiles.size()))
+                            {
+                                try
+                                {
+                                    gameSession.createGame(
+                                        mapTypeToFilename(
+                                            menuUI
+                                            .getMapSelection()),
+                                        menuUI
+                                        .getHumanPlayerNumbers(),
+                                        menuUI
+                                        .getAiPlayerNumbers());
+
+                                    gameCreated = true;
+                                    profilesActive = false;
+
+                                    loadingClock.restart();
+                                    loadingStarted = true;
+                                }
+                                catch (
+                                    const std::exception&
+                                    exception)
+                                {
+                                    std::cerr
+                                        << "Game creation failed: "
+                                        << exception.what()
+                                        << '\n';
+
+                                    window.close();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //---------------------------------------------
                 // Game events
-                // -------------------------
+                //---------------------------------------------
 
                 else if (
+                    gameCreated &&
                     gameState.getPhase() !=
                     PhaseType::Loading)
                 {
@@ -61,148 +154,186 @@ namespace risk {
                         *event,
                         window,
                         gameSession,
-                        gameState
-                    );
+                        gameState);
                 }
             }
 
 
-            // -------------------------
-            // Create game
-            // -------------------------
+            //-------------------------------------------------
+            // Leave menu and create profiles
+            //-------------------------------------------------
 
-            if (!startGame &&
+            if (menuActive &&
                 menuUI.isGameStarted())
             {
-                std::cout
-                    << "Before createGame\n";
+                menuActive = false;
+                profilesActive = true;
 
-                try
+                playerProfiles.clear();
+
+                currentProfile = 0;
+
+                int humanPlayers =
+                    menuUI.getHumanPlayerNumbers();
+
+                for (int playerID = 0;
+                    playerID < humanPlayers;
+                    ++playerID)
                 {
-                    gameSession.createGame(
-                        mapTypeToFilename(
-                            menuUI.getMapSelection()
-                        ),
-                        menuUI.getHumanPlayerNumbers(),
-                        menuUI.getAiPlayerNumbers()
-                    );
+                    PlayerProfile profile;
 
-                    std::cout
-                        << "After createGame\n";
+                    profile.playerID =
+                        playerID;
 
-                    loadingClock.restart();
-                    loadingStarted = true;
-                    startGame = true;
-                }
-                catch (const std::exception& exception)
-                {
-                    std::cerr
-                        << "Game creation failed: "
-                        << exception.what()
-                        << '\n';
-
-                    window.close();
+                    playerProfiles.push_back(
+                        profile);
                 }
             }
 
 
-            // -------------------------
-            // Update graphics
-            // -------------------------
-            std::vector<PlayerGraphics>& playerGraphics =
-                gameSessionUI.getPlayerGraphics();
+            //-------------------------------------------------
+            // Update game graphics
+            //-------------------------------------------------
 
-            std::unordered_map<TerritoryID, TerritoryGraphics>&
-                territoryGraphicsMap =
-                gameSessionUI.getTerritoryGraphics();
-
-            const std::vector<Player>& players =
-                gameSession.getPlayers();
-
-            const Map& map =
-                gameSession.getMap();
-
-            
-            if (gameState.getPhase() == PhaseType::GameSetup)
+            if (gameCreated &&
+                gameState.getPhase() !=
+                PhaseType::Loading)
             {
-                GameSetupState& gameSetupState =
-                    gameSessionUI.getGameSetupState();
+                std::vector<PlayerGraphics>&
+                    playerGraphics =
+                    gameSessionUI
+                    .getPlayerGraphics();
 
-                exchangeLUI.updateGraphics(
-                    map,
-                    players,
-                    gameState,
-                    territoryGraphicsMap,
-                    playerGraphics,
-                    &gameSetupState
-                );
+                std::unordered_map<
+                    TerritoryID,
+                    TerritoryGraphics>&
+                    territoryGraphicsMap =
+                    gameSessionUI
+                    .getTerritoryGraphics();
+
+                const std::vector<Player>& players =
+                    gameSession.getPlayers();
+
+                const Map& map =
+                    gameSession.getMap();
+
+                //---------------------------------------------
+                // Initial troop placement
+                //---------------------------------------------
+
+                if (gameState.getPhase() ==
+                    PhaseType::GameSetup)
+                {
+                    GameSetupState& gameSetupState =
+                        gameSessionUI
+                        .getGameSetupState();
+
+                    exchangeLUI.updateGraphics(
+                        map,
+                        players,
+                        gameState,
+                        territoryGraphicsMap,
+                        playerGraphics,
+                        &gameSetupState);
+                }
+
+                //---------------------------------------------
+                // Normal game phases
+                //---------------------------------------------
+
+                else
+                {
+                    exchangeLUI.updateGraphics(
+                        map,
+                        players,
+                        gameState,
+                        territoryGraphicsMap,
+                        playerGraphics);
+                }
             }
-            else
-            {
-                exchangeLUI.updateGraphics(
-                    map,
-                    players,
-                    gameState,
-                    territoryGraphicsMap,
-                    playerGraphics
-                );
-            }
 
 
-            // -------------------------
-            // Draw current UI
-            // -------------------------
+            //-------------------------------------------------
+            // Draw
+            //-------------------------------------------------
 
             window.clear();
 
-            if (!startGame)
+
+            //-------------------------------------------------
+            // Menu
+            //-------------------------------------------------
+
+            if (menuActive)
             {
                 menuUI.draw(
-                    window
-                );
+                    window);
             }
 
 
-            // -------------------------
+            //-------------------------------------------------
+            // Profiles
+            //-------------------------------------------------
+
+            else if (profilesActive)
+            {
+                if (currentProfile <
+                    static_cast<int>(
+                        playerProfiles.size()))
+                {
+                    profileUI->profileUIdraw(
+                        window,
+                        currentProfile,
+                        playerProfiles);
+                }
+            }
+
+
+            //-------------------------------------------------
             // Loading
-            // -------------------------
+            //-------------------------------------------------
 
             else if (
+                gameCreated &&
                 gameState.getPhase() ==
                 PhaseType::Loading)
             {
                 loadingUI.draw(
-                    window
-                );
+                    window,
+                    loadingClock
+                    .getElapsedTime()
+                    .asSeconds());
 
                 if (loadingStarted &&
                     loadingClock
                     .getElapsedTime()
-                    .asSeconds() >= 2.f)
+                    .asSeconds() >= 3.f)
                 {
                     gameSessionUI.initialLoading(
                         gameSession,
                         gameState,
                         menuUI.getHumanPlayerNumbers(),
                         menuUI.getAiPlayerNumbers(),
-                        menuUI.getMapSelection()
-                    );
+                        menuUI.getMapSelection(),
+                        playerProfiles);
+
+                    loadingStarted = false;
                 }
             }
 
 
-            // -------------------------
-            // Game UI
-            // -------------------------
+            //-------------------------------------------------
+            // Game
+            //-------------------------------------------------
 
-            else
+            else if (gameCreated)
             {
                 gameSessionUI.draw(
                     window,
                     gameState,
-                    gameSession
-                );
+                    gameSession);
             }
+
 
             window.display();
         }

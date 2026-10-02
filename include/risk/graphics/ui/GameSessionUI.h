@@ -2,14 +2,20 @@
 
 #include "risk/core/session/GameSession.h"
 #include "risk/core/session/GameState.h"
+
 #include "risk/enums.h"
+
+#include "risk/graphics/components/PlayerProfile.h"
+
 #include "risk/graphics/game_elements/BoardGraphics.h"
 #include "risk/graphics/game_elements/PlayerGraphics.h"
 #include "risk/graphics/game_elements/TerritoryGraphics.h"
-#include "risk/graphics/ui/GameSetupUI.h"
-#include "risk/graphics/ui/ReinforceUI.h"
+
 #include "risk/graphics/ui/AttackUI.h"
 #include "risk/graphics/ui/FortifyUI.h"
+#include "risk/graphics/ui/GameSetupUI.h"
+#include "risk/graphics/ui/ReinforceUI.h"
+
 #include "risk/world/Map.h"
 
 #include <SFML/Graphics.hpp>
@@ -21,6 +27,7 @@
 namespace risk {
 
 class GameSessionUI {
+
 private:
   //---------------------------------------------------------
   // Session State
@@ -28,6 +35,7 @@ private:
 
   int humanPlayerNumbers = 0;
   int aiPlayerNumbers = 0;
+
   MapType mapSelection = MapType::None;
 
   //---------------------------------------------------------
@@ -35,6 +43,7 @@ private:
   //---------------------------------------------------------
 
   std::vector<PlayerGraphics> playerGraphics;
+
   std::optional<BoardGraphics> boardGraphics;
 
   std::unordered_map<TerritoryID, TerritoryGraphics> territoryGraphicsMap;
@@ -44,8 +53,11 @@ private:
   //---------------------------------------------------------
 
   std::optional<GameSetupUI> gameSetupUI;
+
   std::optional<ReinforceUI> reinforceUI;
+
   std::optional<AttackUI> attackUI;
+
   std::optional<FortifyUI> fortifyUI;
 
   int activePlayerID = -1;
@@ -66,7 +78,8 @@ public:
   //---------------------------------------------------------
 
   void initialLoading(GameSession &gameSession, GameState &gameState,
-                      int humanPlayers, int aiPlayers, MapType mapSelection);
+                      int humanPlayers, int aiPlayers, MapType mapSelection,
+                      const std::vector<PlayerProfile> &playerProfiles);
 
   void createTerritoryGraphicsMap(Map &territoryMap, MapType mapSelection);
 

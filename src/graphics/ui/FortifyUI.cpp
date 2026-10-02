@@ -9,7 +9,7 @@ namespace risk {
 
     FortifyUI::FortifyUI(
         const sf::Font& font,
-        GameState &gameState)
+        GameState& gameState)
         : phaseTitle(font)
     {
         //-----------------------------------------------------
@@ -57,6 +57,7 @@ namespace risk {
         playerIndicator->setPosition(
             gameState.getPlayerTurnID());
     }
+
     //---------------------------------------------------------
     // Handle Event
     //---------------------------------------------------------
@@ -66,7 +67,6 @@ namespace risk {
         sf::RenderWindow& window,
         GameSession& gameSession,
         GameState& gameState,
-        std::vector<PlayerGraphics>& playerGraphics,
         std::unordered_map<
         TerritoryID,
         TerritoryGraphics>& territoryGraphicsMap)
@@ -145,6 +145,7 @@ namespace risk {
             }
         }
     }
+
     //---------------------------------------------------------
     // Territory Selection
     //---------------------------------------------------------
@@ -275,6 +276,7 @@ namespace risk {
             }
         }
     }
+
     //---------------------------------------------------------
     // Back
     //---------------------------------------------------------
@@ -292,6 +294,7 @@ namespace risk {
         gameState.setToSelection(
             TerritoryID::None);
     }
+
     //---------------------------------------------------------
     // Confirm
     //---------------------------------------------------------
@@ -306,6 +309,7 @@ namespace risk {
         gameSession.endTurn(
             gameState);
     }
+
     //---------------------------------------------------------
     // Add Troop
     //---------------------------------------------------------
@@ -336,6 +340,7 @@ namespace risk {
                 .getFortifyTroopCount());
         }
     }
+
     //---------------------------------------------------------
     // Remove Troop
     //---------------------------------------------------------
@@ -358,13 +363,13 @@ namespace risk {
                 .getFortifyTroopCount());
         }
     }
+
     //---------------------------------------------------------
     // Draw
     //---------------------------------------------------------
 
     void FortifyUI::draw(
         sf::RenderWindow& window,
-        std::vector<PlayerGraphics>& playerGraphics,
         GameState& gameState)
     {
         phaseTitle.setPosition(
@@ -376,17 +381,6 @@ namespace risk {
 
         window.draw(
             phaseTitle);
-
-        //-----------------------------------------------------
-        // Players
-        //-----------------------------------------------------
-
-        for (auto& player :
-            playerGraphics)
-        {
-            player.draw(
-                window);
-        }
 
         //-----------------------------------------------------
         // Fortify Controls
@@ -404,6 +398,7 @@ namespace risk {
         //-----------------------------------------------------
         // Player Indicator
         //-----------------------------------------------------
+
         if (playerIndicator)
         {
             playerIndicator->draw(
