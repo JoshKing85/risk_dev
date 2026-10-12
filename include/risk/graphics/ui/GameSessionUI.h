@@ -10,11 +10,15 @@
 #include "risk/graphics/game_elements/BoardGraphics.h"
 #include "risk/graphics/game_elements/PlayerGraphics.h"
 #include "risk/graphics/game_elements/TerritoryGraphics.h"
+#include "risk/graphics/game_elements/FeatureGraphics.h"
 
+#include "risk/graphics/components/DebugGrid.h"
 #include "risk/graphics/ui/AttackUI.h"
 #include "risk/graphics/ui/FortifyUI.h"
 #include "risk/graphics/ui/GameSetupUI.h"
 #include "risk/graphics/ui/ReinforceUI.h"
+
+#include "risk/graphics/components/FineMesh.h"
 
 #include "risk/world/Map.h"
 
@@ -29,14 +33,17 @@ namespace risk {
 class GameSessionUI {
 
 private:
+  //dev
+  sf::Texture devMapTexture;
+  sf::Sprite devMapSprite;
+
+  std::optional<FineMesh> fineMesh;
   //---------------------------------------------------------
   // Session State
   //---------------------------------------------------------
 
   int humanPlayerNumbers = 0;
   int aiPlayerNumbers = 0;
-
-  MapType mapSelection = MapType::None;
 
   //---------------------------------------------------------
   // Game Graphics
@@ -46,8 +53,26 @@ private:
 
   std::optional<BoardGraphics> boardGraphics;
 
+  std::optional<FeatureGraphics> featureGraphics;
+
   std::unordered_map<TerritoryID, TerritoryGraphics> territoryGraphicsMap;
 
+  //---------------------------------------------------------
+  // Components
+  //---------------------------------------------------------
+
+  sf::Texture frameTexture;
+  sf::Sprite frameSprite;
+
+  std::optional<DebugGrid> debugGrid;
+
+  //---------------------------------------------------------
+  // Paper grain shader
+  //---------------------------------------------------------
+
+  sf::Shader paperGrainShader;
+  sf::Texture screenTexture;
+  std::optional<sf::Sprite> screenSprite;
   //---------------------------------------------------------
   // Phase UI
   //---------------------------------------------------------
@@ -63,6 +88,8 @@ private:
   int activePlayerID = -1;
 
 public:
+  GameSessionUI();
+
   //---------------------------------------------------------
   // UI Routing
   //---------------------------------------------------------
@@ -78,10 +105,10 @@ public:
   //---------------------------------------------------------
 
   void initialLoading(GameSession &gameSession, GameState &gameState,
-                      int humanPlayers, int aiPlayers, MapType mapSelection,
+                      int humanPlayers, int aiPlayers,
                       const std::vector<PlayerProfile> &playerProfiles);
 
-  void createTerritoryGraphicsMap(Map &territoryMap, MapType mapSelection);
+  void createTerritoryGraphicsMap(Map &territoryMap);
 
   //---------------------------------------------------------
   // UI State Access

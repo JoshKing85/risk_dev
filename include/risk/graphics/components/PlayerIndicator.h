@@ -8,9 +8,13 @@ namespace risk {
 
 class PlayerIndicator {
 private:
-  sf::RectangleShape currentPlayerBox;
+
   std::optional<sf::Text> currentPlayerText;
-  sf::ConvexShape currentPlayerArrow;
+  sf::Texture pointerTexture;
+  sf::Sprite pointerSprite;
+
+  sf::Texture instructionTexture;
+  sf::Sprite instructionSprite;
 
 public:
   PlayerIndicator(const sf::Font &font);

@@ -11,8 +11,8 @@ namespace risk {
 
 class BoardGraphics {
 private:
-  sf::Texture mapTexture;
-  sf::Sprite mapSprite;
+  sf::Texture boardTexture;
+  sf::Sprite boardSprite;
 
   std::vector<ContinentValueBoard> continentValues;
 

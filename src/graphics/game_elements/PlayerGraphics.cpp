@@ -2,17 +2,19 @@
 
 #include <stdexcept>
 
-namespace risk
-{
+namespace risk {
 
     PlayerGraphics::PlayerGraphics(
         int playerID,
         int troopCount,
-        const sf::Font& font
-    )
+        const sf::Font& font)
         : playerID(playerID),
         troopCount(troopCount),
+        panelSprite(panelTexture),
         avatarSprite(avatarTexture),
+        troopSprite(troopTexture),
+        TroopIconSprite(TroopIconTexture),
+        CardIconSprite(CardIconTexture),
         playerNameText(font),
         troopCountText(font),
         cardCountText(font)
@@ -29,69 +31,87 @@ namespace risk
         // -----------------------------
 
         playerPanel.setSize(
-            panelSize
-        );
+            { 309.0f, 270.0f });
 
         playerPanel.setFillColor(
-            sf::Color(0, 0, 0, 100)
-        );
-
-        playerPanel.setOutlineColor(
-            playerColour
-        );
+            sf::Color(18, 39, 54, 235));
 
         playerPanel.setOutlineThickness(
-            3.0f
-        );
+            0.0f);
 
         // -----------------------------
-        // Avatar
+        // Brass panel border
         // -----------------------------
 
-        if (!avatarTexture.loadFromFile(
-            blankAvatarPath
-        ))
+        if (!panelTexture.loadFromFile(
+            "data/graphics/components/PanelBorder.png"))
         {
             throw std::runtime_error(
-                "Could not load blank avatar: " +
-                blankAvatarPath
-            );
+                "Could not load player panel border");
         }
 
-        avatarSprite.setTexture(
-            avatarTexture
-        );
+        panelSprite.setTexture(
+            panelTexture,
+            true);
+        
 
-        avatarSprite.setTextureRect(
-            sf::IntRect(
-                { 0, 0 },
-                {
-                    static_cast<int>(
-                        avatarTexture.getSize().x
-                    ),
-                    static_cast<int>(
-                        avatarTexture.getSize().y
-                    )
-                }
-            )
-        );
+        // -----------------------------
+        // Troop icon
+        // -----------------------------
 
-        sf::Vector2u textureSize =
-            avatarTexture.getSize();
+        if (!TroopIconTexture.loadFromFile(
+            "data/graphics/components/TroopIcon.png"))
+        {
+            throw std::runtime_error(
+                "Could not load troop icon");
+        }
 
-        avatarSprite.setScale(
-            {
-                avatarSize.x /
-                    static_cast<float>(
-                        textureSize.x
-                    ),
+        TroopIconSprite.setTexture(
+            TroopIconTexture,
+            true);
 
-                avatarSize.y /
-                    static_cast<float>(
-                        textureSize.y
-                    )
-            }
-        );
+        // -----------------------------
+        // Card icon
+        // -----------------------------
+
+        if (!CardIconTexture.loadFromFile(
+            "data/graphics/components/CardIcon.png"))
+        {
+            throw std::runtime_error(
+                "Could not load card icon");
+        }
+
+        CardIconSprite.setTexture(
+            CardIconTexture,
+            true);
+
+        // -----------------------------
+        // Count boxes
+        // -----------------------------
+
+        troopCountBox.setSize(
+            { 80.0f, 42.0f });
+
+        troopCountBox.setFillColor(
+            sf::Color(10, 25, 36, 220));
+
+        troopCountBox.setOutlineColor(
+            sf::Color(185, 145, 65));
+
+        troopCountBox.setOutlineThickness(
+            1.5f);
+
+        cardCountBox.setSize(
+            { 80.0f, 42.0f });
+
+        cardCountBox.setFillColor(
+            sf::Color(10, 25, 36, 220));
+
+        cardCountBox.setOutlineColor(
+            sf::Color(185, 145, 65));
+
+        cardCountBox.setOutlineThickness(
+            1.5f);
 
         // -----------------------------
         // Player name
@@ -100,139 +120,122 @@ namespace risk
         playerName =
             "Player " +
             std::to_string(
-                playerID + 1
-            );
+                playerID + 1);
 
         playerNameText.setString(
-            playerName
-        );
+            playerName);
 
         playerNameText.setCharacterSize(
-            22
-        );
+            26);
 
         playerNameText.setFillColor(
-            sf::Color::White
-        );
+            sf::Color(245, 224, 175));
+
+        playerNameText.setOutlineColor(
+            sf::Color(35, 25, 15, 230));
+
+        playerNameText.setOutlineThickness(
+            1.5f);
 
         // -----------------------------
         // Troop count
         // -----------------------------
 
         troopCountText.setString(
-            "Troops: " +
             std::to_string(
-                troopCount
-            )
-        );
+                troopCount));
 
         troopCountText.setCharacterSize(
-            18
-        );
+            22);
 
         troopCountText.setFillColor(
-            sf::Color::White
-        );
+            sf::Color(235, 215, 170));
 
         // -----------------------------
         // Card count
         // -----------------------------
 
         cardCountText.setString(
-            "Cards: " +
             std::to_string(
-                cardCount
-            )
-        );
+                cardCount));
 
         cardCountText.setCharacterSize(
-            18
-        );
+            22);
 
         cardCountText.setFillColor(
-            sf::Color::White
-        );
+            sf::Color(235, 215, 170));
 
         // -----------------------------
-        // Position player graphics
+        // Position graphics
         // -----------------------------
 
         setPlayerID(
-            playerID
-        );
+            playerID);
     }
 
 
     void PlayerGraphics::setPlayerID(
-        int newPlayerID
-    )
+        int newPlayerID)
     {
         playerID =
             newPlayerID;
 
         // -----------------------------
-        // Player position
+        // Layout
         // -----------------------------
 
-        switch (playerID)
-        {
-        case 0:
-            playerPosition = {
-                0.0f,
-                835.0f
-            };
-            break;
+        constexpr float startX =
+            30.0f;
 
-        case 1:
-            playerPosition = {
-                320.0f,
-                835.0f
-            };
-            break;
+        constexpr float startY =
+            785.0f;
 
-        case 2:
-            playerPosition = {
-                640.0f,
-                835.0f
-            };
-            break;
+        constexpr float panelWidth =
+            309.0f;
 
-        case 3:
-            playerPosition = {
-                960.0f,
-                835.0f
-            };
-            break;
+        constexpr float panelHeight =
+            270.0f;
 
-        case 4:
-            playerPosition = {
-                1280.0f,
-                835.0f
-            };
-            break;
+        constexpr float gap =
+            0.0f;
 
-        case 5:
-            playerPosition = {
-                1600.0f,
-                835.0f
-            };
-            break;
+        playerPosition = {
+            startX +
+                static_cast<float>(
+                    playerID) *
+                (panelWidth + gap),
 
-        default:
-            playerPosition = {
-                0.0f,
-                0.0f
-            };
-            break;
-        }
+            startY
+        };
 
         // -----------------------------
         // Panel
         // -----------------------------
 
+        playerPanel.setSize(
+            {
+                panelWidth,
+                panelHeight
+            });
+
         playerPanel.setPosition(
-            playerPosition
-        );
+            playerPosition);
+
+        // -----------------------------
+        // Brass border
+        // -----------------------------
+
+        panelSprite.setPosition(
+            {
+                playerPosition.x,
+                playerPosition.y - 5.0f
+            });
+
+        panelSprite.setScale(
+            {
+                1.0f,
+                1.0f
+            });
 
         // -----------------------------
         // Avatar
@@ -240,198 +243,236 @@ namespace risk
 
         avatarSprite.setPosition(
             {
-                playerPosition.x +
-                    15.0f,
-
-                playerPosition.y +
-                    45.0f
-            }
-        );
+                playerPosition.x + 6.0f,
+                playerPosition.y + 40.0f
+            });
 
         // -----------------------------
-        // Text
+        // Player name
         // -----------------------------
 
         playerNameText.setPosition(
             {
-                playerPosition.x +
-                    180.0f,
+                playerPosition.x + 23.0f,
+                playerPosition.y + 8.0f
+            });
 
-                playerPosition.y +
-                    45.0f
-            }
-        );
+        // -----------------------------
+        // Troop count
+        // -----------------------------
+
+        troopCountBox.setPosition(
+            {
+                playerPosition.x + 210.0f,
+                playerPosition.y + 10.0f
+            });
+
+        TroopIconSprite.setPosition(
+            {
+                playerPosition.x + 212.0f,
+                playerPosition.y + 5.0f
+            });
 
         troopCountText.setPosition(
             {
-                playerPosition.x +
-                    180.0f,
+                playerPosition.x + 263.0f,
+                playerPosition.y + 17.0f
+            });
 
-                playerPosition.y +
-                    90.0f
-            }
-        );
+        // -----------------------------
+        // Card count
+        // -----------------------------
+
+        cardCountBox.setPosition(
+            {
+                playerPosition.x + 210.0f,
+                playerPosition.y + 45.0f
+            });
+
+        CardIconSprite.setPosition(
+            {
+                playerPosition.x + 212.0f,
+                playerPosition.y + 42.0f
+            });
 
         cardCountText.setPosition(
             {
-                playerPosition.x +
-                    180.0f,
-
-                playerPosition.y +
-                    125.0f
-            }
-        );
+                playerPosition.x + 263.0f,
+                playerPosition.y + 52.0f
+            });
     }
 
 
     void PlayerGraphics::setName(
-        const std::string& name
-    )
+        const std::string& name)
     {
         playerName =
             name;
 
         playerNameText.setString(
-            playerName
-        );
+            playerName);
     }
 
 
     void PlayerGraphics::setTroopCount(
-        int newCount
-    )
+        int newCount)
     {
         troopCount =
             newCount;
 
         troopCountText.setString(
-            "Troops: " +
             std::to_string(
-                troopCount
-            )
-        );
+                troopCount));
     }
 
 
     void PlayerGraphics::setCardCount(
-        int newCount
-    )
+        int newCount)
     {
         cardCount =
             newCount;
 
         cardCountText.setString(
-            "Cards: " +
             std::to_string(
-                cardCount
-            )
-        );
+                cardCount));
     }
 
 
     void PlayerGraphics::setAvatar(
-        int newAvatarID
-    )
+        int newAvatarID)
     {
         avatarID =
             newAvatarID;
 
         std::string avatarPath;
+        std::string troopPath;
+
+        sf::Vector2f troopOffset =
+        { 208.0f, 105.0f };
 
         // -----------------------------
-        // Avatar / faction
+        // Avatar / faction / troop
         // -----------------------------
 
         switch (avatarID)
         {
-            // Napoleon - France
         case 0:
             avatarPath =
-                "data/graphics/avatars/NapoleonAvatar.png";
+                "data/graphics/board/NapoleonBoardAvatar.png";
+
+            troopPath =
+                "data/graphics/board/NapoleonTroop.png";
 
             playerColour =
                 sf::Color(
                     60,
                     100,
-                    180
-                );
+                    180);
+
+            troopOffset =
+            { 213.0f, 105.0f };
             break;
 
-            // Wellington - Britain
         case 1:
             avatarPath =
-                "data/graphics/avatars/WellingtonAvatar.png";
+                "data/graphics/board/WellingtonBoardAvatar.png";
+
+            troopPath =
+                "data/graphics/board/WellingtonTroop.png";
 
             playerColour =
                 sf::Color(
                     180,
                     60,
-                    60
-                );
+                    60);
+
+            troopOffset =
+            { 210.0f, 105.0f };
             break;
 
-            // Blucher - Prussia
         case 2:
             avatarPath =
-                "data/graphics/avatars/BulcherAvatar.png";
+                "data/graphics/board/BulcherBoardAvatar.png";
+
+            troopPath =
+                "data/graphics/board/BulcherTroop.png";
 
             playerColour =
                 sf::Color(
                     35,
                     35,
-                    35
-                );
+                    35);
+
+            troopOffset =
+            { 217.0f, 105.0f };
             break;
 
-            // Austria
         case 3:
             avatarPath =
-                "data/graphics/avatars/VonAvatar.png";
+                "data/graphics/board/VonBoardAvatar.png";
+
+            troopPath =
+                "data/graphics/board/VonTroop.png";
 
             playerColour =
                 sf::Color(
                     220,
                     220,
-                    210
-                );
+                    210);
+
+            troopOffset =
+            { 215.0f, 105.0f };
             break;
 
-            // Spain
         case 4:
             avatarPath =
-                "data/graphics/avatars/NeedleAvatar.png";
+                "data/graphics/board/NeedleBoardAvatar.png";
+
+            troopPath =
+                "data/graphics/board/NeedleTroop.png";
 
             playerColour =
                 sf::Color(
                     190,
                     155,
-                    45
-                );
+                    45);
+
+            troopOffset =
+            { 197.0f, 115.0f };
             break;
 
-            // Alexander - Russia
         case 5:
             avatarPath =
-                "data/graphics/avatars/AlexanderAvatar.png";
+                "data/graphics/board/AlexanderBoardAvatar.png";
+
+            troopPath =
+                "data/graphics/board/AlexanderTroop.png";
 
             playerColour =
                 sf::Color(
                     60,
                     140,
-                    75
-                );
+                    75);
+
+            troopOffset =
+            { 210.0f, 105.0f };
             break;
 
         default:
             avatarPath =
                 blankAvatarPath;
 
+            troopPath =
+                "";
+
             playerColour =
                 sf::Color(
                     100,
                     100,
-                    100
-                );
+                    100);
+
+            troopOffset =
+            { 208.0f, 105.0f };
             break;
         }
 
@@ -440,112 +481,104 @@ namespace risk
         // -----------------------------
 
         if (!avatarTexture.loadFromFile(
-            avatarPath
-        ))
+            avatarPath))
         {
             throw std::runtime_error(
                 "Could not load avatar: " +
-                avatarPath
-            );
+                avatarPath);
         }
 
         avatarSprite.setTexture(
-            avatarTexture
-        );
+            avatarTexture,
+            true);
 
-        avatarSprite.setTextureRect(
-            sf::IntRect(
-                { 0, 0 },
-                {
-                    static_cast<int>(
-                        avatarTexture
-                            .getSize().x
-                    ),
+        avatarTexture.setSmooth(true);
 
-                    static_cast<int>(
-                        avatarTexture
-                            .getSize().y
-                    )
-                }
-            )
-        );
+        // -----------------------------
+        // Load troop
+        // -----------------------------
 
-        sf::Vector2u textureSize =
-            avatarTexture.getSize();
-
-        avatarSprite.setScale(
+        if (!troopPath.empty())
+        {
+            if (!troopTexture.loadFromFile(
+                troopPath))
             {
-                avatarSize.x /
-                    static_cast<float>(
-                        textureSize.x
-                    ),
-
-                avatarSize.y /
-                    static_cast<float>(
-                        textureSize.y
-                    )
+                throw std::runtime_error(
+                    "Could not load troop: " +
+                    troopPath);
             }
-        );
 
-        // -----------------------------
-        // Apply faction colour
-        // -----------------------------
+            troopSprite.setTexture(
+                troopTexture,
+                true);
 
-        playerPanel.setOutlineColor(
-            playerColour
-        );
+            // -----------------------------
+            // Individual troop position
+            // -----------------------------
+
+            troopSprite.setPosition(
+                {
+                    playerPosition.x +
+                        troopOffset.x,
+
+                    playerPosition.y +
+                        troopOffset.y
+                });
+        }
     }
 
 
     void PlayerGraphics::setActive(
-        bool active
-    )
+        bool active)
     {
-        if (active)
-        {
-            playerPanel.setOutlineColor(
-                sf::Color::White
-            );
-
-            playerPanel.setOutlineThickness(
-                7.0f
-            );
-        }
-        else
-        {
-            playerPanel.setOutlineColor(
-                playerColour
-            );
-
-            playerPanel.setOutlineThickness(
-                3.0f
-            );
-        }
+        // Active-player treatment will be
+        // handled separately from the old
+        // faction-coloured panel outline.
     }
 
 
     void PlayerGraphics::draw(
         sf::RenderWindow& window) const
     {
+        // Navy panel
         window.draw(
-            playerPanel
-        );
+            playerPanel);
+
+        // Brass border
+        window.draw(
+            panelSprite);
+
+        // Commander portrait
+        window.draw(
+            avatarSprite);
+
+        // Troop miniature
+        window.draw(
+            troopSprite);
+
+        // Player information
+        window.draw(
+            playerNameText);
+
+        // Count boxes
+        window.draw(
+            troopCountBox);
 
         window.draw(
-            avatarSprite
-        );
+            cardCountBox);
+
+        // Icons and values
+        window.draw(
+            TroopIconSprite);
 
         window.draw(
-            playerNameText
-        );
+            troopCountText);
 
         window.draw(
-            troopCountText
-        );
+            CardIconSprite);
 
         window.draw(
-            cardCountText
-        );
+            cardCountText);
     }
 
 

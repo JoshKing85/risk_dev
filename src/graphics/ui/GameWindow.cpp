@@ -2,6 +2,8 @@
 
 #include "risk/graphics/ui/GameWindow.h"
 #include "risk/utils/FilePathConverter.h"
+#include <SFML/Graphics.hpp>
+#include <iostream>
 
 namespace risk {
 
@@ -12,10 +14,18 @@ namespace risk {
     GameWindow::GameWindow(
         sf::VideoMode videoMode,
         std::string title)
-        : window(videoMode, title),
+        :window(videoMode, title, sf::Style::Default, sf::State::Windowed,
+        []
+        {
+            sf::ContextSettings settings;
+            settings.antiAliasingLevel = 8;
+
+            return settings;
+        }()),
         gameState(),
         gameSession(),
         exchangeLUI()
+       
     {
         //-----------------------------------------------------
         // Profile UI
@@ -30,6 +40,10 @@ namespace risk {
 
         profileUI.emplace(
             profileFont);
+
+        std::cout << "Shaders supported: "
+          << sf::Shader::isAvailable()
+          << '\n';
     }
 
 
@@ -39,6 +53,7 @@ namespace risk {
 
     void GameWindow::run()
     {
+        std::cout << "MSAA: " << window.getSettings().antiAliasingLevel << '\n';
         bool menuActive = true;
         bool profilesActive = false;
         bool gameCreated = false;
@@ -110,14 +125,13 @@ namespace risk {
                             {
                                 try
                                 {
+                                    std::string mapFilename =
+                                        "data/graphics/europe/europe_NA_map.json";
+
                                     gameSession.createGame(
-                                        mapTypeToFilename(
-                                            menuUI
-                                            .getMapSelection()),
-                                        menuUI
-                                        .getHumanPlayerNumbers(),
-                                        menuUI
-                                        .getAiPlayerNumbers());
+                                        mapFilename,
+                                        menuUI.getHumanPlayerNumbers(),
+                                        menuUI.getAiPlayerNumbers());
 
                                     gameCreated = true;
                                     profilesActive = false;
@@ -314,7 +328,6 @@ namespace risk {
                         gameState,
                         menuUI.getHumanPlayerNumbers(),
                         menuUI.getAiPlayerNumbers(),
-                        menuUI.getMapSelection(),
                         playerProfiles);
 
                     loadingStarted = false;

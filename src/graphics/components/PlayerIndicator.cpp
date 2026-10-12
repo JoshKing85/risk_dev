@@ -1,20 +1,49 @@
 #include "risk/graphics/components/PlayerIndicator.h"
 
+#include <stdexcept>
+
 namespace risk {
 
-    PlayerIndicator::PlayerIndicator(const sf::Font& font)
+    PlayerIndicator::PlayerIndicator(
+        const sf::Font& font)
+        : pointerSprite(pointerTexture),
+        instructionSprite(instructionTexture)
     {
-        currentPlayerBox.setSize(
-            { 220.0f, 45.0f });
+        // -----------------------------
+        // Pointer asset
+        // -----------------------------
 
-        currentPlayerBox.setFillColor(
-            sf::Color(30, 40, 50, 230));
+        if (!pointerTexture.loadFromFile(
+            "data/graphics/components/Pointer.png"))
+        {
+            throw std::runtime_error(
+                "Could not load active player pointer");
+        }
 
-        currentPlayerBox.setOutlineColor(
-            sf::Color::White);
+        pointerSprite.setTexture(
+            pointerTexture,
+            true);
+        
+        pointerTexture.setSmooth(true);
+        // -----------------------------
+        // Instruction plate
+        // -----------------------------
 
-        currentPlayerBox.setOutlineThickness(
-            2.0f);
+        if (!instructionTexture.loadFromFile(
+            "data/graphics/components/InstructionsPanel.png"))
+        {
+            throw std::runtime_error(
+                "Could not load player instruction panel");
+        }
+
+        instructionSprite.setTexture(
+            instructionTexture,
+            true);
+
+
+        // -----------------------------
+        // Instruction text
+        // -----------------------------
 
         currentPlayerText.emplace(font);
 
@@ -25,71 +54,108 @@ namespace risk {
             18);
 
         currentPlayerText->setFillColor(
-            sf::Color::White);
-
-        currentPlayerArrow.setPointCount(3);
-
-        currentPlayerArrow.setPoint(
-            0,
-            { 0.0f, 0.0f });
-
-        currentPlayerArrow.setPoint(
-            1,
-            { 30.0f, 0.0f });
-
-        currentPlayerArrow.setPoint(
-            2,
-            { 15.0f, 20.0f });
-
-        currentPlayerArrow.setFillColor(
-            sf::Color::White);
+            sf::Color(235, 215, 170));
     }
 
-    void PlayerIndicator::setPosition(int playerID)
+
+    void PlayerIndicator::setPosition(
+        int playerID)
     {
+        // -----------------------------
+        // Player panel layout
+        // -----------------------------
+
+        constexpr float startX =
+            31.0f;
+
+        constexpr float panelWidth =
+            311.0f;
+
         float playerX =
-            static_cast<float>(
-                playerID * 320);
+            startX +
+            static_cast<float>(playerID) *
+            panelWidth;
 
-        float boxX =
-            playerX + 50.0f;
+        // -----------------------------
+        // Instruction plate
+        // -----------------------------
 
-        float boxY =
-            755.0f;
+        constexpr float instructionX =
+            75.0f;
 
-        currentPlayerBox.setPosition(
-            { boxX, boxY });
+        constexpr float instructionY =
+            650.0f;
+
+        instructionSprite.setPosition(
+            {
+                instructionX,
+                instructionY
+            });
+
+        // -----------------------------
+        // Instruction text
+        // -----------------------------
 
         if (currentPlayerText.has_value())
         {
+            sf::FloatRect textBounds =
+                currentPlayerText->getLocalBounds();
+
+            sf::FloatRect plateBounds =
+                instructionSprite.getGlobalBounds();
+
             currentPlayerText->setPosition(
                 {
-                    boxX + 20.0f,
-                    boxY + 11.0f
+                    plateBounds.position.x +
+                    (plateBounds.size.x -
+                     textBounds.size.x) / 2.0f -
+                    textBounds.position.x,
+
+                    plateBounds.position.y +
+                    (plateBounds.size.y -
+                     textBounds.size.y) / 2.0f -
+                    textBounds.position.y
                 });
         }
 
-        currentPlayerArrow.setPosition(
+        // -----------------------------
+        // Active player pointer
+        // -----------------------------
+
+        sf::FloatRect pointerBounds =
+            pointerSprite.getLocalBounds();
+
+        float playerCentreX =
+            playerX +
+            panelWidth / 2.0f;
+
+        pointerSprite.setPosition(
             {
-                playerX + 145.0f,
-                boxY + 48.0f
+                playerCentreX -
+                pointerBounds.size.x / 2.0f,
+
+                720.0f
             });
     }
+
 
     void PlayerIndicator::draw(
         sf::RenderWindow& window)
     {
-        window.draw(
-            currentPlayerBox);
+        // Instruction plate
+        //window.draw(
+        //    instructionSprite);
 
-        if (currentPlayerText.has_value())
-        {
-            window.draw(
-                *currentPlayerText);
-        }
+        //// Instruction text
+        //if (currentPlayerText.has_value())
+        //{
+        //    window.draw(
+        //        *currentPlayerText);
+        //}
 
+        // Active player pointer
         window.draw(
-            currentPlayerArrow);
+            pointerSprite);
     }
 
 } // namespace risk

@@ -8,7 +8,7 @@ namespace risk {
 inline std::string mapTypeToFilename(MapType mapType) {
   switch (mapType) {
   case MapType::Classic:
-    return "data/maps/classic_map.json";
+    return "data/maps/europe_NA_map.json";
   }
 
   return "";

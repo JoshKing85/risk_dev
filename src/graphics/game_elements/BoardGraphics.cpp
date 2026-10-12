@@ -8,18 +8,18 @@ namespace risk {
     BoardGraphics::BoardGraphics(
         const std::string& mapImagePath,
         const sf::Font& font)
-        : mapSprite(mapTexture)
+        : boardSprite(boardTexture)
     {
-        if (!mapTexture.loadFromFile(mapImagePath))
+        if (!boardTexture.loadFromFile("data/graphics/board/BoardParchment.png"))
         {
             throw std::runtime_error(
-                "Could not load map image: " + mapImagePath);
+                "Could not load map image: " );
         }
 
-        mapSprite.setTexture(mapTexture, true);
+        boardSprite.setTexture(boardTexture, true);
 
         sf::Vector2u textureSize =
-            mapTexture.getSize();
+            boardTexture.getSize();
 
         float scaleX =
             1920.f / static_cast<float>(textureSize.x);
@@ -27,7 +27,7 @@ namespace risk {
         float scaleY =
             1080.f / static_cast<float>(textureSize.y);
 
-        mapSprite.setScale(
+        boardSprite.setScale(
             { scaleX, scaleY });
     }
 
@@ -54,7 +54,7 @@ namespace risk {
         sf::RenderWindow& window) const
     {
         // Back layer
-        window.draw(mapSprite);
+        window.draw(boardSprite);
 
         // Board information layer
         for (const auto& continentValue :

@@ -1,0 +1,228 @@
+{
+  "map_name": "NapoleonicEurope",
+  "continents": [
+    {
+      "cont_id": "BritishIsles",
+      "bonus": 2,
+      "territories": [
+        {
+          "id": "Scotland",
+          "neighbors": [ "England", "Ireland" ]
+        },
+        {
+          "id": "England",
+          "neighbors": [ "Scotland", "Wales", "Ireland", "France", "Netherlands" ]
+        },
+        {
+          "id": "Wales",
+          "neighbors": [ "England", "Ireland" ]
+        },
+        {
+          "id": "Ireland",
+          "neighbors": [ "Scotland", "England", "Wales" ]
+        }
+      ],
+      "border_territories": [ "England" ]
+    },
+
+    {
+      "cont_id": "WesternEurope",
+      "bonus": 3,
+      "territories": [
+        {
+          "id": "Portugal",
+          "neighbors": [ "Spain" ]
+        },
+        {
+          "id": "Spain",
+          "neighbors": [ "Portugal", "France" ]
+        },
+        {
+          "id": "France",
+          "neighbors": [ "Spain", "Netherlands", "England", "Westphalia", "Bavaria", "Piedmont" ]
+        },
+        {
+          "id": "Netherlands",
+          "neighbors": [ "France", "England", "Westphalia", "Hanover" ]
+        },
+        {
+          "id": "Corsica",
+          "neighbors": [ "France", "Sardinia", "Piedmont", "Tuscany" ]
+        },
+        {
+          "id": "Sardinia",
+          "neighbors": [ "Corsica", "Piedmont", "Tuscany" ]
+        }
+      ],
+      "border_territories": [ "France", "Netherlands", "Corsica", "Sardinia" ]
+    },
+
+    {
+      "cont_id": "GermanStates",
+      "bonus": 4,
+      "territories": [
+        {
+          "id": "Prussia",
+          "neighbors": [ "Hanover", "Saxony", "Poland", "Bohemia", "Lithuania" ]
+        },
+        {
+          "id": "Poland",
+          "neighbors": [ "Prussia", "Saxony", "Bohemia", "Lithuania", "Belarus" ]
+        },
+        {
+          "id": "Hanover",
+          "neighbors": [ "Netherlands", "Westphalia", "Prussia", "Saxony", "Denmark" ]
+        },
+        {
+          "id": "Saxony",
+          "neighbors": [ "Hanover", "Westphalia", "Bavaria", "Prussia", "Poland", "Bohemia" ]
+        },
+        {
+          "id": "Westphalia",
+          "neighbors": [ "Netherlands", "France", "Hanover", "Saxony", "Bavaria" ]
+        },
+        {
+          "id": "Bavaria",
+          "neighbors": [ "France", "Westphalia", "Saxony", "Bohemia", "Austria", "Piedmont", "Lombardy" ]
+        }
+      ],
+      "border_territories": [ "Prussia", "Poland", "Hanover", "Westphalia", "Bavaria" ]
+    },
+
+    {
+      "cont_id": "AustrianEmpire",
+      "bonus": 5,
+      "territories": [
+        {
+          "id": "Austria",
+          "neighbors": [ "Bohemia", "Hungary", "Bavaria", "Lombardy" ]
+        },
+        {
+          "id": "Hungary",
+          "neighbors": [ "Austria", "Bohemia", "Serbia", "Wallachia" ]
+        },
+        {
+          "id": "Serbia",
+          "neighbors": [ "Hungary", "Wallachia", "Bulgaria", "Greece" ]
+        },
+        {
+          "id": "Wallachia",
+          "neighbors": [ "Hungary", "Serbia", "Bulgaria", "Moldavia", "Ukraine" ]
+        },
+        {
+          "id": "Bulgaria",
+          "neighbors": [ "Serbia", "Wallachia", "Greece" ]
+        },
+        {
+          "id": "Greece",
+          "neighbors": [ "Serbia", "Bulgaria", "Naples" ]
+        },
+        {
+          "id": "Bohemia",
+          "neighbors": [ "Austria", "Hungary", "Bavaria", "Saxony", "Prussia", "Poland" ]
+        }
+      ],
+      "border_territories": [ "Austria", "Wallachia", "Greece", "Bohemia" ]
+    },
+
+    {
+      "cont_id": "ItalianStates",
+      "bonus": 3,
+      "territories": [
+        {
+          "id": "Piedmont",
+          "neighbors": [ "France", "Sardinia", "Lombardy", "Tuscany", "Bavaria" ]
+        },
+        {
+          "id": "Lombardy",
+          "neighbors": [ "Piedmont", "Tuscany", "Bavaria", "Austria" ]
+        },
+        {
+          "id": "Tuscany",
+          "neighbors": [ "Piedmont", "Lombardy", "Naples", "Corsica", "Sardinia" ]
+        },
+        {
+          "id": "Naples",
+          "neighbors": [ "Tuscany", "Sicily", "Greece" ]
+        },
+        {
+          "id": "Sicily",
+          "neighbors": [ "Naples" ]
+        }
+      ],
+      "border_territories": [ "Piedmont", "Lombardy", "Tuscany", "Naples" ]
+    },
+
+    {
+      "cont_id": "Scandinavia",
+      "bonus": 2,
+      "territories": [
+        {
+          "id": "Denmark",
+          "neighbors": [ "Norway", "Sweden", "Hanover" ]
+        },
+        {
+          "id": "Norway",
+          "neighbors": [ "Denmark", "Sweden" ]
+        },
+        {
+          "id": "Sweden",
+          "neighbors": [ "Norway", "Denmark", "Finland" ]
+        },
+        {
+          "id": "Finland",
+          "neighbors": [ "Sweden", "StPetersburg" ]
+        }
+      ],
+      "border_territories": [ "Denmark", "Finland" ]
+    },
+
+    {
+      "cont_id": "RussianEmpire",
+      "bonus": 6,
+      "territories": [
+        {
+          "id": "StPetersburg",
+          "neighbors": [ "Finland", "Novgorod", "Lithuania", "Smolensk" ]
+        },
+        {
+          "id": "Novgorod",
+          "neighbors": [ "StPetersburg", "Moscow", "Smolensk", "EasternRussia" ]
+        },
+        {
+          "id": "Moscow",
+          "neighbors": [ "Novgorod", "Smolensk", "Ukraine", "EasternRussia" ]
+        },
+        {
+          "id": "Smolensk",
+          "neighbors": [ "StPetersburg", "Novgorod", "Moscow", "Lithuania", "Belarus" ]
+        },
+        {
+          "id": "Lithuania",
+          "neighbors": [ "StPetersburg", "Smolensk", "Belarus", "Prussia", "Poland" ]
+        },
+        {
+          "id": "Belarus",
+          "neighbors": [ "Lithuania", "Smolensk", "Ukraine", "Moldavia", "Poland" ]
+        },
+        {
+          "id": "Ukraine",
+          "neighbors": [ "Belarus", "Moscow", "Moldavia", "Crimea", "EasternRussia", "Wallachia" ]
+        },
+        {
+          "id": "Moldavia",
+          "neighbors": [ "Belarus", "Ukraine", "Crimea", "Wallachia" ]
+        },
+        {
+          "id": "Crimea",
+          "neighbors": [ "Ukraine", "Moldavia", "EasternRussia" ]
+        },
+        {
+          "id": "EasternRussia",
+          "neighbors": [ "Novgorod", "Moscow", "Ukraine", "Crimea" ]
+        }
+      ],
+      "border_territories": [ "StPetersburg", "Lithuania", "Belarus", "Ukraine", "Moldavia" ]
+    }
+  ]
+}

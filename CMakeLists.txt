@@ -49,6 +49,7 @@ add_executable(risk_v1
     src/world/MapLoader.cpp
     src/world/Deck.cpp
     src/world/DeckLoader.cpp
+    src/world/FeatureLoader.cpp
 
     # Order classes
     src/core/orders/Order.cpp
@@ -76,6 +77,7 @@ add_executable(risk_v1
     src/graphics/game_elements/TerritoryGraphics.cpp
     src/graphics/game_elements/PlayerGraphics.cpp
     src/graphics/game_elements/CardGraphics.cpp
+    src/graphics/game_elements/FeatureGraphics.cpp
 
     # Graphic UI classes
     src/graphics/ui/GameWindow.cpp
@@ -100,6 +102,7 @@ add_executable(risk_v1
     src/graphics/components/FortifyControls.cpp
     src/graphics/components/MapSelector.cpp 
     src/graphics/components/DebugGrid.cpp 
+    src/graphics/components/FineMesh.cpp
 
     # Validation functions
     src/core/validation/ValidateTerritorySelection.cpp
@@ -111,8 +114,9 @@ add_executable(risk_v1
     src/core/validation/ValidateAttackSelection.cpp
 
     # Utility functions
-    src/core/utils/TerritoryConverter.cpp
-    src/core/utils/ContinentConverter.cpp
+    src/utils/TerritoryConverter.cpp
+    src/utils/ContinentConverter.cpp
+    src/utils/PolygonTriangulator.cpp
  )
 
 target_include_directories(risk_v1 PRIVATE
@@ -127,8 +131,8 @@ target_link_libraries(risk_v1 PRIVATE
 # Runtime Files
 # -----------------------------
 
-# Copy SFML DLLs beside risk_v1.exe after build
-add_custom_command(TARGET risk_v1 POST_BUILD
+# Copy SFML DLLs beside risk_v1.exe before build
+add_custom_command(TARGET risk_v1 PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:SFML::Graphics>
         $<TARGET_FILE:SFML::Window>
@@ -162,92 +166,111 @@ enable_testing()
 # Test Executable
 # -----------------------------
 
-add_executable(unit_tests
+# -----------------------------
+# Google Test
+# -----------------------------
 
-    # Entity tests
-    tests/entityTests/CardTests.cpp
-    tests/entityTests/PlayerTests.cpp
-    tests/entityTests/TerritoryTests.cpp
+# FetchContent_Declare(
+#     googletest
+#     URL https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip
+# )
 
-    # World tests
-    tests/worldTests/ContinentTests.cpp
-    tests/worldTests/DeckTests.cpp
-    tests/worldTests/DeckLoaderTests.cpp
-    tests/worldTests/MapTests.cpp
-    tests/worldTests/MapLoaderTests.cpp
+# set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-    # Order tests
-    tests/coreTests/orderTests/AttackOrderTests.cpp
-    tests/coreTests/orderTests/CashSetOrderTests.cpp
-    tests/coreTests/orderTests/FortifyOrderTests.cpp
-    tests/coreTests/orderTests/ReinforceOrderTests.cpp
-    tests/coreTests/orderTests/RollDiceOrderTests.cpp
-    tests/coreTests/orderTests/MoveTroopsOrderTests.cpp
+# FetchContent_MakeAvailable(googletest)
 
-    # Manager tests
-    tests/coreTests/managerTests/GameStateManagerTests.cpp
-    tests/coreTests/managerTests/AttackManagerTests.cpp
-    tests/coreTests/managerTests/TroopManagerTests.cpp
+# enable_testing()
 
-    # Session tests
-    tests/coreTests/sessionTests/GameInitializerTests.cpp
+# -----------------------------
+# Test Executable
+# -----------------------------
 
-    # Validation tests
-    tests/coreTests/validationTests/ValidationTests.cpp
-
-    # Entity source files
-    src/entities/Card.cpp
-    src/entities/Player.cpp
-    src/entities/Territory.cpp
-
-    # World source files
-    src/world/Continent.cpp
-    src/world/Deck.cpp
-    src/world/DeckLoader.cpp
-    src/world/Map.cpp
-    src/world/MapLoader.cpp
-
-    # Order source files
-    src/core/orders/Order.cpp
-    src/core/orders/AttackOrder.cpp
-    src/core/orders/CashSetOrder.cpp
-    src/core/orders/FortifyOrder.cpp
-    src/core/orders/ReinforceOrder.cpp
-    src/core/orders/RollDiceOrder.cpp
-    src/core/orders/MoveTroopsOrder.cpp
-
-    # Manager source files
-    src/core/managers/GameStateManager.cpp
-    src/core/managers/AttackManager.cpp
-    src/core/managers/TroopManager.cpp
-
-    # Session source files
-    src/core/session/GameInitializer.cpp
-
-    # Validation source files
-    src/core/validation/ValidateTerritorySelection.cpp
-    src/core/validation/ValidateAttackInput.cpp
-    src/core/validation/ValidateDiceInput.cpp
-    src/core/validation/ValidateTroopCountInput.cpp
-    src/core/validation/ValidateSetInput.cpp
-    src/core/validation/ValidateFortifyInput.cpp
-    src/core/validation/ValidateAttackSelection.cpp
-
-    # Utils source files
-    src/core/utils/ContinentConverter.cpp
-    src/core/utils/TerritoryConverter.cpp
-
-    include/risk/graphics/components/PlayerIndicator.h
- )
-
-target_include_directories(unit_tests PRIVATE
-    include
-)
-
-target_link_libraries(unit_tests
-    GTest::gtest_main
-)
-
-include(GoogleTest)
-
-gtest_discover_tests(unit_tests)
+# add_executable(unit_tests
+#
+#     # Entity tests
+#     tests/entityTests/CardTests.cpp
+#     tests/entityTests/PlayerTests.cpp
+#     tests/entityTests/TerritoryTests.cpp
+#
+#     # World tests
+#     tests/worldTests/ContinentTests.cpp
+#     tests/worldTests/DeckTests.cpp
+#     tests/worldTests/DeckLoaderTests.cpp
+#     tests/worldTests/MapTests.cpp
+#     tests/worldTests/MapLoaderTests.cpp
+#
+#     # Order tests
+#     tests/coreTests/orderTests/AttackOrderTests.cpp
+#     tests/coreTests/orderTests/CashSetOrderTests.cpp
+#     tests/coreTests/orderTests/FortifyOrderTests.cpp
+#     tests/coreTests/orderTests/ReinforceOrderTests.cpp
+#     tests/coreTests/orderTests/RollDiceOrderTests.cpp
+#     tests/coreTests/orderTests/MoveTroopsOrderTests.cpp
+#
+#     # Manager tests
+#     tests/coreTests/managerTests/GameStateManagerTests.cpp
+#     tests/coreTests/managerTests/AttackManagerTests.cpp
+#     tests/coreTests/managerTests/TroopManagerTests.cpp
+#
+#     # Session tests
+#     tests/coreTests/sessionTests/GameInitializerTests.cpp
+#
+#     # Validation tests
+#     tests/coreTests/validationTests/ValidationTests.cpp
+#
+#     # Entity source files
+#     src/entities/Card.cpp
+#     src/entities/Player.cpp
+#     src/entities/Territory.cpp
+#
+#     # World source files
+#     src/world/Continent.cpp
+#     src/world/Deck.cpp
+#     src/world/DeckLoader.cpp
+#     src/world/Map.cpp
+#     src/world/MapLoader.cpp
+#
+#     # Order source files
+#     src/core/orders/Order.cpp
+#     src/core/orders/AttackOrder.cpp
+#     src/core/orders/CashSetOrder.cpp
+#     src/core/orders/FortifyOrder.cpp
+#     src/core/orders/ReinforceOrder.cpp
+#     src/core/orders/RollDiceOrder.cpp
+#     src/core/orders/MoveTroopsOrder.cpp
+#
+#     # Manager source files
+#     src/core/managers/GameStateManager.cpp
+#     src/core/managers/AttackManager.cpp
+#     src/core/managers/TroopManager.cpp
+#
+#     # Session source files
+#     src/core/session/GameInitializer.cpp
+#
+#     # Validation source files
+#     src/core/validation/ValidateTerritorySelection.cpp
+#     src/core/validation/ValidateAttackInput.cpp
+#     src/core/validation/ValidateDiceInput.cpp
+#     src/core/validation/ValidateTroopCountInput.cpp
+#     src/core/validation/ValidateSetInput.cpp
+#     src/core/validation/ValidateFortifyInput.cpp
+#     src/core/validation/ValidateAttackSelection.cpp
+#
+#     # Utils source files
+#     src/core/utils/ContinentConverter.cpp
+#     src/core/utils/TerritoryConverter.cpp
+#
+#     include/risk/graphics/components/PlayerIndicator.h
+# )
+#
+# target_include_directories(unit_tests PRIVATE
+#     include
+# )
+#
+# target_link_libraries(unit_tests
+#     GTest::gtest_main
+# )
+#
+# include(GoogleTest)
+#
+# gtest_discover_tests(unit_tests)

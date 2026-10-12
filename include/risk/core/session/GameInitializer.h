@@ -1,7 +1,5 @@
 #pragma once
 
-#include "risk/enums.h"
-
 #include "risk/entities/Player.h"
 
 #include "risk/world/Deck.h"

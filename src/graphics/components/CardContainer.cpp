@@ -114,7 +114,8 @@ namespace risk {
             const Card& card =
                 playerSet[i];
 
-            std::vector<sf::Vector2f>
+            std::vector<
+                std::vector<sf::Vector2f>>
                 territoryVertices;
 
             if (card.hasTerritory())

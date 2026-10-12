@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "risk/enums.h"
@@ -22,8 +23,16 @@ private:
   //---------------------------------------------------------
 
   sf::RectangleShape cardShape;
-  sf::ConvexShape territoryShape;
+  std::vector<sf::VertexArray> territoryShapes;
   sf::Text cardTypeText;
+
+  //---------------------------------------------------------
+  // Territory Transform
+  //---------------------------------------------------------
+
+  sf::Vector2f territoryPosition = {0.0f, 0.0f};
+  float territoryScale = 1.0f;
+  sf::Angle territoryRotation = sf::degrees(0.0f);
 
   //---------------------------------------------------------
   // State
@@ -33,35 +42,19 @@ private:
 
 public:
   CardGraphics(CardType cardType,
-               const std::vector<sf::Vector2f> &territoryVertices,
+               const std::vector<std::vector<sf::Vector2f>> &territoryVertices,
                const sf::Font &font);
-
-  //---------------------------------------------------------
-  // Position
-  //---------------------------------------------------------
 
   void setPosition(sf::Vector2f position);
   void setRotation(sf::Angle rotation);
 
-  //---------------------------------------------------------
-  // Selection
-  //---------------------------------------------------------
-
   void setSelected(bool selected);
   bool isSelected() const;
-
-  //---------------------------------------------------------
-  // Access
-  //---------------------------------------------------------
 
   CardType getCardType() const;
 
   sf::FloatRect getBounds() const;
   bool contains(sf::Vector2f point) const;
-
-  //---------------------------------------------------------
-  // Draw
-  //---------------------------------------------------------
 
   void draw(sf::RenderWindow &window) const;
 };

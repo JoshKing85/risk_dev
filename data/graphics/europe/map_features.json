@@ -1,0 +1,35 @@
+{
+  "features": [
+    {
+      "featureType": "River",
+      "name": "Rhine",
+      "vertices": [
+        [ 450, 320 ],
+        [ 460, 340 ],
+        [ 475, 360 ],
+        [ 490, 390 ],
+        [ 510, 410 ]
+      ]
+    },
+    {
+      "featureType": "Mountain",
+      "name": "Alps",
+      "vertices": [
+        [ 500, 450 ],
+        [ 530, 455 ],
+        [ 560, 465 ],
+        [ 590, 460 ]
+      ]
+    },
+    {
+      "featureType": "Forest",
+      "name": "Black Forest",
+      "vertices": [
+        [ 470, 370 ],
+        [ 485, 380 ],
+        [ 500, 390 ],
+        [ 510, 405 ]
+      ]
+    }
+  ]
+}

@@ -6,13 +6,13 @@
 namespace risk {
 
     MenuUI::MenuUI()
-        : mapSelection(MapType::Classic),
-        humanPlayerNumbers(1),
+        : humanPlayerNumbers(1),
         aiPlayerNumbers(2),
         backgroundSprite(backgroundTexture),
         menuFrameSprite(menuFrameTexture),
         title(font),
         mapSelectionTitle(font),
+        campaignTitle(font),
         numberOfPlayersTitle(font),
         humanPlayersTitle(font),
         humanPlayer1Text(font),
@@ -172,13 +172,6 @@ namespace risk {
         }
 
         //=====================================================
-        // Map selector
-        //=====================================================
-
-        mapSelector.emplace(
-            font);
-
-        //=====================================================
         // Menu backing
         //=====================================================
 
@@ -228,11 +221,11 @@ namespace risk {
             sf::Text::Bold);
 
         //=====================================================
-        // Map selection title
+        // Campaign title
         //=====================================================
 
         mapSelectionTitle.setString(
-            "MAP SELECTION");
+            "CAMPAIGN");
 
         mapSelectionTitle.setCharacterSize(
             26);
@@ -260,6 +253,38 @@ namespace risk {
             });
 
         //=====================================================
+        // Campaign name
+        //=====================================================
+
+        campaignTitle.setString(
+            "EUROPE - 1796");
+
+        campaignTitle.setCharacterSize(
+            30);
+
+        campaignTitle.setStyle(
+            sf::Text::Bold);
+
+        campaignTitle.setFillColor(
+            textColour);
+
+        sf::FloatRect campaignBounds =
+            campaignTitle.getLocalBounds();
+
+        campaignTitle.setOrigin({
+            campaignBounds.position.x +
+                campaignBounds.size.x / 2.f,
+
+            campaignBounds.position.y +
+                campaignBounds.size.y / 2.f
+            });
+
+        campaignTitle.setPosition({
+            960.f,
+            390.f
+            });
+
+        //=====================================================
         // Divider texture
         //=====================================================
 
@@ -274,7 +299,7 @@ namespace risk {
             true);
 
         //=====================================================
-        // Map selection dividers
+        // Campaign dividers
         //=====================================================
 
         leftDivider.emplace(
@@ -685,6 +710,7 @@ namespace risk {
 
         debugGrid.emplace();
     }
+
     //=========================================================
     // Menu draw method
     //=========================================================
@@ -721,7 +747,7 @@ namespace risk {
             title);
 
         //=====================================================
-        // Map selection
+        // Campaign
         //=====================================================
 
         if (leftDivider)
@@ -739,11 +765,8 @@ namespace risk {
         window.draw(
             mapSelectionTitle);
 
-        if (mapSelector)
-        {
-            mapSelector->draw(
-                window);
-        }
+        window.draw(
+            campaignTitle);
 
         //=====================================================
         // Number of players
@@ -842,11 +865,13 @@ namespace risk {
         // Debug grid - always last
         //=====================================================
 
-        /*if (debugGrid)
+        /*
+        if (debugGrid)
         {
             debugGrid->draw(
                 window);
-        }*/
+        }
+        */
     }
 
     //=========================================================
@@ -1050,13 +1075,6 @@ namespace risk {
     // Setter methods
     //=========================================================
 
-    void MenuUI::setMapSelection(
-        MapType mapSelection)
-    {
-        this->mapSelection =
-            mapSelection;
-    }
-
     void MenuUI::setHumanPlayerNumbers(
         int number)
     {
@@ -1079,11 +1097,6 @@ namespace risk {
     //=========================================================
     // Getter methods
     //=========================================================
-
-    MapType MenuUI::getMapSelection() const
-    {
-        return mapSelection;
-    }
 
     int MenuUI::getHumanPlayerNumbers() const
     {

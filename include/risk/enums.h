@@ -27,76 +27,83 @@ namespace risk
         MoveTroops };
 
     // Enums for Continent and Territory IDs
-    enum class ContinentID
-    {
-        NorthAmerica,
-        SouthAmerica,
-        Europe,
-        Africa,
-        Asia,
-        Australia,
-        None
+    enum class ContinentID {
+      BritishIsles,
+      WesternEurope,
+      GermanStates,
+      AustrianEmpire,
+      ItalianStates,
+      Scandinavia,
+      RussianEmpire,
+      None
     };
 
     // Enums for Territory IDs
     enum class TerritoryID {
-     
-        
-        // North America
-      Bearus,
-      Rockies,
-      Mexico,
-      GreatLakes,
-      ArcticIsle,
-      Yukon,
-      Tairono,
-      StLawrence,
-      California,
+      // British Isles
+      England,
+      Scotland,
+      Wales,
+      Ireland,
 
-      // South America
-      Patagonia,
-      Amazonia,
-      Andes,
-      Orinoco,
-
-      // Europe
-      GreatBritain,
-      Iceland,
-      Germany,
-      Scandinavia,
-      Iberia,
-      Russia,
+      // Western Europe
+      Portugal,
+      Spain,
       France,
+      Netherlands,
+      Corsica,
+      Sardinia,
 
-      // Africa
-      CentralBasin,
-      Riftlands,
-      Nilelands,
-      LemurIsland,
-      WestAfrica,
-      CapeRegion,
+      // German States
+      Prussia,
+      Poland,
+      Hanover,
+      Saxony,
+      Westphalia,
+      Bavaria,
 
-      // Asia
-      Highlands,
-      China,
-      Induslands,
-      BaikalRegion,
-      IslandEmpire,
-      EasternPeninsula,
-      ArabianRegion,
-      GreatSteppe,
-      Indochina,
-      NorthernExpanse,
-      UralRange,
-      FarNortheast,
+      // Austrian / Balkans
+      Austria,
+      Hungary,
+      Serbia,
+      Wallachia,
+      Bulgaria,
+      Greece,
+      Bohemia,
 
-      // Australia
-      NewSouthWales,
-      Komodo,
-      Philippines,
-      WesternAustralia,
+      // Italian States
+      Piedmont,
+      Lombardy,
+      Tuscany,
+      Naples,
+      Sicily,
+
+      // Scandinavia
+      Denmark,
+      Norway,
+      Sweden,
+      Finland,
+
+      // Eastern Europe / Russia
+      StPetersburg,
+      Novgorod,
+      Moscow,
+      Smolensk,
+      Lithuania,
+      Belarus,
+      Ukraine,
+      Moldavia,
+      Crimea,
+      EasternRussia,
 
       None
+    };
+    enum class FeatureType
+    {
+        River,
+        Mountain,
+        Forest,
+
     };
     // Enums for Card Types and Set Types
     enum class CardType

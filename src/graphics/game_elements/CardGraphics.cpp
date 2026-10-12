@@ -1,38 +1,36 @@
+
 #include "risk/graphics/game_elements/CardGraphics.h"
 
 #include <algorithm>
 
-namespace risk {
+#include "risk/utils/PolygonTriangulator.h"
 
-    CardGraphics::CardGraphics(
-        CardType cardType,
-        const std::vector<sf::Vector2f>& territoryVertices,
-        const sf::Font& font)
-        : cardType(cardType),
-        cardTypeText(font)
+namespace risk
+{
+
+CardGraphics::CardGraphics(CardType cardType,
+                           const std::vector<std::vector<sf::Vector2f>>& territoryVertices,
+                           const sf::Font& font)
+    : cardType(cardType), cardTypeText(font)
+{
+    //---------------------------------------------------------
+    // Card
+    //---------------------------------------------------------
+
+    cardShape.setSize({140.0f, 200.0f});
+
+    cardShape.setFillColor(sf::Color(230, 225, 210));
+
+    cardShape.setOutlineColor(sf::Color::Black);
+
+    cardShape.setOutlineThickness(2.0f);
+
+    //---------------------------------------------------------
+    // Card Type
+    //---------------------------------------------------------
+
+    switch (cardType)
     {
-        //---------------------------------------------------------
-        // Card
-        //---------------------------------------------------------
-
-        cardShape.setSize(
-            { 140.0f, 200.0f });
-
-        cardShape.setFillColor(
-            sf::Color(230, 225, 210));
-
-        cardShape.setOutlineColor(
-            sf::Color::Black);
-
-        cardShape.setOutlineThickness(
-            2.0f);
-
-        //---------------------------------------------------------
-        // Card Type
-        //---------------------------------------------------------
-
-        switch (cardType)
-        {
         case CardType::Infantry:
             cardTypeText.setString("Infantry");
             break;
@@ -48,179 +46,197 @@ namespace risk {
         case CardType::Wild:
             cardTypeText.setString("Wild");
             break;
+    }
+
+    cardTypeText.setCharacterSize(18);
+    cardTypeText.setFillColor(sf::Color::Black);
+
+    //---------------------------------------------------------
+    // Territory Shapes
+    //---------------------------------------------------------
+
+    territoryShapes.reserve(territoryVertices.size());
+
+    for (const auto& polygonVertices : territoryVertices)
+    {
+        if (polygonVertices.size() < 3)
+        {
+            continue;
         }
 
-        cardTypeText.setCharacterSize(18);
-        cardTypeText.setFillColor(sf::Color::Black);
+        std::vector<sf::Vertex> triangles = polyTri(polygonVertices);
 
-        //---------------------------------------------------------
-        // Territory Shape
-        //---------------------------------------------------------
+        sf::VertexArray territoryShape(sf::PrimitiveType::Triangles);
 
-        if (!territoryVertices.empty())
+        for (auto vertex : triangles)
         {
-            territoryShape.setPointCount(
-                territoryVertices.size());
+            vertex.color = sf::Color(80, 80, 80);
 
-            for (std::size_t i = 0;
-                i < territoryVertices.size();
-                i++)
+            territoryShape.append(vertex);
+        }
+
+        territoryShapes.push_back(std::move(territoryShape));
+    }
+}
+
+//---------------------------------------------------------
+// Position
+//---------------------------------------------------------
+
+void CardGraphics::setPosition(sf::Vector2f position)
+{
+    cardShape.setPosition(position);
+
+    cardTypeText.setPosition({position.x + 10.0f, position.y + 10.0f});
+
+    if (territoryShapes.empty())
+    {
+        return;
+    }
+
+    //---------------------------------------------------------
+    // Combined Territory Bounds
+    //---------------------------------------------------------
+
+    bool boundsSet = false;
+
+    float minX = 0.0f;
+    float maxX = 0.0f;
+    float minY = 0.0f;
+    float maxY = 0.0f;
+
+    for (const auto& shape : territoryShapes)
+    {
+        for (std::size_t i = 0; i < shape.getVertexCount(); ++i)
+        {
+            sf::Vector2f point = shape[i].position;
+
+            if (!boundsSet)
             {
-                territoryShape.setPoint(
-                    i,
-                    territoryVertices[i]);
+                minX = maxX = point.x;
+                minY = maxY = point.y;
+                boundsSet = true;
             }
-
-            territoryShape.setFillColor(
-                sf::Color(80, 80, 80));
-        }
-    }
-
-
-    //---------------------------------------------------------
-    // Position
-    //---------------------------------------------------------
-
-    void CardGraphics::setPosition(
-        sf::Vector2f position)
-    {
-        cardShape.setPosition(position);
-
-        cardTypeText.setPosition(
+            else
             {
-                position.x + 10.0f,
-                position.y + 10.0f
-            });
-
-        //---------------------------------------------------------
-        // Fit territory inside card
-        //---------------------------------------------------------
-
-        if (territoryShape.getPointCount() > 0)
-        {
-            sf::FloatRect bounds =
-                territoryShape.getLocalBounds();
-
-            float maxWidth = 100.0f;
-            float maxHeight = 120.0f;
-
-            float scaleX =
-                maxWidth / bounds.size.x;
-
-            float scaleY =
-                maxHeight / bounds.size.y;
-
-            float scale =
-                std::min(scaleX, scaleY);
-
-            territoryShape.setScale(
-                { scale, scale });
-
-            sf::FloatRect scaledBounds =
-                territoryShape.getGlobalBounds();
-
-            float territoryX =
-                position.x +
-                (140.0f - scaledBounds.size.x) /
-                2.0f;
-
-            float territoryY =
-                position.y + 55.0f;
-
-            territoryShape.setPosition(
-                {
-                    territoryX -
-                        scaledBounds.position.x,
-                    territoryY -
-                        scaledBounds.position.y
-                });
+                minX = std::min(minX, point.x);
+                maxX = std::max(maxX, point.x);
+                minY = std::min(minY, point.y);
+                maxY = std::max(maxY, point.y);
+            }
         }
     }
 
-
-    void CardGraphics::setRotation(
-        sf::Angle rotation)
+    if (!boundsSet)
     {
-        cardShape.setRotation(rotation);
-        cardTypeText.setRotation(rotation);
-        territoryShape.setRotation(rotation);
+        return;
     }
 
+    float width = maxX - minX;
+    float height = maxY - minY;
+
+    if (width <= 0.0f || height <= 0.0f)
+    {
+        return;
+    }
 
     //---------------------------------------------------------
-    // Selection
+    // Shared Scale
     //---------------------------------------------------------
 
-    void CardGraphics::setSelected(
-        bool newSelected)
-    {
-        selected = newSelected;
+    float maxWidth = 100.0f;
+    float maxHeight = 120.0f;
 
-        if (selected)
-        {
-            cardShape.setOutlineColor(
-                sf::Color::White);
+    float scaleX = maxWidth / width;
+    float scaleY = maxHeight / height;
 
-            cardShape.setOutlineThickness(
-                5.0f);
-        }
-        else
-        {
-            cardShape.setOutlineColor(
-                sf::Color::Black);
+    territoryScale = std::min(scaleX, scaleY);
 
-            cardShape.setOutlineThickness(
-                2.0f);
-        }
-    }
-
-
-    bool CardGraphics::isSelected() const
-    {
-        return selected;
-    }
-
+    float scaledWidth = width * territoryScale;
 
     //---------------------------------------------------------
-    // Access
+    // Shared Position
     //---------------------------------------------------------
 
-    CardType CardGraphics::getCardType() const
+    float territoryX = position.x + (140.0f - scaledWidth) / 2.0f;
+
+    float territoryY = position.y + 55.0f;
+
+    territoryPosition = {territoryX - minX * territoryScale, territoryY - minY * territoryScale};
+}
+
+//---------------------------------------------------------
+// Rotation
+//---------------------------------------------------------
+
+void CardGraphics::setRotation(sf::Angle rotation)
+{
+    cardShape.setRotation(rotation);
+    cardTypeText.setRotation(rotation);
+
+    territoryRotation = rotation;
+}
+
+//---------------------------------------------------------
+// Selection
+//---------------------------------------------------------
+
+void CardGraphics::setSelected(bool newSelected)
+{
+    selected = newSelected;
+
+    if (selected)
     {
-        return cardType;
+        cardShape.setOutlineColor(sf::Color::White);
+
+        cardShape.setOutlineThickness(5.0f);
+    }
+    else
+    {
+        cardShape.setOutlineColor(sf::Color::Black);
+
+        cardShape.setOutlineThickness(2.0f);
+    }
+}
+
+bool CardGraphics::isSelected() const { return selected; }
+
+//---------------------------------------------------------
+// Access
+//---------------------------------------------------------
+
+CardType CardGraphics::getCardType() const { return cardType; }
+
+sf::FloatRect CardGraphics::getBounds() const { return cardShape.getGlobalBounds(); }
+
+bool CardGraphics::contains(sf::Vector2f point) const
+{
+    return cardShape.getGlobalBounds().contains(point);
+}
+
+//---------------------------------------------------------
+// Draw
+//---------------------------------------------------------
+
+void CardGraphics::draw(sf::RenderWindow& window) const
+{
+    window.draw(cardShape);
+
+    sf::Transform transform;
+
+    transform.translate(territoryPosition);
+    transform.rotate(territoryRotation);
+    transform.scale({territoryScale, territoryScale});
+
+    sf::RenderStates states;
+    states.transform = transform;
+
+    for (const auto& territoryShape : territoryShapes)
+    {
+        window.draw(territoryShape, states);
     }
 
+    window.draw(cardTypeText);
+}
 
-    sf::FloatRect CardGraphics::getBounds() const
-    {
-        return cardShape.getGlobalBounds();
-    }
-
-
-    bool CardGraphics::contains(
-        sf::Vector2f point) const
-    {
-        return cardShape
-            .getGlobalBounds()
-            .contains(point);
-    }
-
-
-    //---------------------------------------------------------
-    // Draw
-    //---------------------------------------------------------
-
-    void CardGraphics::draw(
-        sf::RenderWindow& window) const
-    {
-        window.draw(cardShape);
-
-        if (territoryShape.getPointCount() > 0)
-        {
-            window.draw(territoryShape);
-        }
-
-        window.draw(cardTypeText);
-    }
-
-} // namespace risk
+}  // namespace risk

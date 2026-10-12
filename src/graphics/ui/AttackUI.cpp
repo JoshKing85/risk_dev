@@ -584,7 +584,7 @@ namespace risk {
         std::string fromTitle =
             fromTerritory.getTitle();
 
-        const std::vector<sf::Vector2f>& fromVertices =
+        const std::vector<std::vector<sf::Vector2f>>& fromVertices =
             fromTerritory.getVertices();
 
         int defPlayerID =
@@ -600,7 +600,7 @@ namespace risk {
         std::string toTitle =
             toTerritory.getTitle();
 
-        const std::vector<sf::Vector2f>& toVertices =
+        const std::vector<std::vector<sf::Vector2f>>& toVertices =
             toTerritory.getVertices();
 
         for (auto& player : playerGraphics)

@@ -1,9 +1,9 @@
-#include <iostream>
-
 #include "risk/core/session/GameInitializer.h"
 
-#include "risk/world/MapLoader.h"
 #include "risk/world/DeckLoader.h"
+#include "risk/world/MapLoader.h"
+
+#include <iostream>
 
 namespace risk {
 
@@ -23,10 +23,10 @@ namespace risk {
         GameInitializer::initializeGame(
             std::string& filename,
             int playerNumbers,
-            int aiNumbers
-        )
+            int aiNumbers)
     {
-        std::cout << "[DEBUG] Initializing game\n";
+        std::cout
+            << "[DEBUG] Initializing game\n";
 
         //-----------------------------------------------------
         // Create map
@@ -83,10 +83,8 @@ namespace risk {
 
     void GameInitializer::updatePlayer(
         Player& player,
-        const std::string& name
-    )
+        const std::string& name)
     {
-
         std::cout
             << "[DEBUG] Player "
             << player.getPlayerID()
@@ -103,15 +101,14 @@ namespace risk {
         Deck& deck,
         std::vector<Player>& players,
         Map& map,
-        GameStateManager& gameStateManager
-    )
+        GameStateManager& gameStateManager)
     {
-        std::cout << "[DEBUG] Dealing initial territories\n";
+        std::cout
+            << "[DEBUG] Dealing initial territories\n";
 
         const int territoryCount =
             static_cast<int>(
-                map.getTerritories().size()
-                );
+                map.getTerritories().size());
 
         int territoriesDealt = 0;
         int playerIndex = 0;
@@ -133,8 +130,7 @@ namespace risk {
 
             gameStateManager.updateTerritoryOwner(
                 territoryID,
-                currentPlayer.getPlayerID()
-            );
+                currentPlayer.getPlayerID());
 
             //-------------------------------------------------
             // Place initial territory troop
@@ -142,13 +138,11 @@ namespace risk {
 
             gameStateManager.updateTerritoryTroopCount(
                 territoryID,
-                1
-            );
+                1);
 
             gameStateManager.updatePlayerTroopCount(
                 currentPlayer.getPlayerID(),
-                1
-            );
+                1);
 
             //-------------------------------------------------
             // Next player
@@ -157,10 +151,8 @@ namespace risk {
             ++territoriesDealt;
             ++playerIndex;
 
-            if (
-                playerIndex >=
-                static_cast<int>(players.size())
-                )
+            if (playerIndex >=
+                static_cast<int>(players.size()))
             {
                 playerIndex = 0;
             }

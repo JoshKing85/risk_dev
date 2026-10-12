@@ -1,8 +1,10 @@
 #include "risk/world/MapLoader.h"
-#include "risk/utils/TerritoryConverter.h"
+
 #include "risk/utils/ContinentConverter.h"
+#include "risk/utils/TerritoryConverter.h"
 
 #include <fstream>
+#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -11,88 +13,126 @@
 
 using json = nlohmann::json;
 
-namespace risk
-{
+namespace risk {
+
     Map loadMap(const std::string& filename)
     {
         Map map;
+
+        std::cout
+            << "[DEBUG] Loading map file: "
+            << filename
+            << '\n';
 
         std::ifstream file(filename);
 
         if (!file.is_open())
         {
-            throw std::runtime_error("Could not open map file: " + filename);
+            throw std::runtime_error(
+                "Could not open map file: " +
+                filename);
         }
 
         json mapData;
         file >> mapData;
 
-        for (const auto& continentData : mapData["continents"])
+        //---------------------------------------------------------
+        // Continents
+        //---------------------------------------------------------
+
+        for (const auto& continentData :
+            mapData.at("continents"))
         {
             std::string continentName =
-                continentData["cont_id"].get<std::string>();
+                continentData.at("cont_id")
+                .get<std::string>();
 
             ContinentID continentID =
-                stringToContinentID(continentName);
+                stringToContinentID(
+                    continentName);
 
             int bonus =
-                continentData["bonus"].get<int>();
+                continentData.at("bonus")
+                .get<int>();
 
-            std::vector<TerritoryID> continentTerritories;
-            std::vector<TerritoryID> borderTerritories;
+            std::vector<TerritoryID>
+                continentTerritories;
+
+            std::vector<TerritoryID>
+                borderTerritories;
+
+            //-----------------------------------------------------
+            // Border territories
+            //-----------------------------------------------------
 
             for (const auto& borderTerritory :
-                continentData["border_territories"])
+                continentData.at(
+                    "border_territories"))
             {
                 borderTerritories.push_back(
                     stringToTerritoryID(
-                        borderTerritory.get<std::string>()
-                    )
-                );
+                        borderTerritory
+                        .get<std::string>()));
             }
 
+            //-----------------------------------------------------
+            // Territories
+            //-----------------------------------------------------
+
             for (const auto& territoryData :
-                continentData["territories"])
+                continentData.at("territories"))
             {
                 std::string territoryName =
-                    territoryData["id"].get<std::string>();
+                    territoryData.at("id")
+                    .get<std::string>();
 
                 TerritoryID territoryID =
-                    stringToTerritoryID(territoryName);
+                    stringToTerritoryID(
+                        territoryName);
 
-                continentTerritories.push_back(territoryID);
+                continentTerritories.push_back(
+                    territoryID);
 
-                std::vector<TerritoryID> adjacentTerritories;
+                std::vector<TerritoryID>
+                    adjacentTerritories;
+
+                //---------------------------------------------
+                // Adjacent territories
+                //---------------------------------------------
 
                 for (const auto& neighbour :
-                    territoryData["neighbors"])
+                    territoryData.at("neighbors"))
                 {
                     adjacentTerritories.push_back(
                         stringToTerritoryID(
-                            neighbour.get<std::string>()
-                        )
-                    );
+                            neighbour
+                            .get<std::string>()));
                 }
 
                 Territory territory(
                     territoryID,
                     continentID,
-                    adjacentTerritories
-                );
+                    adjacentTerritories);
 
-                map.addTerritory(territory);
+                map.addTerritory(
+                    territory);
             }
+
+            //-----------------------------------------------------
+            // Continent
+            //-----------------------------------------------------
 
             Continent continent(
                 continentID,
                 bonus,
                 continentTerritories,
-                borderTerritories
-            );
+                borderTerritories);
 
-            map.addContinent(continent);
+            map.addContinent(
+                continent);
         }
 
         return map;
     }
-}
+
+} // namespace risk

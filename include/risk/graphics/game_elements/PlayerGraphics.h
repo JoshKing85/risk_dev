@@ -18,19 +18,32 @@ private:
   sf::Color playerColour;
 
   sf::RectangleShape playerPanel;
+  sf::Texture panelTexture;
+  sf::Sprite panelSprite;
+
+  sf::Texture TroopIconTexture;
+  sf::Sprite TroopIconSprite;
+
+  sf::Texture CardIconTexture;
+  sf::Sprite CardIconSprite;
+
+  sf::RectangleShape troopCountBox;
+  sf::RectangleShape cardCountBox;
 
   sf::Texture avatarTexture;
   sf::Sprite avatarSprite;
+
+  sf::Texture troopTexture;
+  sf::Sprite troopSprite;
 
   sf::Text playerNameText;
   sf::Text troopCountText;
   sf::Text cardCountText;
 
-  const std::string blankAvatarPath =
-      "data/graphics/avatars/blank.png";
+  const std::string blankAvatarPath = "data/graphics/avatars/blank.png";
 
-  const sf::Vector2f panelSize = {320.0f, 245.0f};
-  const sf::Vector2f avatarSize = {150.0f, 150.0f};
+  const sf::Vector2f panelSize = {320.0f, 260.0f};
+  const sf::Vector2f avatarSize = {250.0f, 250.0f};
 
 public:
   PlayerGraphics(int playerID, int troopCount, const sf::Font &font);

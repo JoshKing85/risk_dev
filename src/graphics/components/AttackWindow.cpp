@@ -46,15 +46,6 @@ namespace risk {
         fromTroopText->setCharacterSize(20);
         fromTroopText->setFillColor(sf::Color::White);
 
-        fromTerritoryShape.setFillColor(
-            sf::Color(180, 60, 60));
-
-        fromTerritoryShape.setOutlineColor(
-            sf::Color::White);
-
-        fromTerritoryShape.setOutlineThickness(
-            2.0f);
-
         //-----------------------------------------------------
         // To Territory
         //-----------------------------------------------------
@@ -70,15 +61,6 @@ namespace risk {
         toTroopText.emplace(font);
         toTroopText->setCharacterSize(20);
         toTroopText->setFillColor(sf::Color::White);
-
-        toTerritoryShape.setFillColor(
-            sf::Color(60, 100, 180));
-
-        toTerritoryShape.setOutlineColor(
-            sf::Color::White);
-
-        toTerritoryShape.setOutlineThickness(
-            2.0f);
 
         //-----------------------------------------------------
         // Dice
@@ -307,10 +289,14 @@ namespace risk {
         // From Side
         //-----------------------------------------------------
 
-        fromTerritoryShape.setPosition({
-            position.x + 230.0f,
-            position.y + 90.0f
-            });
+        for (auto& shape :
+            fromTerritoryShapes)
+        {
+            shape.setPosition({
+                position.x + 230.0f,
+                position.y + 90.0f
+                });
+        }
 
         fromTerritoryText->setPosition({
             position.x + 230.0f,
@@ -331,10 +317,14 @@ namespace risk {
         // To Side
         //-----------------------------------------------------
 
-        toTerritoryShape.setPosition({
-            position.x + 820.0f,
-            position.y + 90.0f
-            });
+        for (auto& shape :
+            toTerritoryShapes)
+        {
+            shape.setPosition({
+                position.x + 820.0f,
+                position.y + 90.0f
+                });
+        }
 
         toTerritoryText->setPosition({
             position.x + 820.0f,
@@ -579,61 +569,98 @@ namespace risk {
 
 
     void AttackWindow::setFromVertices(
-        const std::vector<sf::Vector2f>& vertices)
+        const std::vector<std::vector<sf::Vector2f>>& vertices)
     {
+        fromTerritoryShapes.clear();
+
         if (vertices.empty())
         {
             return;
         }
 
-        float minX = vertices[0].x;
-        float maxX = vertices[0].x;
-        float minY = vertices[0].y;
-        float maxY = vertices[0].y;
+        bool boundsSet = false;
 
-        for (const auto& vertex : vertices)
+        float minX = 0.0f;
+        float maxX = 0.0f;
+        float minY = 0.0f;
+        float maxY = 0.0f;
+
+        for (const auto& polygon : vertices)
         {
-            minX =
-                std::min(minX, vertex.x);
-
-            maxX =
-                std::max(maxX, vertex.x);
-
-            minY =
-                std::min(minY, vertex.y);
-
-            maxY =
-                std::max(maxY, vertex.y);
+            for (const auto& vertex : polygon)
+            {
+                if (!boundsSet)
+                {
+                    minX = vertex.x;
+                    maxX = vertex.x;
+                    minY = vertex.y;
+                    maxY = vertex.y;
+                    boundsSet = true;
+                }
+                else
+                {
+                    minX = std::min(minX, vertex.x);
+                    maxX = std::max(maxX, vertex.x);
+                    minY = std::min(minY, vertex.y);
+                    maxY = std::max(maxY, vertex.y);
+                }
+            }
         }
 
-        float width =
-            maxX - minX;
-
-        float height =
-            maxY - minY;
-
-        float scaleX =
-            150.0f / width;
-
-        float scaleY =
-            130.0f / height;
-
-        float scale =
-            std::min(scaleX, scaleY);
-
-        fromTerritoryShape.setPointCount(
-            vertices.size());
-
-        for (std::size_t i = 0;
-            i < vertices.size();
-            i++)
+        if (!boundsSet)
         {
-            fromTerritoryShape.setPoint(
-                i,
-                {
-                    (vertices[i].x - minX) * scale,
-                    (vertices[i].y - minY) * scale
+            return;
+        }
+
+        float width = maxX - minX;
+        float height = maxY - minY;
+
+        if (width <= 0.0f || height <= 0.0f)
+        {
+            return;
+        }
+
+        float scaleX = 150.0f / width;
+        float scaleY = 130.0f / height;
+        float scale = std::min(scaleX, scaleY);
+
+        for (const auto& polygon : vertices)
+        {
+            if (polygon.empty())
+            {
+                continue;
+            }
+
+            sf::ConvexShape shape;
+
+            shape.setPointCount(polygon.size());
+
+            for (std::size_t i = 0; i < polygon.size(); i++)
+            {
+                shape.setPoint(
+                    i,
+                    {
+                        (polygon[i].x - minX) * scale,
+                        (polygon[i].y - minY) * scale
+                    });
+            }
+
+            shape.setFillColor(
+                sf::Color(180, 60, 60));
+
+            shape.setOutlineColor(
+                sf::Color::White);
+
+            shape.setOutlineThickness(
+                2.0f);
+
+            shape.setPosition({
+                position.x + 230.0f,
+                position.y + 90.0f
                 });
+
+            fromTerritoryShapes.push_back(
+                shape);
         }
     }
 
@@ -718,61 +745,98 @@ namespace risk {
 
 
     void AttackWindow::setToVertices(
-        const std::vector<sf::Vector2f>& vertices)
+        const std::vector<std::vector<sf::Vector2f>>& vertices)
     {
+        toTerritoryShapes.clear();
+
         if (vertices.empty())
         {
             return;
         }
 
-        float minX = vertices[0].x;
-        float maxX = vertices[0].x;
-        float minY = vertices[0].y;
-        float maxY = vertices[0].y;
+        bool boundsSet = false;
 
-        for (const auto& vertex : vertices)
+        float minX = 0.0f;
+        float maxX = 0.0f;
+        float minY = 0.0f;
+        float maxY = 0.0f;
+
+        for (const auto& polygon : vertices)
         {
-            minX =
-                std::min(minX, vertex.x);
-
-            maxX =
-                std::max(maxX, vertex.x);
-
-            minY =
-                std::min(minY, vertex.y);
-
-            maxY =
-                std::max(maxY, vertex.y);
+            for (const auto& vertex : polygon)
+            {
+                if (!boundsSet)
+                {
+                    minX = vertex.x;
+                    maxX = vertex.x;
+                    minY = vertex.y;
+                    maxY = vertex.y;
+                    boundsSet = true;
+                }
+                else
+                {
+                    minX = std::min(minX, vertex.x);
+                    maxX = std::max(maxX, vertex.x);
+                    minY = std::min(minY, vertex.y);
+                    maxY = std::max(maxY, vertex.y);
+                }
+            }
         }
 
-        float width =
-            maxX - minX;
-
-        float height =
-            maxY - minY;
-
-        float scaleX =
-            150.0f / width;
-
-        float scaleY =
-            130.0f / height;
-
-        float scale =
-            std::min(scaleX, scaleY);
-
-        toTerritoryShape.setPointCount(
-            vertices.size());
-
-        for (std::size_t i = 0;
-            i < vertices.size();
-            i++)
+        if (!boundsSet)
         {
-            toTerritoryShape.setPoint(
-                i,
-                {
-                    (vertices[i].x - minX) * scale,
-                    (vertices[i].y - minY) * scale
+            return;
+        }
+
+        float width = maxX - minX;
+        float height = maxY - minY;
+
+        if (width <= 0.0f || height <= 0.0f)
+        {
+            return;
+        }
+
+        float scaleX = 150.0f / width;
+        float scaleY = 130.0f / height;
+        float scale = std::min(scaleX, scaleY);
+
+        for (const auto& polygon : vertices)
+        {
+            if (polygon.empty())
+            {
+                continue;
+            }
+
+            sf::ConvexShape shape;
+
+            shape.setPointCount(polygon.size());
+
+            for (std::size_t i = 0; i < polygon.size(); i++)
+            {
+                shape.setPoint(
+                    i,
+                    {
+                        (polygon[i].x - minX) * scale,
+                        (polygon[i].y - minY) * scale
+                    });
+            }
+
+            shape.setFillColor(
+                sf::Color(60, 100, 180));
+
+            shape.setOutlineColor(
+                sf::Color::White);
+
+            shape.setOutlineThickness(
+                2.0f);
+
+            shape.setPosition({
+                position.x + 820.0f,
+                position.y + 90.0f
                 });
+
+            toTerritoryShapes.push_back(
+                shape);
         }
     }
 
@@ -996,8 +1060,12 @@ namespace risk {
         // From
         //-----------------------------------------------------
 
-        window.draw(
-            fromTerritoryShape);
+        for (const auto& shape :
+            fromTerritoryShapes)
+        {
+            window.draw(
+                shape);
+        }
 
         if (fromAvatar)
         {
@@ -1027,8 +1095,12 @@ namespace risk {
         // To
         //-----------------------------------------------------
 
-        window.draw(
-            toTerritoryShape);
+        for (const auto& shape :
+            toTerritoryShapes)
+        {
+            window.draw(
+                shape);
+        }
 
         if (toAvatar)
         {

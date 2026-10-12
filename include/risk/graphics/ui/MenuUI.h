@@ -5,21 +5,17 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "risk/enums.h"
 #include "risk/graphics/components/DebugGrid.h"
-#include "risk/graphics/components/MapSelector.h"
 
 namespace risk {
 
 class MenuUI {
 
 private:
-  MapType mapSelection;
   int humanPlayerNumbers;
   int aiPlayerNumbers;
   bool GameStarted = false;
 
-  std::optional<MapSelector> mapSelector;
   std::optional<DebugGrid> debugGrid;
 
   //=====================================================
@@ -34,10 +30,10 @@ private:
 
   sf::Shader desaturationShader;
   sf::Font font;
-  
+
   // Background dampener
   sf::VertexArray backgroundDampener;
-  
+
   // Menu title
   sf::Text title;
 
@@ -45,12 +41,13 @@ private:
   sf::RectangleShape parchmentBacking;
 
   //=====================================================
-  // Map selection
+  // Campaign
   //=====================================================
 
   sf::Text mapSelectionTitle;
+  sf::Text campaignTitle;
 
-  // Map selection dividers
+  // Campaign dividers
   sf::Texture dividerTexture;
 
   std::optional<sf::Sprite> leftDivider;
@@ -118,8 +115,6 @@ public:
   // Setter methods
   //=====================================================
 
-  void setMapSelection(MapType mapSelection);
-
   void setHumanPlayerNumbers(int number);
 
   void setAiPlayerNumbers(int number);
@@ -129,8 +124,6 @@ public:
   //=====================================================
   // Getter methods
   //=====================================================
-
-  MapType getMapSelection() const;
 
   int getHumanPlayerNumbers() const;
 
