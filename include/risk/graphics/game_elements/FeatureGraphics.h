@@ -7,19 +7,16 @@
 
 namespace risk {
 
-    class FeatureGraphics
-    {
-    public:
+class FeatureGraphics {
+public:
+  FeatureGraphics(const std::vector<Feature> &features);
 
-        FeatureGraphics(
-            const std::vector<Feature>& features);
+  void draw(sf::RenderWindow &window) const;
 
-        void draw(sf::RenderWindow& window) const;
+private:
+  std::vector<sf::VertexArray> featureShapes;
 
-    private:
-
-        std::vector<sf::VertexArray> featureShapes;
-
-    };
+  void createRiver(const Feature &feature);
+};
 
 } // namespace risk

@@ -277,25 +277,31 @@ namespace risk
         switch (territoryID)
         {
             case TerritoryID::England:
-                return {-15.f, 10.f};
-
-            case TerritoryID::Norway:
-                return {-15.f, 10.f};
-
-            case TerritoryID::Sweden:
-                return {-15.f, 10.f};
-
-            case TerritoryID::Sicily:
-                return {-15.f, 10.f};
+                return {13.f, -2.f};
 
             case TerritoryID::Scotland:
-                return {10.f, -5.f};
+                return {-2.f, 3.f};
+
+            case TerritoryID::Wales:
+                return {3.f, 0.f};
+
+            case TerritoryID::Norway:
+                return {-30.f,30.f};
+
+            case TerritoryID::Sweden:
+                return {-30.f, 50.f};
+
+            case TerritoryID::Finland:
+                return {0.f, 15.f};
+
+            case TerritoryID::Sicily:
+                return {5.f, 2.f};
 
             case TerritoryID::Bulgaria:
-                return {-15.f, 10.f};
+                return {5.f, 7.f};
 
             case TerritoryID::Tuscany:
-                return {-15.f, 10.f};
+                return {2.f, 5.f};
             default:
                 return {0.f, 0.f};
         }
