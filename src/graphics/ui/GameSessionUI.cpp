@@ -67,7 +67,7 @@ GameSessionUI::GameSessionUI()
     }
 
     paperGrainShader.setUniform(
-        "grainStrength", 0.06f);
+        "grainStrength", 0.045f);
 
     paperGrainShader.setUniform(
         "currentTexture",

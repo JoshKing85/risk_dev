@@ -232,11 +232,11 @@ namespace risk
                 break; // Austria
 
             case 4:
-                playerColour = sf::Color(214, 160, 56, alpha);
+                playerColour = sf::Color(227, 174, 48, alpha);
                 break; // Spain
 
             case 5:
-                playerColour = sf::Color(115, 139, 89, alpha);
+                playerColour = sf::Color(100, 140, 69, alpha);
                 break; // Russia
 
             default:
