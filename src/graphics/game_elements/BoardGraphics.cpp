@@ -1,3 +1,4 @@
+
 #include "risk/graphics/game_elements/BoardGraphics.h"
 
 #include <stdexcept>
@@ -5,63 +6,53 @@
 
 namespace risk {
 
-    BoardGraphics::BoardGraphics(
-        const std::string& mapImagePath,
-        const sf::Font& font)
-        : boardSprite(boardTexture)
+BoardGraphics::BoardGraphics(
+    const std::string& mapImagePath,
+    const sf::Font& font)
+    : boardSprite(boardTexture),
+      regionBoard(font, {40.f, 0.f})
+{
+    //-------------------------------------------------
+    // Board parchment
+    //-------------------------------------------------
+
+    if (!boardTexture.loadFromFile(
+        "data/graphics/board/BoardParchment.png"))
     {
-        if (!boardTexture.loadFromFile("data/graphics/board/BoardParchment.png"))
-        {
-            throw std::runtime_error(
-                "Could not load map image: " );
-        }
-
-        boardSprite.setTexture(boardTexture, true);
-
-        sf::Vector2u textureSize =
-            boardTexture.getSize();
-
-        float scaleX =
-            1920.f / static_cast<float>(textureSize.x);
-
-        float scaleY =
-            1080.f / static_cast<float>(textureSize.y);
-
-        boardSprite.setScale(
-            { scaleX, scaleY });
+        throw std::runtime_error(
+            "Could not load board parchment");
     }
 
+    boardSprite.setTexture(boardTexture, true);
 
-    void BoardGraphics::addContinentValue(
-        std::string continentName,
-        int continentValue,
-        sf::Vector2f position,
-        sf::Vector2f size,
-        unsigned int characterSize,
-        const sf::Font& font)
-    {
-        continentValues.emplace_back(
-            continentName,
-            continentValue,
-            position,
-            size,
-            characterSize,
-            font);
-    }
+    const sf::Vector2u textureSize =
+        boardTexture.getSize();
 
+    float scaleX =
+        1920.f / static_cast<float>(textureSize.x);
 
-    void BoardGraphics::draw(
-        sf::RenderWindow& window) const
-    {
-        // Back layer
-        window.draw(boardSprite);
+    float scaleY =
+        1080.f / static_cast<float>(textureSize.y);
 
-        // Board information layer
-        for (const auto& continentValue :
-            continentValues)
-        {
-            continentValue.draw(window);
-        }
-    }
+    boardSprite.setScale({scaleX, scaleY});
+}
+
+void BoardGraphics::draw(
+    sf::RenderWindow& window) const
+{
+    window.draw(boardSprite);
+}
+
+void BoardGraphics::drawRegionUI(
+    sf::RenderWindow& window) const
+{
+    regionBoard.draw(window);
+}
+
+bool BoardGraphics::handleRegionClick(
+    sf::Vector2f mousePosition)
+{
+    return regionBoard.handleClick(mousePosition);
+}
 
 } // namespace risk

@@ -1,72 +1,76 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
 #include <string>
 
 namespace risk {
 
 class PlayerGraphics {
 private:
-  int playerID;
-  int troopCount;
-  int cardCount = 0;
-  int avatarID = -1;
-  std::string playerName;
+    int playerID;
+    int troopCount;
+    int cardCount = 0;
+    int avatarID = -1;
 
-  sf::Vector2f playerPosition;
-  sf::Color playerColour;
+    std::string playerName;
 
-  sf::RectangleShape playerPanel;
-  sf::Texture panelTexture;
-  sf::Sprite panelSprite;
+    sf::Vector2f playerPosition;
+    sf::Color playerColour;
 
-  sf::Texture TroopIconTexture;
-  sf::Sprite TroopIconSprite;
+    // Navy background within wooden slot
+    sf::RectangleShape playerPanel;
 
-  sf::Texture CardIconTexture;
-  sf::Sprite CardIconSprite;
+    sf::Texture TroopIconTexture;
+    sf::Sprite TroopIconSprite;
 
-  sf::RectangleShape troopCountBox;
-  sf::RectangleShape cardCountBox;
+    sf::Texture CardIconTexture;
+    sf::Sprite CardIconSprite;
 
-  sf::Texture avatarTexture;
-  sf::Sprite avatarSprite;
+    sf::RectangleShape troopCountBox;
+    sf::RectangleShape cardCountBox;
 
-  sf::Texture troopTexture;
-  sf::Sprite troopSprite;
+    sf::Texture avatarTexture;
+    sf::Sprite avatarSprite;
 
-  sf::Text playerNameText;
-  sf::Text troopCountText;
-  sf::Text cardCountText;
+    sf::Texture troopTexture;
+    sf::Sprite troopSprite;
 
-  const std::string blankAvatarPath = "data/graphics/avatars/blank.png";
+    sf::Text playerNameText;
+    sf::Text troopCountText;
+    sf::Text cardCountText;
 
-  const sf::Vector2f panelSize = {320.0f, 260.0f};
-  const sf::Vector2f avatarSize = {250.0f, 250.0f};
+    const std::string blankAvatarPath =
+        "data/graphics/avatars/blank.png";
+
+    // Wooden strip: 1820 / 6
+    static constexpr float slotWidth = 1820.f / 6.f;
+    static constexpr float slotHeight = 300.f;
 
 public:
-  PlayerGraphics(int playerID, int troopCount, const sf::Font &font);
+    PlayerGraphics(
+        int playerID,
+        int troopCount,
+        const sf::Font& font);
 
-  void setPlayerID(int newPlayerID);
+    void setPlayerID(int newPlayerID);
 
-  void setName(const std::string &name);
+    void setName(const std::string& name);
 
-  void setTroopCount(int newCount);
+    void setTroopCount(int newCount);
 
-  void setCardCount(int newCount);
+    void setCardCount(int newCount);
 
-  void setAvatar(int avatarID);
+    void setAvatar(int avatarID);
 
-  void setActive(bool active);
+    void setActive(bool active);
 
-  void draw(sf::RenderWindow &window) const;
+    void draw(sf::RenderWindow& window) const;
 
-  int getPlayerID() const;
+    int getPlayerID() const;
 
-  int getAvatarID() const;
+    int getAvatarID() const;
 
-  std::string getName() const;
+    std::string getName() const;
 };
 
 } // namespace risk

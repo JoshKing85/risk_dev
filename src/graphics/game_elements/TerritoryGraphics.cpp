@@ -16,7 +16,8 @@ namespace risk
                                      const std::vector<std::vector<sf::Vector2f>>& vertices,
                                      unsigned int titleCharacterSize,
                                      unsigned int troopCharacterSize, float outlineThickness,
-                                     const sf::Font& font)
+                                     const sf::Font& font,
+                                     const std::vector<sf::Texture>& factionTroopCounters)
     : territoryID(territoryID),
       continentID(continentID),
       playerID(playerID),
@@ -24,7 +25,8 @@ namespace risk
       vertices(vertices),
       titleText(font),
       troopCountText(font),
-      outlineThickness(outlineThickness)
+      outlineThickness(outlineThickness),
+      factionTroopCounters(factionTroopCounters)
 {
         //---------------------------------------------------------
         // Territory fills
@@ -110,29 +112,30 @@ namespace risk
 
         titleText.setString(title);
         titleText.setCharacterSize(titleCharacterSize);
-        titleText.setFillColor(sf::Color::White);
+        titleText.Bold;
 
         sf::FloatRect titleBounds = titleText.getLocalBounds();
 
         titleText.setOrigin({titleBounds.position.x + titleBounds.size.x / 2.0f,
                              titleBounds.position.y + titleBounds.size.y / 2.0f});
 
-        titleText.setPosition({centre.x, centre.y - 10.0f});
+        titleText.setPosition({centre.x, centre.y - 30.0f});
 
-        //---------------------------------------------------------
+       //---------------------------------------------------------
         // Troop count
         //---------------------------------------------------------
 
         troopCountText.setString("0");
         troopCountText.setCharacterSize(troopCharacterSize);
-        troopCountText.setFillColor(sf::Color::White);
-
         sf::FloatRect troopBounds = troopCountText.getLocalBounds();
 
-        troopCountText.setOrigin({troopBounds.position.x + troopBounds.size.x / 2.0f,
-                                  troopBounds.position.y + troopBounds.size.y / 2.0f});
+        troopCountText.setOrigin({
+            troopBounds.position.x + troopBounds.size.x / 2.0f,
+            troopBounds.position.y + troopBounds.size.y / 2.0f
+        });
 
-        troopCountText.setPosition({centre.x, centre.y + 10.0f});
+        troopCountText.setPosition(centre);
+        troopPosition = centre;
 
         setPlayerID(playerID);
     }
@@ -215,28 +218,59 @@ namespace risk
 
         switch (avatarID)
         {
-            case 0:
-                playerColour = sf::Color(41, 79, 120, alpha);
+           case 0:
+                playerColour = sf::Color(53, 106, 152, alpha);
+                troopCounter.emplace(factionTroopCounters[0]);
+                troopCounter->setOrigin({21.f, 21.f});
+                troopCounter->setPosition(troopPosition);
+                titleText.setFillColor(sf::Color::White);
+                troopCountText.setFillColor(sf::Color::White);
+
                 break; // France
 
             case 1:
-                playerColour = sf::Color(183, 71, 54, alpha);
+                playerColour = sf::Color(202, 81, 64, alpha);
+                troopCounter.emplace(factionTroopCounters[1]);
+                troopCounter->setOrigin({21.f, 21.f});
+                troopCounter->setPosition(troopPosition);
+                titleText.setFillColor(sf::Color::White);
+                troopCountText.setFillColor(sf::Color::White);
                 break; // Britain
 
             case 2:
                 playerColour = sf::Color(69, 65, 58, alpha);
+                troopCounter.emplace(factionTroopCounters[2]);
+                troopCounter->setOrigin({21.f, 21.f});
+                troopCounter->setPosition(troopPosition);
+                titleText.setFillColor(sf::Color::White);
+                troopCountText.setFillColor(sf::Color::White);
                 break; // Prussia
 
             case 3:
                 playerColour = sf::Color(228, 212, 173, alpha);
+                troopCounter.emplace(factionTroopCounters[3]);
+                troopCounter->setOrigin({21.f, 21.f});
+                troopCounter->setPosition(troopPosition);
+                titleText.setFillColor(sf::Color::Black);
+                troopCountText.setFillColor(sf::Color::Black);
                 break; // Austria
 
             case 4:
                 playerColour = sf::Color(227, 174, 48, alpha);
+                troopCounter.emplace(factionTroopCounters[4]);
+                troopCounter->setOrigin({21.f, 21.f});
+                troopCounter->setPosition(troopPosition);
+                titleText.setFillColor(sf::Color::Black);
+                troopCountText.setFillColor(sf::Color::Black);
                 break; // Spain
 
             case 5:
-                playerColour = sf::Color(100, 140, 69, alpha);
+                playerColour = sf::Color(98, 142, 66, alpha);
+                troopCounter.emplace(factionTroopCounters[5]);
+                troopCounter->setOrigin({21.f, 21.f});
+                troopCounter->setPosition(troopPosition);
+                titleText.setFillColor(sf::Color::White);
+                troopCountText.setFillColor(sf::Color::White);
                 break; // Russia
 
             default:
@@ -270,6 +304,15 @@ namespace risk
         selected = isSelected;
 
         updateOutlines();
+    }
+
+    //-------------------------------------------------------------
+    // Hover
+    //-------------------------------------------------------------
+
+    void TerritoryGraphics::setHovered(bool isHovered)
+    {
+        hovered = isHovered;
     }
 
     sf::Vector2f TerritoryGraphics::getLabelOffset() const
@@ -325,7 +368,30 @@ namespace risk
             window.draw(outline, states);
         }
 
-        window.draw(titleText, states);
+    }
+
+    //-------------------------------------------------------------
+    // Draw labels above geographical features
+    //-------------------------------------------------------------
+
+    void TerritoryGraphics::drawLabels(sf::RenderWindow& window) const
+    {
+        sf::RenderStates states;
+        states.transform.translate({0.f, 15.f});
+
+        // Draw troop miniature
+        if (troopCounter.has_value())
+        {
+            window.draw(*troopCounter, states);
+        }
+
+        // Draw territory name on hover
+        if (hovered)
+        {
+            window.draw(titleText, states);
+        }
+
+        // Always draw troop count
         window.draw(troopCountText, states);
     }
 
@@ -471,5 +537,13 @@ namespace risk
     //-------------------------------------------------------------
 
     std::string TerritoryGraphics::getTitle() const { return title; }
+
+    sf::Vector2f TerritoryGraphics::getTroopPosition() const
+    {
+        return {
+            troopPosition.x,
+            troopPosition.y + 15.f
+        };
+    }
 
 }  // namespace risk

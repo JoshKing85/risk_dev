@@ -94,7 +94,7 @@ add_executable(risk_v1
     # Graphic component classes
     src/graphics/components/PlayerIndicator.cpp
     src/graphics/components/SetupControls.cpp
-    src/graphics/components/ContinentValueBoard.cpp
+    "src/graphics/components/RegionValueBoard.cpp"
     src/graphics/components/ReinforceControls.cpp
     src/graphics/components/CardContainer.cpp
     src/graphics/components/PreAttack.cpp

@@ -26,8 +26,6 @@ private:
 
   std::optional<PlayerIndicator> playerIndicator;
   std::optional<SetupControls> setupControls;
-  std::optional<sf::Text> phaseTitle;
-
   void handleTroops(
       const sf::Event &event, GameSession &gameSession, GameState &gameState,
       std::unordered_map<TerritoryID, TerritoryGraphics> &territoryGraphicsMap);

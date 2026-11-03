@@ -26,12 +26,44 @@ GameSessionUI::GameSessionUI()
     // Frame
     //---------------------------------------------------------
 
-    if (!frameTexture.loadFromFile("data/graphics/board/BoardFrame3.png"))
+    if (!frameTexture.loadFromFile("data/graphics/board/BoardFrame4.png"))
     {
         throw std::runtime_error("Could not load game frame");
     }
 
     frameSprite.setTexture(frameTexture, true);
+    frameSprite.setScale({1.f, 1.f});
+    //frameSprite.setPosition();
+
+    //---------------------------------------------------------
+    // Shared phase title banner
+    //---------------------------------------------------------
+
+    if (!phaseBannerTexture.loadFromFile(
+            "data/graphics/board/PhaseTitleBanner.png"))
+    {
+        throw std::runtime_error("Could not load phase title banner");
+    }
+
+    phaseBannerSprite.setTexture(phaseBannerTexture, true);
+    phaseBannerSprite.setTexture(phaseBannerTexture, true);
+
+    phaseBannerSprite.setTexture(phaseBannerTexture, true);
+
+    phaseBannerSprite.setScale({1.f, 1.f});
+
+    phaseBannerSprite.setPosition({
+        (1920.f - 650.f) / 2.f,
+        0.f
+    });
+
+    if (!phaseTitleFont.openFromFile("C:/Windows/Fonts/georgiab.ttf"))
+    {
+        throw std::runtime_error("Could not load phase title font");
+    }
+
+    phaseTitleText.setCharacterSize(28);
+    phaseTitleText.setFillColor(sf::Color(235, 210, 155));
 
     //---------------------------------------------------------
     // DEV - Map Reference
@@ -86,150 +118,156 @@ GameSessionUI::GameSessionUI()
     // Initial Loading
     //---------------------------------------------------------
 
-    void GameSessionUI::initialLoading(
-        GameSession& gameSession,
-        GameState& gameState,
-        int humanPlayers,
-        int aiPlayers,
-        const std::vector<PlayerProfile>& playerProfiles)
+    void GameSessionUI::initialLoading(GameSession& gameSession, GameState& gameState, int humanPlayers,
+                                   int aiPlayers, const std::vector<PlayerProfile>& playerProfiles)
+{
+    humanPlayerNumbers = humanPlayers;
+    aiPlayerNumbers = aiPlayers;
+
+    try
     {
-        humanPlayerNumbers = humanPlayers;
-        aiPlayerNumbers = aiPlayers;
+        const std::string boardFilename = "data/graphics/europe/europe_board.json";
 
-        try
+        std::ifstream boardFile(boardFilename);
+
+        if (!boardFile.is_open())
         {
-            const std::string boardFilename =
-                "data/graphics/europe/europe_board.json";
-
-            std::ifstream boardFile(
-                boardFilename);
-
-            if (!boardFile.is_open())
-            {
-                throw std::runtime_error(
-                    "Could not open board graphics file: " +
-                    boardFilename);
-            }
-
-            nlohmann::json boardJson;
-            boardFile >> boardJson;
-
-            const auto& boardData =
-                boardJson.at("board");
-
-            const std::string mapImagePath =
-                boardData.at(
-                    "background_texture"
-                ).get<std::string>();
-
-            static sf::Font font;
-
-            if (!font.openFromFile(
-                "C:/Windows/Fonts/arial.ttf"))
-            {
-                throw std::runtime_error(
-                    "Could not load font");
-            }
-
-            const std::string featureFileName =
-                "data/graphics/europe/map_features.json";
-
-            //-------------------------------------------------
-            // Board
-            //-------------------------------------------------
-
-            boardGraphics.emplace(
-                mapImagePath,
-                font);
-
-            //-------------------------------------------------
-            // Features
-            //-------------------------------------------------
-
-            featureGraphics.emplace(loadFeatures(featureFileName));
-
-            //-------------------------------------------------
-            // Continent values
-            //-------------------------------------------------
-
-            for (const auto& continent :
-                boardData.at("continent_values"))
-            {
-                std::string continentName =
-                    continent.at(
-                        "continent"
-                    ).get<std::string>();
-
-                int continentValue =
-                    continent.at(
-                        "value"
-                    ).get<int>();
-
-                const auto& positionData =
-                    continent.at("position");
-
-                sf::Vector2f position(
-                    positionData.at(0).get<float>(),
-                    positionData.at(1).get<float>());
-
-                const auto& sizeData =
-                    continent.at("size");
-
-                sf::Vector2f size(
-                    sizeData.at(0).get<float>(),
-                    sizeData.at(1).get<float>());
-
-                unsigned int characterSize =
-                    continent.at(
-                        "character_size"
-                    ).get<unsigned int>();
-
-                boardGraphics->addContinentValue(
-                    continentName,
-                    continentValue,
-                    position,
-                    size,
-                    characterSize,
-                    font);
-            }
-
-            //-------------------------------------------------
-            // Shared game graphics
-            //-------------------------------------------------
-
-            createTerritoryGraphicsMap(
-                gameSession.getMap());
-
-            screenTexture.resize({1920, 1080});
-            screenSprite.emplace(screenTexture);
-
-            //-------------------------------------------------
-            // Game setup UI
-            //-------------------------------------------------
-
-            gameSetupUI.emplace();
-
-            gameSetupUI->initialize(
-                gameSession,
-                font,
-                playerGraphics,
-                playerProfiles);
-
-            gameState.setPhase(
-                PhaseType::GameSetup);
+            throw std::runtime_error("Could not open board graphics file: " + boardFilename);
         }
-        catch (const std::exception& exception)
+
+        nlohmann::json boardJson;
+        boardFile >> boardJson;
+
+        const auto& boardData = boardJson.at("board");
+
+        const std::string mapImagePath = boardData.at("background_texture").get<std::string>();
+
+        static sf::Font font;
+
+        if (!font.openFromFile("C:/Windows/Fonts/georgia.ttf"))
         {
-            std::cerr << "GameSessionUI initialization error: "
-                << exception.what()
-                << std::endl;
+            throw std::runtime_error("Could not load font");
+        }
+
+        const std::string featureFileName = "data/graphics/europe/map_features.json";
+
+
+
+        //-------------------------------------------------
+        // Board
+        //-------------------------------------------------
+
+        boardGraphics.emplace(mapImagePath, font);
+
+        //-------------------------------------------------
+        // Features
+        //-------------------------------------------------
+
+        featureGraphics.emplace(loadFeatures(featureFileName));
+        //-------------------------------------------------
+        // Faction troop textures
+        //-------------------------------------------------
+
+        factionTroopCounters.clear();
+        factionTroopCounters.reserve(6);
+
+        // Napoleon
+        sf::Texture napoleonCounter;
+
+        if (!napoleonCounter.loadFromFile("data/graphics/factions/NapoleonTroopCounter.png"))
+        {
+            throw std::runtime_error("Could not load Napoleon troop counter");
+        }
+
+        factionTroopCounters.push_back(std::move(napoleonCounter));
+
+        // Wellington
+        sf::Texture wellingtonCounter;
+
+        if (!wellingtonCounter.loadFromFile("data/graphics/factions/WellingtonTroopCounter.png"))
+        {
+            throw std::runtime_error("Could not load Wellington troop counter");
+        }
+
+        factionTroopCounters.push_back(std::move(wellingtonCounter));
+
+        // Bulcher
+        sf::Texture blucherCounter;
+
+        if (!blucherCounter.loadFromFile("data/graphics/factions/BlucherTroopCounter.png"))
+        {
+            throw std::runtime_error("Could not load Blucher troop counter");
+        }
+
+        factionTroopCounters.push_back(std::move(blucherCounter));
+
+        // Von Osterriech
+        sf::Texture vonCounter;
+
+        if (!vonCounter.loadFromFile("data/graphics/factions/VonTroopCounter.png"))
+        {
+            throw std::runtime_error("Could not load Von troop counter");
+        }
+
+        factionTroopCounters.push_back(std::move(vonCounter));
+
+        // La Needle
+        sf::Texture needleCounter;
+
+        if (!needleCounter.loadFromFile("data/graphics/factions/NeedleTroopCounter.png"))
+        {
+            throw std::runtime_error("Could not load Needle troop counter");
+        }
+
+        factionTroopCounters.push_back(std::move(needleCounter));
+
+        // Alexander
+        sf::Texture alexCounter;
+
+        if (!alexCounter.loadFromFile("data/graphics/factions/AlexTroopCounter.png"))
+        {
+            throw std::runtime_error("Could not load Alex troop counter");
+        }
+
+        factionTroopCounters.push_back(std::move(alexCounter));
+        //-------------------------------------------------
+        // Shared game graphics
+        //-------------------------------------------------
+
+        createTerritoryGraphicsMap(gameSession.getMap());
+
+        screenTexture.resize({1920, 1080});
+        screenSprite.emplace(screenTexture);
+
+        if (!playerSlotsTexture.loadFromFile(
+            "data/graphics/components/PlayerSlots.png"))
+        {
             throw std::runtime_error(
-                std::string(
-                    "GameSessionUI initial loading failed: "
-                ) +
-                exception.what());
+                "Could not load player slots texture");
         }
+        playerSlotsSprite.setScale({1.02f, 1.0f});
+        playerSlotsSprite.setTexture(playerSlotsTexture, true);
+        playerSlotsSprite.setPosition({30.f, 750.f});
+
+        
+
+        //-------------------------------------------------
+        // Game setup UI
+        //-------------------------------------------------
+
+        gameSetupUI.emplace();
+
+        gameSetupUI->initialize(gameSession, font, playerGraphics, playerProfiles);
+
+        gameState.setPhase(PhaseType::GameSetup);
     }
+    catch (const std::exception& exception)
+    {
+        std::cerr << "GameSessionUI initialization error: " << exception.what() << std::endl;
+        throw std::runtime_error(std::string("GameSessionUI initial loading failed: ") +
+                                 exception.what());
+    }
+}
 
     //---------------------------------------------------------
     // Draw
@@ -251,28 +289,34 @@ GameSessionUI::GameSessionUI()
         }
 
         //-----------------------------------------------------
-        // Territories
+        // Territory geometry
         //-----------------------------------------------------
 
-        for (const auto& [territoryID, territory] :
-            territoryGraphicsMap)
+        for (const auto& [territoryID, territory] : territoryGraphicsMap)
         {
-            territory.draw(
-                window);
+            territory.draw(window);
         }
 
         //-----------------------------------------------------
-        // Features
+        // Geographical features
         //-----------------------------------------------------
 
         if (featureGraphics.has_value())
         {
-            featureGraphics->draw(
-                window);
+            featureGraphics->draw(window);
         }
 
         //-----------------------------------------------------
-        // Paper Grain Filter
+        // Territory labels and troop counts
+        //-----------------------------------------------------
+
+        for (const auto& [territoryID, territory] : territoryGraphicsMap)
+        {
+            territory.drawLabels(window);
+        }
+
+        //-----------------------------------------------------
+                // Paper Grain Filter
         //-----------------------------------------------------
 
         // Capture the completed map.
@@ -286,10 +330,11 @@ GameSessionUI::GameSessionUI()
         window.draw(
             *screenSprite,
             states);
-
         //-----------------------------------------------------
         // Players
         //-----------------------------------------------------
+       
+        window.draw(playerSlotsSprite);
 
         for (auto& playerGraphic :
             playerGraphics)
@@ -421,6 +466,55 @@ GameSessionUI::GameSessionUI()
         window.draw(
             frameSprite);
 
+        //-----------------------------------------------------
+        // Shared phase title (rendered over the board frame)
+        //-----------------------------------------------------
+
+        std::string title;
+        switch (gameState.getPhase())
+        {
+        case PhaseType::GameSetup:
+            title = "INITIAL REINFORCEMENT PHASE";
+            break;
+        case PhaseType::Reinforce:
+            title = "REINFORCEMENT PHASE";
+            break;
+        case PhaseType::Attack:
+            title = "ATTACK PHASE";
+            break;
+        case PhaseType::Fortify:
+            title = "FORTIFICATION PHASE";
+            break;
+        default:
+            break;
+        }
+
+        if (!title.empty())
+        {
+            phaseTitleText.setString(title);
+            const sf::FloatRect bounds = phaseTitleText.getLocalBounds();
+            phaseTitleText.setOrigin({
+                bounds.position.x + bounds.size.x / 2.f,
+                bounds.position.y + bounds.size.y / 2.f
+            });
+            // Keep the text centred within the banner as phases change.
+            const sf::FloatRect bannerBounds = phaseBannerSprite.getGlobalBounds();
+            phaseTitleText.setPosition({
+                bannerBounds.position.x + bannerBounds.size.x / 2.f,
+                bannerBounds.position.y + bannerBounds.size.y / 2.f
+            });
+            window.draw(phaseBannerSprite);
+            window.draw(phaseTitleText);
+        }
+
+        //-----------------------------------------------------
+        // Region dropdown
+        //-----------------------------------------------------
+
+        if (boardGraphics.has_value())
+        {
+            boardGraphics->drawRegionUI(window);
+        }
         /*
         debugGrid->draw(
             window);
@@ -436,7 +530,41 @@ GameSessionUI::GameSessionUI()
         sf::RenderWindow& window,
         GameSession& gameSession,
         GameState& gameState)
-    {
+    {   
+        //-----------------------------------------------------
+        // Region dropdown interaction
+        //-----------------------------------------------------
+
+        if (const auto* mousePressed =
+            event.getIf<sf::Event::MouseButtonPressed>())
+        {
+            if (mousePressed->button == sf::Mouse::Button::Left &&
+                boardGraphics.has_value())
+            {
+                sf::Vector2f mousePosition =
+                    window.mapPixelToCoords(mousePressed->position);
+
+                if (boardGraphics->handleRegionClick(mousePosition))
+                {
+                    return;
+                }
+            }
+        }
+        //-----------------------------------------------------
+        // Territory hover
+        //-----------------------------------------------------
+
+        if (const auto* mouseMoved = event.getIf<sf::Event::MouseMoved>())
+        {
+            sf::Vector2f mousePosition = window.mapPixelToCoords(mouseMoved->position);
+            mousePosition.y -= 15.0f;
+
+            for (auto& [territoryID, territory] : territoryGraphicsMap)
+            {
+                territory.setHovered(territory.contains(mousePosition));
+            }
+        }
+
         //-----------------------------------------------------
         // Game Setup
         //-----------------------------------------------------
@@ -650,7 +778,8 @@ GameSessionUI::GameSessionUI()
                             titleCharacterSize,
                             troopCharacterSize,
                             outlineThickness,
-                            font));
+                            font,
+                            factionTroopCounters));
 
                 iterator->second.setTroopCount(
                     territory.getTroopCount());

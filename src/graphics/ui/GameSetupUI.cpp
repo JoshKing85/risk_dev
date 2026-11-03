@@ -17,33 +17,7 @@ namespace risk {
         playerIndicator.emplace(font);
         setupControls.emplace(font);
 
-        //-----------------------------------------------------
-        // Phase title
-        //-----------------------------------------------------
-
-        phaseTitle.emplace(font);
-
-        phaseTitle->setString(
-            "INITIAL REINFORCEMENT PHASE");
-
-        phaseTitle->setCharacterSize(
-            28);
-
-        phaseTitle->setStyle(
-            sf::Text::Bold);
-
-        phaseTitle->setFillColor(
-            sf::Color::Black);
-
-        sf::FloatRect titleBounds =
-            phaseTitle->getLocalBounds();
-
-        phaseTitle->setOrigin({
-            titleBounds.position.x +
-                titleBounds.size.x / 2.0f,
-            titleBounds.position.y
-            });
-
+        
         //-----------------------------------------------------
         // Player setup
         //-----------------------------------------------------
@@ -112,15 +86,10 @@ namespace risk {
         // Phase title
         //-----------------------------------------------------
 
-        phaseTitle->setPosition({
-            static_cast<float>(
-                window.getSize().x) / 2.0f,
-            20.0f
-            });
+        const float centreX =
+        static_cast<float>(window.getSize().x) / 2.f;
 
-        window.draw(
-            *phaseTitle);
-
+        constexpr float bannerY = 50.f;
         //-----------------------------------------------------
         // Current setup player
         //-----------------------------------------------------
@@ -247,20 +216,9 @@ namespace risk {
                         sf::FloatRect bounds =
                             territoryGraphics.getBounds();
 
-                        setupControls->setConfirmPosition({
-                            bounds.position.x +
-                                bounds.size.x +
-                                10.0f,
-                            bounds.position.y
-                            });
+                        setupControls->setPosition(
+                            territoryGraphics.getTroopPosition());
 
-                        setupControls->setBackPosition({
-                            bounds.position.x +
-                                bounds.size.x +
-                                10.0f,
-                            bounds.position.y +
-                                50.0f
-                            });
                     }
 
                     break;
